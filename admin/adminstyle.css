@@ -1,0 +1,114 @@
+/* Reset default styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  background: linear-gradient(to bottom right, #1d0d3a, #ffffff);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Outer box */
+.login-box {
+  width: 350px;
+  background-color: #f5f6f7;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  margin: 20px;
+}
+
+/* Header section */
+.login-header {
+  background-color: #333;
+  color: white;
+  padding: 16px 20px;
+}
+
+.login-header h2 {
+  font-size: 18px;
+  font-weight: normal;
+  text-transform: lowercase;
+}
+
+.login-header span {
+  color: #aaa;
+}
+
+/* Input fields */
+form {
+  padding: 20px;
+}
+
+.input-box {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.input-box i.icon {
+  width: 40px;
+  text-align: center;
+  color: #888;
+  font-style: normal;
+  font-size: 16px;
+}
+
+.input-box input {
+  border: none;
+  padding: 10px;
+  flex: 1;
+  font-size: 14px;
+  outline: none;
+  color: #333;
+}
+
+/* Extras */
+.extras {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  font-size: 12px;
+  color: #444;
+}
+
+.extras a:hover {
+  text-decoration: underline;
+}
+
+/* Submit button */
+.signin-btn {
+  width: 100%;
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 14px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background 0.3s;
+}
+
+.signin-btn:hover {
+  background-color: #555;
+}
+
+/* Icons using emojis (you can replace with Font Awesome or SVG if needed) */
+.icon.user::before {
+  content: "👤";
+}
+.icon.lock::before {
+  content: "🔒";
+}
