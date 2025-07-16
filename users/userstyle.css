@@ -1,0 +1,119 @@
+/* Reset & base style */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  background: linear-gradient(to bottom right, #5b5b5b, #ffffff);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Login container */
+.login-box {
+  width: 360px;
+  background-color: #f7f8fa;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+/* Header */
+.login-header {
+  background-color: #222;
+  color: white;
+  padding: 18px 20px;
+  text-align: center;
+}
+
+.login-header h2 {
+  font-size: 20px;
+  font-weight: normal;
+  text-transform: lowercase;
+}
+
+.login-header span {
+  color: #aaa;
+  font-size: 13px;
+}
+
+/* Form area */
+form {
+  padding: 20px;
+}
+
+.input-box {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.input-box i.icon {
+  width: 40px;
+  text-align: center;
+  color: #888;
+  font-style: normal;
+  font-size: 16px;
+}
+
+.input-box input {
+  border: none;
+  padding: 10px;
+  flex: 1;
+  font-size: 14px;
+  outline: none;
+  color: #333;
+}
+
+/* Remember me and forgot */
+.extras {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  margin-bottom: 18px;
+  color: #444;
+}
+
+.extras a {
+  color: #0077cc;
+  text-decoration: none;
+}
+
+.extras a:hover {
+  text-decoration: underline;
+}
+
+/* Button */
+.signin-btn {
+  width: 100%;
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.signin-btn:hover {
+  background-color: #555;
+}
+
+/* Emoji icons */
+.icon.user::before {
+  content: "👤";
+}
+.icon.lock::before {
+  content: "🔒";
+}
