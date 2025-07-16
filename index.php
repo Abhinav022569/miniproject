@@ -15,7 +15,7 @@
       <div class="button-group">
         <a href="./users/login_page.php" class="btn">User Login</a>
         <a href="./admin/login_page.php" class="btn alt">Admin Login</a>
-        <a href="users/user_register.php" class="btn register">Register</a>
+        <a href="users/registration/registeration.php" class="btn register">Register</a>
       </div>
     </div>
   </section>

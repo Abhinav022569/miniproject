@@ -117,3 +117,11 @@ form {
 .icon.lock::before {
   content: "🔒";
 }
+
+.icon.mail::before {
+  content: "📧";
+}
+
+.icon.phone::before {
+  content: "📱";
+}
