@@ -27,7 +27,7 @@ if (!isset($_SESSION['user_id'])) {
 
     <section class="dashboard-features">
       <div class="feature-card">
-        <img src="group.png" alt="Study Group">
+        <img src="../../jpeg_files/joingrp.jpeg" alt="Study Group">
         <h3>Create or Join Study Groups</h3>
         <p>Start your own group or join existing ones to collaborate on study material.</p>
       </div>
