@@ -25,31 +25,24 @@ if (!isset($_SESSION['user_id'])) {
             </section>
             <section class="dashboard-features">
                 <div class="feature-card">
-                    <img src="group.png" alt="Groups" class="card-bg">
-                    <div class="card-overlay">
+                    <img src="../../jpeg_files/joingrp.jpeg" alt="Groups" class="card-bg">
+                    <div class="card-text-panel">
                         <h3>Create or Join Study Groups</h3>
                         <p>Start your own group or join existing ones to collaborate on study material.</p>
                     </div>
                 </div>
                 <div class="feature-card">
-                    <img src="chat.png" alt="Chat" class="card-bg">
-                    <div class="card-overlay">
+                    <img src="../../jpeg_files/grpchat.jpeg" alt="Chat" class="card-bg">
+                    <div class="card-text-panel">
                         <h3>Group Chat</h3>
                         <p>Communicate with group members to discuss notes in real-time.</p>
                     </div>
                 </div>
                 <div class="feature-card">
-                    <img src="upload.png" alt="Upload" class="card-bg">
-                    <div class="card-overlay">
-                        <h3>Upload & Download Notes</h3>
-                        <p>Share and download study material in your groups.</p>
-                    </div>
-                </div>
-                <div class="feature-card">
-                    <img src="todo.png" alt="To-Do" class="card-bg">
-                    <div class="card-overlay">
-                        <h3>To-Do List</h3>
-                        <p>Keep track of your personal academic tasks inside your group.</p>
+                    <img src="../../jpeg_files/downotes.jpeg" alt="Upload" class="card-bg">
+                    <div class="card-text-panel">
+                        <h3>Uploaded & Downloaded Notes</h3>
+                        <p>Share and download study material </p><p>in your groups.</p>
                     </div>
                 </div>
             </section>
