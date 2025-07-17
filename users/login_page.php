@@ -7,6 +7,20 @@
   <link rel="stylesheet" href="userstyle.css" />
 </head>
 <body>
+  <header class="navbar">
+    <div class="logo">Athena</div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="../index.php">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="nav-btn">
+      <a href="registration/registeration.php" class="login-btn">Register</a>
+    </div>
+  </header>
   <div class="login-container">
     <div class="login-box">
       <div class="login-left">
