@@ -30,6 +30,7 @@ body {
 
 .login-left {
   width: 50%;
+  background-color: #f8f8f8;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,7 +51,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: linear-gradient(to top right, #CA4FC1, #4157D6);
 }
 
 .login-right h2 {
@@ -98,7 +98,7 @@ body {
 
 .extras a {
   font-size: 13px;
-  color: #303030;
+  color: #777;
   text-decoration: none;
 }
 
@@ -110,12 +110,12 @@ body {
   text-align: center;
   margin-top: 25px;
   font-size: 14px;
-  color: #2e2e2e;
+  color: #444;
 }
 
 .register-link a {
   text-decoration: none;
-  color: #000000;
+  color: #2575fc;
 }
 
 .register-link a:hover {
