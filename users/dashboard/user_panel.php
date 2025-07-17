@@ -16,7 +16,6 @@ if (!isset($_SESSION['user_id'])) {
 <body>
   <div class="dashboard-container">
 
-    <!-- Sidebar (flush left) -->
     <aside class="sidebar">
       <h2>NoteXchange</h2>
       <div class="sidebar-option">📁 Study Groups</div>
@@ -26,7 +25,6 @@ if (!isset($_SESSION['user_id'])) {
       <div class="sidebar-option"><a href="../user_logout.php">🔒 Logout</a></div>
     </aside>
 
-    <!-- Main Content -->
     <main class="dashboard-content">
       <h1>Hello, <?php echo $_SESSION['user_name']; ?> 👋</h1>
       <p>Here’s what you can do on NoteXchange:</p>

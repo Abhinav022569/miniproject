@@ -1,4 +1,3 @@
-/* Reset default styles */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -14,7 +13,6 @@ body {
   align-items: center;
 }
 
-/* Outer box */
 .login-box {
   width: 350px;
   background-color: #f5f6f7;
@@ -25,7 +23,6 @@ body {
   margin: 20px;
 }
 
-/* Header section */
 .login-header {
   background-color: #333;
   color: white;
@@ -42,7 +39,6 @@ body {
   color: #aaa;
 }
 
-/* Input fields */
 form {
   padding: 20px;
 }
@@ -73,7 +69,6 @@ form {
   color: #333;
 }
 
-/* Extras */
 .extras {
   display: flex;
   justify-content: space-between;
@@ -87,7 +82,6 @@ form {
   text-decoration: underline;
 }
 
-/* Submit button */
 .signin-btn {
   width: 100%;
   background-color: #333;
@@ -105,7 +99,6 @@ form {
   background-color: #555;
 }
 
-/* Icons using emojis (you can replace with Font Awesome or SVG if needed) */
 .icon.user::before {
   content: "👤";
 }

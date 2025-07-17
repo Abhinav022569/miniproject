@@ -83,7 +83,6 @@ body {
   transform: translateY(-5px);
 }
 
-/* Image fills the entire card */
 .card-bg {
   position: absolute;
   top: 0;
@@ -94,7 +93,6 @@ body {
   z-index: 1;
 }
 
-/* Blurred overlay at bottom */
 .widget-overlay {
   position: absolute;
   bottom: 0;

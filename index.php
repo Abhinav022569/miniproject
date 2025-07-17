@@ -7,7 +7,6 @@
 </head>
 <body>
 
-  <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
       <h1>Welcome to <span>NoteXchange</span></h1>
@@ -20,7 +19,6 @@
     </div>
   </section>
 
-  <!-- Features Section -->
   <section class="features">
     <h2>What You Can Do</h2>
 

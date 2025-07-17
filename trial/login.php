@@ -10,7 +10,6 @@
   <div class="login-container">
     <div class="login-box">
       <div class="login-left">
-        <!-- Add your SVG or PNG here -->
         <img src="../jpeg_files/bgimage.jpeg" alt="Illustration"/>
       </div>
       <div class="login-right">
