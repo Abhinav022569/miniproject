@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>User Login</title>
+  <title>User Login - Athena</title>
   <link rel="stylesheet" href="userstyle.css" />
 </head>
 <body>
@@ -12,19 +12,20 @@
     <nav>
       <ul class="nav-links">
         <li><a href="../index.php">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Services</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="../index.php#about">About</a></li>
+        <li><a href="../index.php#services">Services</a></li>
+        <li><a href="../index.php#contact">Contact</a></li>
       </ul>
     </nav>
     <div class="nav-btn">
       <a href="registration/registeration.php" class="login-btn">Register</a>
     </div>
   </header>
+
   <div class="login-container">
-    <div class="login-box">
+    <div class="login-box glass">
       <div class="login-left">
-        <img src="../jpeg_files/bgimage.jpeg" alt="Illustration"/>
+        <img src="../jpeg_files/bgimage1.jpeg" alt="Illustration"/>
       </div>
       <div class="login-right">
         <h2>Login</h2>
