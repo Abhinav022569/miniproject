@@ -22,12 +22,13 @@ body {
   position: fixed;
   width: 100%;
   top: 0;
+  height: 77px;
   z-index: 1000;
   backdrop-filter: blur(10px);
 }
 
 .logo {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: bold;
   color: #00ffd5;
 }
@@ -36,6 +37,7 @@ body {
   list-style: none;
   display: flex;
   gap: 30px;
+   margin-right: 28px;
 }
 
 .nav-links a {

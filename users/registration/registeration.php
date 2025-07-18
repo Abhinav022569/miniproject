@@ -6,8 +6,8 @@
   <link rel="stylesheet" href="regstyle.css">
 </head>
 <body>
-    <header class="navbar">
-    <div class="logo">Athena</div>
+  <header class="navbar">
+    <div class="logo">ATHENA</div>
     <nav>
       <ul class="nav-links">
         <li><a href="../../index.php">Home</a></li>
@@ -20,35 +20,32 @@
       <a href="../login_page.php" class="login-btn">Login</a>
     </div>
   </header>
+
   <div class="login-container">
-    <div class="login-left">
-      <img src="../../jpeg_files/bgimagereg.jpeg" alt="Register Illustration">
-    </div>
-    <div class="login-right">
-      <div class="login-card">
-        <h2>Register</h2>
+    <div class="login-box">
+      <div class="login-left">
+        <img src="../../jpeg_files/bgimage.jpeg" alt="Register Illustration">
+      </div>
+      <div class="login-right">
+        <h2>Create Account</h2>
         <form action="user_register.php" method="POST">
           <div class="input-group">
-            <label for="email">Username</label>
-            <input type="text" name="user_name" required>
+            <input type="text" name="user_name" placeholder="Username" required>
           </div>
           <div class="input-group">
-            <label for="email">Email</label>
-            <input type="email" name="email" required>
+            <input type="email" name="email" placeholder="Email" required>
           </div>
           <div class="input-group">
-            <label for="phone_no">Phone Number</label>
-            <input type="tel" name="phone_no" required>
+            <input type="tel" name="phone_no" placeholder="Phone Number" required>
           </div>
           <div class="input-group">
-            <label for="password">Password</label>
-            <input type="password" name="password" required>
+            <input type="password" name="password" placeholder="Password" required>
           </div>
-          <button type="submit" class="btn">Create Account</button>
+          <button type="submit" class="login-btn">Register</button>
+          <div class="register-link">
+            <p>Already have an account? <a href="../login_page.php">Login here</a></p>
+          </div>
         </form>
-        <div class="login-footer">
-          Already have an account? <a href="../login_page.php">Login</a>
-        </div>
       </div>
     </div>
   </div>

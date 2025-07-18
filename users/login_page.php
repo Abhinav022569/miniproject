@@ -8,7 +8,7 @@
 </head>
 <body>
   <header class="navbar">
-    <div class="logo">Athena</div>
+    <div class="logo">ATHENA</div>
     <nav>
       <ul class="nav-links">
         <li><a href="../index.php">Home</a></li>
@@ -25,7 +25,7 @@
   <div class="login-container">
     <div class="login-box glass">
       <div class="login-left">
-        <img src="../jpeg_files/bgimage1.jpeg" alt="Illustration"/>
+        <img src="../jpeg_files/bgimage2.jpeg" alt="Illustration"/>
       </div>
       <div class="login-right">
         <h2>Login</h2>
