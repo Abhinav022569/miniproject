@@ -1,8 +1,13 @@
+/* Reset & Base */
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
   font-family: 'Segoe UI', sans-serif;
+}
+
+main::-webkit-scrollbar {
+  display: none;
 }
 
 html {
@@ -10,142 +15,172 @@ html {
 }
 
 body {
-  background: linear-gradient(135deg, #1d2b64, #f8cdda);
+  background: transparent;
   color: white;
   height: 100vh;
   overflow: hidden;
-}
-
-main {
-  height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-}
-
-/* Scroll Snap Sections */
-section {
-  scroll-snap-align: start;
-  padding: 120px 60px 80px;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   position: relative;
 }
 
-/* Header */
+#vanta-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Layout */
+main {
+  scroll-snap-type: y mandatory;
+  height: 100vh;
+  overflow-y: scroll;
+  position: relative;
+  z-index: 1;
+}
+
+/* Snap sections */
+section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100vh;
+  padding: 120px 60px 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Section content animation */
+.section-content {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.section-content.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Header Navigation */
 header {
   position: fixed;
   top: 0;
   width: 100%;
   padding: 20px 40px;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(10px);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
   z-index: 1000;
 }
 
 .logo {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: bold;
+  color: #00ffd5;
 }
 
 nav {
   display: flex;
+  align-items: center;
   gap: 30px;
 }
 
 nav a {
-  color: white;
   text-decoration: none;
+  color: white;
   font-weight: 500;
-  transition: 0.3s ease;
+  transition: color 0.3s;
 }
 
 nav a:hover {
   color: #00ffd5;
 }
 
-/* Dropdown */
+/* Login Dropdown */
 .login-dropdown {
   position: relative;
   margin-left: 30px;
 }
 
 .login-btn {
-  background: transparent;
-  border: 2px solid white;
-  color: white;
   padding: 8px 20px;
-  font-weight: bold;
+  border: 2px solid white;
+  background: transparent;
+  color: white;
   border-radius: 8px;
   cursor: pointer;
-  transition: 0.3s;
+  font-weight: bold;
+  transition: background 0.3s, color 0.3s;
 }
 
 .login-btn:hover {
-  background-color: #00ffd5;
+  background: #00ffd5;
   color: black;
 }
 
 .dropdown-content {
   display: none;
   position: absolute;
-  right: 0;
   top: 110%;
+  right: 0;
   background: rgba(0, 0, 0, 0.9);
   border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   min-width: 140px;
-  z-index: 999;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  z-index: 10;
+  padding: 10px 0;
 }
 
 .dropdown-content a {
+  display: block;
+  padding: 10px 20px;
   color: white;
   text-decoration: none;
-  padding: 10px 20px;
-  display: block;
+  transition: background 0.3s;
 }
 
 .dropdown-content a:hover {
-  background-color: #00ffd5;
+  background: #00ffd5;
   color: black;
 }
 
-/* Section Titles */
-h2 {
+/* Section Headings */
+section h2 {
   font-size: 40px;
   margin-bottom: 20px;
 }
 
-p {
+section p {
   font-size: 18px;
   line-height: 1.6;
-  max-width: 700px;
+  max-width: 800px;
 }
 
-/* Feature Cards */
+/* Feature Grid */
 .features-grid {
-  margin-top: 40px;
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 30px;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  margin-top: 40px;
+  width: 100%;
 }
 
 .feature-card {
   background: rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
   padding: 20px;
-  backdrop-filter: blur(10px);
+  border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
   transition: transform 0.3s ease;
-  text-align: center;
 }
 
 .feature-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-6px);
 }
 
 .feature-card h3 {
@@ -153,21 +188,11 @@ p {
   color: #00ffd5;
 }
 
-/* Animation */
-.section-content {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.section-content.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 /* Footer */
 footer {
-  padding: 30px;
-  background-color: rgba(0, 0, 0, 0.4);
   text-align: center;
+  padding: 40px;
+  font-size: 14px;
+  background-color: rgba(0, 0, 0, 0.5);
+  scroll-snap-align: none !important;
 }

@@ -1,85 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Athena</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home - ATHENA</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <div class="logo">Athena</div>
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <div class="login-dropdown">
-      <button class="login-btn">Login ▼</button>
-      <div class="dropdown-content">
-        <a href="./admin/login_page.php">Admin</a>
-        <a href="./users/login_page.php">User</a>
-      </div>
+
+<div id="vanta-bg"></div>
+
+<header>
+  <div class="logo">ATHENA</div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="login-dropdown">
+    <button class="login-btn">Login ▼</button>
+    <div class="dropdown-content">
+      <a href="./admin/login_page.php">Admin</a>
+      <a href="./users/login_page.php">User</a>
     </div>
-  </header>
+  </div>
+</header>
 
-  <main>
-    <section id="home" class="fade-in-section">
-      <div class="section-content">
+<main>
+  <section id="home" class="fade-in-section">
+    <div class="section-content">
         <h2>Welcome to Athena</h2>
-        <p>The futuristic platform for collaborative learning and seamless note sharing among students.</p>
-      </div>
-    </section>
+        <p>
+        Discover a smarter way to learn and grow with <strong>Athena</strong> — a futuristic platform designed to empower students with collaborative tools, easy access to shared notes, and seamless group communication.
+        </p>
+    </div>
+  </section>
 
-    <section id="about" class="fade-in-section">
-      <div class="section-content">
+  <section id="about" class="fade-in-section">
+    <div class="section-content">
         <h2>About Athena</h2>
-        <p>Athena helps students share notes, collaborate in study groups, and stay organized in an interactive learning environment.</p>
-      </div>
-    </section>
+        <p>
+        Athena is a next-generation platform built to enhance student collaboration and knowledge sharing. We believe learning should be accessible, organized, and empowering — not scattered or stressful.
+        </p>
+        <p>
+        With features like group discussions, note sharing, and task management, Athena transforms how students connect and succeed together. Whether you're working solo or as part of a study group, Athena is your digital academic partner.
+        </p>
+    </div>
+  </section>
 
-    <section id="services" class="fade-in-section">
-      <div class="section-content">
-        <h2>What You Can Do</h2>
-        <div class="features-grid">
-          <div class="feature-card">
-            <h3>📚 Join/Create Study Groups</h3>
-            <p>Collaborate with peers in focused study environments.</p>
-          </div>
-          <div class="feature-card">
-            <h3>📤 Upload Notes</h3>
-            <p>Contribute your knowledge by sharing notes and materials.</p>
-          </div>
-          <div class="feature-card">
-            <h3>📥 Download Notes</h3>
-            <p>Access and download useful notes shared by others.</p>
-          </div>
-          <div class="feature-card">
-            <h3>💬 Group Messaging</h3>
-            <p>Stay in touch with your group using built-in messaging.</p>
-          </div>
-          <div class="feature-card">
-            <h3>📝 Task Lists</h3>
-            <p>Track your academic tasks with personalized to-do lists.</p>
-          </div>
+  <section id="services" class="fade-in-section">
+    <div class="section-content">
+      <h2>Features for Users</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <h3>Join/Create Study Groups</h3>
+          <p>Collaborate with your peers by forming groups for targeted learning.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Upload Notes</h3>
+          <p>Share your insights and help others while building your own knowledge.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Download Notes</h3>
+          <p>Instantly access notes from your peers and group members.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Group Messaging</h3>
+          <p>Chat and share ideas within your study groups easily.</p>
+        </div>
+        <div class="feature-card">
+          <h3>To-Do List</h3>
+          <p>Manage your academic tasks efficiently using built-in reminders.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="contact" class="fade-in-section">
-      <div class="section-content">
-        <h2>Contact</h2>
-        <p>Email us at <a href="mailto:support@athena.com" style="color: #00ffd5;">support@athena.com</a></p>
-      </div>
-    </section>
-  </main>
+  <section id="contact" class="fade-in-section">
+    <div class="section-content">
+      <h2>Contact Us</h2>
+      <p>Have questions or feedback?</p><p> Email us at:
+        <a href="mailto:support@athena.com" style="color: #00ffd5;">support@athena.com</a>
+      </p>
+    </div>
+  </section>
 
-  <footer>
-    <p>&copy; <?php echo date("Y"); ?> Athena. All rights reserved.</p>
-  </footer>
+        <footer>
+            <p>&copy; <?php echo date("Y"); ?> ATHENA. All rights reserved.</p>
+        </footer>
 
-  <script src="script.js"></script>
-    <canvas id="bgCanvas"></canvas>
-
+</main>
+<!-- VANTA.NET -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

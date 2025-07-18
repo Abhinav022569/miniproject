@@ -1,5 +1,19 @@
-document.addEventListener('DOMContentLoaded', () => {
-  // Login Dropdown
+window.addEventListener('DOMContentLoaded', () => {
+  // VANTA.NET Background
+  VANTA.NET({
+    el: "#vanta-bg",
+    mouseControls: true,
+    touchControls: true,
+    gyroControls: false,
+    minHeight: 200.00,
+    minWidth: 200.00,
+    scale: 1.00,
+    scaleMobile: 1.00,
+    color: 0x00ffd5,
+    backgroundColor: 0x0
+  });
+
+  // Login dropdown hover
   const dropdown = document.querySelector('.login-dropdown');
   let timeout;
 
@@ -11,10 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
   dropdown.addEventListener('mouseleave', () => {
     timeout = setTimeout(() => {
       dropdown.querySelector('.dropdown-content').style.display = 'none';
-    }, 300);
+    }, 400);
   });
 
-  // Text animation
+  // Section fade-in animation
   const fadeSections = document.querySelectorAll('.fade-in-section');
 
   const observer = new IntersectionObserver((entries) => {
