@@ -1,36 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>User Login</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Athena Demo</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="login-container">
-    <div class="login-box">
-      <div class="login-left">
-        <img src="../jpeg_files/bgimage.jpeg" alt="Illustration"/>
+  <header>
+    <div class="logo">Athena</div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="fade-in-section">
+      <div class="section-content">
+        <h2>Welcome to Athena</h2>
+        <p>Learning made smarter and faster.</p>
       </div>
-      <div class="login-right">
-        <h2>User Login</h2>
-        <form action="/users/user_login.php" method="POST">
-          <div class="input-group">
-            <input type="text" name="username" placeholder="Username" required />
-          </div>
-          <div class="input-group">
-            <input type="password" name="password" placeholder="Password" required />
-          </div>
-          <button type="submit" class="login-btn">LOGIN</button>
-          <div class="extras">
-            <a href="#">Forgot Username / Password?</a>
-          </div>
-          <div class="register-link">
-            <p>Don't have an account? <a href="/users/registration/registeration.php">Create your Account →</a></p>
-          </div>
-        </form>
+    </section>
+
+    <section id="about" class="fade-in-section">
+      <div class="section-content">
+        <h2>About</h2>
+        <p>Athena is a collaborative platform for students.</p>
       </div>
-    </div>
-  </div>
+    </section>
+
+    <section id="services" class="fade-in-section">
+      <div class="section-content">
+        <h2>Services</h2>
+        <p>Group creation, note uploads, and more.</p>
+      </div>
+    </section>
+
+    <section id="contact" class="fade-in-section">
+      <div class="section-content">
+        <h2>Contact</h2>
+        <p>Email: support@athena.com</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>

@@ -1,3 +1,5 @@
+document.addEventListener('DOMContentLoaded', () => {
+  // Login Dropdown
   const dropdown = document.querySelector('.login-dropdown');
   let timeout;
 
@@ -9,23 +11,22 @@
   dropdown.addEventListener('mouseleave', () => {
     timeout = setTimeout(() => {
       dropdown.querySelector('.dropdown-content').style.display = 'none';
-    }, 300); // 300ms delay before hiding
-    });
-
-const fadeSections = document.querySelectorAll('.fade-in-section');
-
-const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        /*observer.unobserve(entry.target); // Animate once*/
-      }
-      else {
-        entry.target.classList.remove('visible'); // 👈 hides it again when out of view
-      }
-    });
-  }, { threshold: 0.7 });
-
-  fadeSections.forEach(section => {
-    observer.observe(section);
+    }, 300);
   });
+
+  // Text animation
+  const fadeSections = document.querySelectorAll('.fade-in-section');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const content = entry.target.querySelector('.section-content');
+      if (entry.isIntersecting && content) {
+        content.classList.add('visible');
+      } else if (content) {
+        content.classList.remove('visible');
+      }
+    });
+  }, { threshold: 0.6 });
+
+  fadeSections.forEach(section => observer.observe(section));
+});

@@ -2,122 +2,59 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-body {
-  height: 100vh;
-  background: linear-gradient(to top right, #4157D6, #CA4FC1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.login-container {
-  width: 850px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-  display: flex;
-  max-width: 90%;
-}
-
-.login-box {
-  display: flex;
-  width: 100%;
-}
-
-.login-left {
-  width: 50%;
-  background-color: #f8f8f8;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  overflow: hidden;
-}
-
-.login-left img {
-  width: 100%;
+body, html {
   height: 100%;
-  object-fit: cover;
-  display: block;
-} 
-
-.login-right {
-  width: 50%;
-  padding: 50px 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.login-right h2 {
-  margin-bottom: 30px;
-  font-size: 24px;
-  color: #333;
-  text-align: center;
-}
-
-.input-group {
-  margin-bottom: 20px;
-}
-
-.input-group input {
-  width: 100%;
-  padding: 12px 15px;
-  border-radius: 25px;
-  border: 1px solid #ccc;
-  font-size: 15px;
-  outline: none;
-}
-
-.login-btn {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 25px;
-  background: #32cd32;
+  scroll-behavior: smooth;
+  background: linear-gradient(135deg, #1d2b64, #f8cdda);
   color: white;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: 0.3s ease;
+  overflow: hidden;
 }
 
-.login-btn:hover {
-  background: #28a428;
+main {
+  scroll-snap-type: y mandatory;
+  height: 100vh;
+  overflow-y: scroll;
 }
 
-.extras {
-  margin-top: 15px;
-  text-align: right;
+section {
+  scroll-snap-align: start;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.extras a {
-  font-size: 13px;
-  color: #777;
-  text-decoration: none;
-}
-
-.extras a:hover {
-  text-decoration: underline;
-}
-
-.register-link {
+.section-content {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
   text-align: center;
-  margin-top: 25px;
-  font-size: 14px;
-  color: #444;
+  max-width: 600px;
 }
 
-.register-link a {
+.section-content.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.6);
+  padding: 20px 40px;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(10px);
+}
+
+nav a {
+  color: white;
+  margin-left: 20px;
   text-decoration: none;
-  color: #2575fc;
-}
-
-.register-link a:hover {
-  text-decoration: underline;
 }
