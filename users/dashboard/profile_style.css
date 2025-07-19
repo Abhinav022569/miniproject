@@ -1,0 +1,399 @@
+/* General Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #0f0f2c, #1a1a40); /* Dark gradient background */
+  color: white; /* Light text color for contrast */
+  min-height: 100vh;
+  display: flex;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Dashboard Wrapper - Main Layout (consistent with user_panel) */
+.dashboard-wrapper {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Sidebar Styling (consistent with user_panel) */
+.sidebar {
+  width: 250px;
+  background-color: rgba(0, 0, 0, 0.7); /* Darker glassmorphism background */
+  backdrop-filter: blur(10px); /* Glassmorphism blur */
+  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.4); /* Enhanced shadow */
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  border-right: 1px solid rgba(255, 255, 255, 0.08); /* Subtle border */
+}
+
+.sidebar-header {
+  padding: 0 20px 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Lighter border */
+  margin-bottom: 20px;
+}
+
+.sidebar-header .logo {
+  font-size: 28px;
+  font-weight: bold;
+  color: #00ffd5; /* Accent color for logo */
+  text-align: center;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-nav li {
+  margin-bottom: 5px;
+}
+
+.sidebar-nav li a {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
+  font-size: 16px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  border-radius: 8px;
+  margin: 0 10px;
+}
+
+.sidebar-nav li a i {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.sidebar-nav li.active a {
+  background-color: rgba(0, 255, 213, 0.2); /* Light accent background for active */
+  color: #00ffd5; /* Accent color for active item */
+  font-weight: bold;
+}
+
+.sidebar-nav li a:hover:not(.active) {
+  background-color: rgba(255, 255, 255, 0.08); /* Subtle hover for non-active */
+  color: #00ffd5;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.logout-btn {
+  background-color: transparent;
+  border: 2px solid white; /* White border for logout */
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.logout-btn i {
+  margin-right: 8px;
+}
+
+.logout-btn:hover {
+  background-color: #00ffd5; /* Accent background on hover */
+  color: black; /* Black text on accent hover */
+  transform: translateY(-2px);
+}
+
+/* Main Content Styling (consistent with user_panel) */
+.main-content {
+  flex-grow: 1;
+  padding: 30px;
+  background-color: rgba(10, 10, 30, 0.7); /* Dark glassmorphism for main content */
+  backdrop-filter: blur(20px); /* Stronger blur */
+  border-radius: 16px; /* Rounded corners for the main content area */
+  margin: 20px; /* Margin around the main content area */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6); /* Prominent shadow */
+}
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.welcome-section h2 {
+  font-size: 32px;
+  color: #00ffd5; /* Accent color for welcome text */
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.save-changes-btn {
+  background-color: #00ffd5; /* Accent color for save button */
+  color: black; /* Black text on accent button */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.save-changes-btn:hover {
+  background-color: #00c8aa; /* Slightly darker accent on hover */
+  transform: translateY(-2px);
+}
+
+/* Profile Grid for Cards */
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.08); /* Lighter glassmorphism for cards */
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Card shadow */
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle card border */
+  backdrop-filter: blur(10px); /* Card blur */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+}
+
+.card h3 {
+  font-size: 22px;
+  color: #00ffd5; /* Accent color for card headings */
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 15px;
+}
+
+.card-content {
+  flex-grow: 1;
+}
+
+/* Specific Card Styles */
+.password-settings-card {
+  grid-column: 1 / -1; /* Occupy full width */
+}
+
+/* Info Items within Cards */
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  flex: 1;
+}
+
+.info-value {
+  font-size: 16px;
+  color: white;
+  font-weight: bold;
+  flex: 2;
+  text-align: right;
+}
+
+/* Profile Avatar Section */
+.profile-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 25px;
+  gap: 15px;
+}
+
+.avatar-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #00ffd5; /* Accent border for avatar */
+  box-shadow: 0 0 10px rgba(0, 255, 213, 0.4); /* Glow effect */
+}
+
+.change-avatar-btn {
+  background-color: rgba(0, 255, 213, 0.2); /* Light accent background */
+  color: #00ffd5;
+  padding: 8px 15px;
+  border: 1px solid #00ffd5; /* Accent border */
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.change-avatar-btn:hover {
+  background-color: #00ffd5;
+  color: black;
+}
+
+/* Input Group for Password Settings */
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: white;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.input-group input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.input-group input:focus {
+  border-color: #00ffd5;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  .main-content {
+    padding: 20px;
+    margin: 10px;
+  }
+
+  .main-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-wrapper {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding-bottom: 10px;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .sidebar-header {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+  }
+
+  .sidebar-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .sidebar-nav li a {
+    padding: 8px 12px;
+    font-size: 14px;
+    margin: 0 5px;
+  }
+
+  .sidebar-nav li a i {
+    margin-right: 5px;
+  }
+
+  .sidebar-footer {
+    padding: 10px;
+  }
+
+  .main-content {
+    padding: 15px;
+    margin: 10px;
+  }
+
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .password-settings-card {
+    grid-column: auto;
+  }
+
+  .welcome-section h2 {
+    font-size: 28px;
+  }
+
+  .save-changes-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-section h2 {
+    font-size: 24px;
+  }
+}
