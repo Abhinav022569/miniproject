@@ -1,68 +1,88 @@
 <?php
+require '../connect.php';
 session_start();
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../login_page.php");
-    exit();
-}
+
+// Dummy user_id (replace with session-based one)
+$user_id = 1;
+
+// Fetch Study Groups
+$groups_query = "SELECT group_name, created_at FROM study_groups WHERE user_id = $user_id LIMIT 3";
+$groups_result = $conn->query($groups_query);
+
+// Fetch Upcoming Tasks
+$tasks_query = "SELECT task FROM to_do WHERE user_id = $user_id LIMIT 3";
+$tasks_result = $conn->query($tasks_query);
+
+// Fetch Recently Downloaded Notes
+$notes_query = "
+  SELECT notes.title, downloaded_notes.download_date 
+  FROM downloaded_notes 
+  JOIN notes ON downloaded_notes.note_id = notes.note_id 
+  WHERE downloaded_notes.user_id = $user_id 
+  ORDER BY downloaded_notes.download_date DESC 
+  LIMIT 3
+";
+$notes_result = $conn->query($notes_query);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>User Dashboard</title>
-  <link rel="stylesheet" href="panelstyle.css">
+  <meta charset="UTF-8" />
+  <title>User Dashboard - Athena</title>
+  <link rel="stylesheet" href="dashboard.css" />
 </head>
 <body>
-  <div class="dashboard-container">
+  <header class="navbar">
+    <div class="logo">Athena</div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="../index.php">Home</a></li>
+        <li><a href="#">Groups</a></li>
+        <li><a href="#">Notes</a></li>
+        <li><a href="#">Tasks</a></li>
+      </ul>
+    </nav>
+    <div class="nav-btn">
+      <a href="../logout.php" class="logout-btn">Logout</a>
+    </div>
+  </header>
 
-    <aside class="sidebar">
-      <h2>NoteXchange</h2>
-      <div class="sidebar-option">📁 Study Groups</div>
-      <div class="sidebar-option">💬 Group Chat</div>
-      <div class="sidebar-option">📥 My Notes</div>
-      <div class="sidebar-option">⚙️ Account Settings</div>
-      <div class="sidebar-option"><a href="../user_logout.php">🔒 Logout</a></div>
-    </aside>
-
-    <main class="dashboard-content">
-      <h1>Hello, <?php echo $_SESSION['user_name']; ?> 👋</h1>
-      <p>Here’s what you can do on NoteXchange:</p>
-
-      <div class="dashboard-widgets">
-        <div class="feature-card">
-          <img src="../../jpeg_files/stdgroups.jpeg" class="card-bg" alt="Groups">
-          <div class="card-text-panel">
-            <h3>Study Groups</h3>
-            <p>Create or join collaborative groups to share and discuss notes.</p>
+  <main class="dashboard-container">
+    <section class="dashboard-section">
+      <h2>Study Groups</h2>
+      <div class="card-grid">
+        <?php while($row = $groups_result->fetch_assoc()): ?>
+          <div class="card">
+            <h3><?= htmlspecialchars($row['group_name']) ?></h3>
+            <span><?= htmlspecialchars($row['created_at']) ?></span>
           </div>
-        </div>
-
-        <div class="feature-card">
-          <img src="../../jpeg_files/grpchat.jpeg" class="card-bg" alt="Chat">
-          <div class="card-text-panel">
-            <h3>Group Chat</h3>
-            <p>Talk to your group members in real time using built-in chat.</p>
-          </div>
-        </div>
-
-        <div class="feature-card">
-          <img src="../../jpeg_files/downotes.jpeg" class="card-bg" alt="Upload">
-          <div class="card-text-panel">
-            <h3>My Notes</h3>
-            <p>Contribute your class notes to help others study.</p>
-          </div>
-        </div>
-
-        <div class="feature-card">
-          <img src="../../jpeg_files/todo.jpeg" class="card-bg" alt="To-Do">
-          <div class="card-text-panel">
-            <h3>To-Do List</h3>
-            <p>Organize your tasks and stay focused on what matters.</p>
-          </div>
-        </div>
+        <?php endwhile; ?>
       </div>
-    </main>
-  </div>
+    </section>
+
+    <section class="dashboard-section">
+      <h2>Upcoming Tasks</h2>
+      <div class="card-grid">
+        <?php while($row = $tasks_result->fetch_assoc()): ?>
+          <div class="card">
+            <h3><?= htmlspecialchars($row['title']) ?></h3>
+          </div>
+        <?php endwhile; ?>
+      </div>
+    </section>
+
+    <section class="dashboard-section">
+      <h2>Recent Notes</h2>
+      <div class="card-grid">
+        <?php while($row = $notes_result->fetch_assoc()): ?>
+          <div class="card">
+            <h3><?= htmlspecialchars($row['note_title']) ?></h3>
+            <p>Downloaded: <?= htmlspecialchars($row['download_date']) ?></p>
+          </div>
+        <?php endwhile; ?>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
