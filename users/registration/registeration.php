@@ -11,9 +11,9 @@
     <nav>
       <ul class="nav-links">
         <li><a href="../../index.php">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Services</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="../../index.php#about">About</a></li>
+        <li><a href="../../index.php#services">Services</a></li>
+        <li><a href="../../index.php#contact">Contact</a></li>
       </ul>
     </nav>
     <div class="nav-btn">
@@ -23,9 +23,7 @@
 
   <div class="login-container">
     <div class="login-box">
-      <div class="login-left">
-        <img src="../../jpeg_files/bgimage.jpeg" alt="Register Illustration">
-      </div>
+      <!-- The login-right content (form) is now first, appearing on the left -->
       <div class="login-right">
         <h2>Create Account</h2>
         <form action="user_register.php" method="POST">
@@ -46,6 +44,10 @@
             <p>Already have an account? <a href="../login_page.php">Login here</a></p>
           </div>
         </form>
+      </div>
+      <!-- The login-left content (image) is now second, appearing on the right -->
+      <div class="login-left">
+        <img src="../../jpeg_files/bgimage.jpeg" alt="Register Illustration">
       </div>
     </div>
   </div>
