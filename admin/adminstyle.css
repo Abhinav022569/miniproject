@@ -1,107 +1,217 @@
+/* Base styles */
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: "Segoe UI", sans-serif;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 body {
-  background: linear-gradient(to bottom right, #1d0d3a, #ffffff);
-  height: 100vh;
+  /* Background similar to userstyle.css for consistent look */
+  background: linear-gradient(135deg, #0f0f2c, #1a1a40);
+  color: white;
+  min-height: 100vh;
+  /* Ensure content is centered vertically and horizontally */
   display: flex;
+  flex-direction: column; /* Allow content to stack */
   justify-content: center;
   align-items: center;
 }
 
-.login-box {
-  width: 350px;
-  background-color: #f5f6f7;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  margin: 20px;
-}
-
-.login-header {
-  background-color: #333;
-  color: white;
-  padding: 16px 20px;
-}
-
-.login-header h2 {
-  font-size: 18px;
-  font-weight: normal;
-  text-transform: lowercase;
-}
-
-.login-header span {
-  color: #aaa;
-}
-
-form {
-  padding: 20px;
-}
-
-.input-box {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: white;
-}
-
-.input-box i.icon {
-  width: 40px;
-  text-align: center;
-  color: #888;
-  font-style: normal;
-  font-size: 16px;
-}
-
-.input-box input {
-  border: none;
-  padding: 10px;
-  flex: 1;
-  font-size: 14px;
-  outline: none;
-  color: #333;
-}
-
-.extras {
+/* Header (Navbar) - Copied from userstyle.css */
+.navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
-  font-size: 12px;
-  color: #444;
+  padding: 20px 40px;
+  background-color: rgba(0, 0, 0, 0.7);
+  position: fixed; /* Keep navbar fixed at the top */
+  width: 100%;
+  top: 0;
+  height: 77px; /* Fixed height for consistency */
+  z-index: 1000; /* Ensure navbar is on top */
+  backdrop-filter: blur(10px); /* Glassmorphism effect for navbar */
 }
 
-.extras a:hover {
+.logo {
+  font-size: 26px;
+  font-weight: bold;
+  color: #00ffd5; /* Accent color for logo */
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin-right: -8px; /* Spacing for navigation links */
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease; /* Smooth hover effect */
+}
+
+.nav-links a:hover {
+  color: #00ffd5; /* Accent color on hover */
+}
+
+.nav-btn .login-btn {
+  background: transparent;
+  border: 2px solid white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  transition: background 0.3s, color 0.3s; /* Smooth hover effect */
+}
+
+.nav-btn .login-btn:hover {
+  background: #00ffd5;
+  color: black;
+}
+
+/* Login container - Copied from userstyle.css */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  padding-top: 80px; /* Offset for fixed navbar */
+  background-color: #0d0d2a; /* Dark background for the container */
+  width: 100%; /* Ensure it takes full width */
+}
+
+/* Login box with darker glassmorphism - Copied from userstyle.css */
+.login-box {
+  display: flex;
+  width: 900px;
+  max-width: 95%; /* Responsive width */
+  background-color: rgba(10, 10, 30, 0.7); /* Darker semi-transparent background */
+  border-radius: 16px;
+  overflow: hidden; /* Hide overflowing content, especially for image */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6); /* Deep shadow */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Subtle border */
+  backdrop-filter: blur(20px); /* Strong glassmorphism blur */
+}
+
+.login-left {
+  flex: 1; /* Takes equal space */
+  min-height: 400px; /* Minimum height for the image section */
+}
+
+.login-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cover the area without distortion */
+  filter: brightness(0.8); /* Slightly dim the image */
+}
+
+.login-right {
+  flex: 1; /* Takes equal space */
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-right h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #00ffd5; /* Accent color for heading */
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent input background */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none; /* Remove outline on focus */
+}
+
+.input-group input::placeholder {
+  color: rgba(255, 255, 255, 0.6); /* Lighter placeholder text */
+}
+
+/* Login button (for form) - Copied from userstyle.css */
+.login-btn {
+  padding: 12px;
+  background-color: #00ffd5;
+  border: none;
+  color: black;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+  transition: background 0.3s ease;
+}
+
+.login-btn:hover {
+  background-color: #00c8aa;
+}
+
+.extras {
+  margin-top: 12px;
+  font-size: 14px;
+  text-align: right;
+}
+
+/* No register link for admin, but keeping the style in case it's added later */
+.register-link {
+  margin-top: 20px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.register-link a {
+  color: #00ffd5;
+  text-decoration: none;
+}
+
+.register-link a:hover {
   text-decoration: underline;
 }
 
-.signin-btn {
-  width: 100%;
-  background-color: #333;
-  color: white;
-  border: none;
-  padding: 12px;
-  font-size: 14px;
-  text-transform: uppercase;
-  cursor: pointer;
-  border-radius: 3px;
-  transition: background 0.3s;
+/* Media queries for responsiveness - Copied and adapted from userstyle.css logic */
+@media (max-width: 768px) {
+  .login-box {
+    flex-direction: column; /* Stack elements vertically on smaller screens */
+    width: 90%;
+  }
+
+  .login-left {
+    min-height: 200px; /* Smaller image height on mobile */
+  }
+
+  .login-right {
+    padding: 30px; /* Adjust padding */
+  }
+
+  .navbar {
+    padding: 15px 20px; /* Adjust navbar padding */
+  }
+
+  .nav-links {
+    gap: 15px; /* Adjust nav link spacing */
+  }
 }
 
-.signin-btn:hover {
-  background-color: #555;
-}
+@media (max-width: 480px) {
+  .login-right h2 {
+    font-size: 28px; /* Smaller heading on very small screens */
+  }
 
-.icon.user::before {
-  content: "👤";
-}
-.icon.lock::before {
-  content: "🔒";
+  .login-btn {
+    font-size: 14px; /* Smaller button text */
+  }
 }
