@@ -81,7 +81,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_pic_upload']
     }
 }
 
-// --- Fetch user data from the Users table (after potential update) ---
+// --- Handle Password Change ---
+// Check if the password change form was submitted (e.g., by checking a hidden field or button name)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_password_submit'])) {
+    $current_password = $_POST['current_password'] ?? '';
+    $new_password = $_POST['new_password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
+
+    // Fetch current hashed password from the database
+    $get_password_query = "SELECT password FROM users WHERE user_id = ?";
+    $stmt_get_password = $conn->prepare($get_password_query);
+    $stmt_get_password->bind_param("i", $user_id);
+    $stmt_get_password->execute();
+    $password_result = $stmt_get_password->get_result();
+    $user_db_password = $password_result->fetch_assoc()['password'] ?? '';
+    $stmt_get_password->close();
+
+    // Validate current password
+    // IMPORTANT: Your database stores plain text passwords ('123').
+    // In a real application, you should hash passwords during registration
+    // and use password_verify() here. For now, we'll compare plain text.
+    if ($current_password !== $user_db_password) {
+        $error_message = "Current password is incorrect.";
+    } elseif (empty($new_password) || empty($confirm_password)) {
+        $error_message = "New password and confirm password fields cannot be empty.";
+    } elseif ($new_password !== $confirm_password) {
+        $error_message = "New password and confirm password do not match.";
+    } elseif (strlen($new_password) < 6) { // Example: minimum password length
+        $error_message = "New password must be at least 6 characters long.";
+    } else {
+        // All validations passed, proceed to update password
+        // In a real application, you would hash the new password:
+        // $hashed_new_password = password_hash($new_password, PASSWORD_DEFAULT);
+        $hashed_new_password = $new_password; // For now, storing plain text as per your DB
+
+        $update_password_query = "UPDATE users SET password = ? WHERE user_id = ?";
+        $stmt_update_password = $conn->prepare($update_password_query);
+        $stmt_update_password->bind_param("si", $hashed_new_password, $user_id);
+
+        if ($stmt_update_password->execute()) {
+            $success_message = "Password updated successfully!";
+        } else {
+            $error_message = "Error updating password: " . $stmt_update_password->error;
+        }
+        $stmt_update_password->close();
+    }
+}
+
+
+// --- Fetch user data from the Users table (after potential updates) ---
+// This query is run after all POST handling to get the latest data
 $user_query = "SELECT user_name, name, email, phone_no, status, reputation_score, profile_pic, created_at FROM users WHERE user_id = ?";
 $stmt_user = $conn->prepare($user_query);
 $stmt_user->bind_param("i", $user_id);
@@ -136,9 +185,8 @@ $conn->close();
           <h2>Profile Settings</h2>
         </div>
         <div class="header-actions">
-          <!-- This button conceptually saves changes from the forms below -->
-          <!-- For now, it's just a visual button, actual form submission is handled by specific forms -->
-          <button class="save-changes-btn"><i class="fas fa-save"></i> Save Changes</button>
+          <!-- The "Save Changes" button will now trigger the password form submission -->
+          <button type="submit" form="password-change-form" class="save-changes-btn"><i class="fas fa-save"></i> Save Changes</button>
         </div>
       </header>
 
@@ -175,7 +223,6 @@ $conn->close();
           <h3>Personal Information</h3>
           <div class="card-content">
             <div class="profile-avatar">
-              <!-- CORRECTED: Added ../../ to the src path to correctly reference the root-level user_files directory -->
               <img src="../../<?= htmlspecialchars($user_data['profile_pic'] ?? 'https://placehold.co/100x100/0f0f2c/00ffd5?text=DP') ?>" alt="Profile Picture" class="avatar-img">
               <!-- Profile Picture Upload Form -->
               <form action="" method="POST" enctype="multipart/form-data" id="profile-pic-form" style="display: none;">
@@ -204,7 +251,9 @@ $conn->close();
         <div class="card password-settings-card full-width">
           <h3>Password Settings</h3>
           <div class="card-content">
-            <form action="" method="POST">
+            <!-- Added id="password-change-form" and a hidden input to identify submission -->
+            <form action="" method="POST" id="password-change-form">
+              <input type="hidden" name="change_password_submit" value="1">
               <div class="input-group">
                 <label for="current-password">Current Password</label>
                 <input type="password" id="current-password" name="current_password" placeholder="Enter current password">
@@ -217,7 +266,7 @@ $conn->close();
                 <label for="confirm-password">Confirm New Password</label>
                 <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm new password">
               </div>
-              <!-- The Save Changes button from the header will apply to this form conceptually -->
+              <!-- Removed the conceptual save button here as it's now in the header -->
             </form>
           </div>
         </div>
