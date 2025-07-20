@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 20, 2025 at 07:13 AM
+-- Generation Time: Jul 20, 2025 at 09:08 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -83,6 +83,24 @@ CREATE TABLE `group_members` (
   `status` enum('pending','joined') DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `group_members`
+--
+
+INSERT INTO `group_members` (`members_id`, `group_id`, `user_id`, `role`, `status`) VALUES
+(1, 101, 2, 'moderator', 'joined'),
+(2, 101, 1, 'member', 'joined'),
+(3, 101, 3, 'member', 'joined'),
+(4, 101, 4, 'member', 'joined'),
+(5, 102, 3, 'moderator', 'joined'),
+(6, 102, 2, 'member', 'joined'),
+(7, 102, 5, 'member', 'joined'),
+(8, 103, 4, 'moderator', 'joined'),
+(9, 103, 2, 'member', 'joined'),
+(10, 103, 3, 'member', 'joined'),
+(11, 103, 5, 'member', 'joined'),
+(12, 104, 1, 'moderator', 'joined');
+
 -- --------------------------------------------------------
 
 --
@@ -112,6 +130,16 @@ CREATE TABLE `notes` (
   `upload_time` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `notes`
+--
+
+INSERT INTO `notes` (`note_id`, `group_id`, `user_id`, `title`, `file_path`, `upload_time`) VALUES
+(1, 101, 2, 'Integration by Parts Cheatsheet', 'user_files/notes/calculus_integration.pdf', '2025-07-20 18:00:00'),
+(2, 101, 4, 'Lecture 5 - Series and Sequences', 'user_files/notes/calculus_series.pdf', '2025-07-21 09:00:00'),
+(3, 102, 3, 'Summary of Modern Indian History', 'user_files/notes/modern_history.docx', '2025-07-20 19:00:00'),
+(4, 104, 1, 'Current Affairs - June 2025', 'user_files/notes/current_affairs_june.pdf', '2025-07-21 10:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -137,10 +165,23 @@ CREATE TABLE `reports` (
 CREATE TABLE `study_group` (
   `group_id` int(11) NOT NULL,
   `group_name` varchar(100) NOT NULL,
+  `description` text DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `approved` tinyint(1) DEFAULT 0,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `study_group`
+--
+
+INSERT INTO `study_group` (`group_id`, `group_name`, `description`, `user_id`, `approved`, `created_at`) VALUES
+(101, 'Calculus Study Group', 'Dedicated to mastering advanced calculus concepts and problem-solving.', 2, 1, '2025-07-20 14:00:00'),
+(102, 'History Research Team', 'Collaborative group for historical research and essay writing.', 3, 1, '2025-07-20 15:00:00'),
+(103, 'Physics Problem Solvers', 'Solving complex physics problems and preparing for exams.', 4, 1, '2025-07-20 16:00:00'),
+(104, 'UPSC Aspirants 2026', 'A focused group for UPSC civil services examination preparation.', 1, 1, '2025-07-21 08:00:00'),
+(105, 'Web Dev Beginners', 'A place for beginners to learn and share web development resources.', 5, 0, '2025-07-21 11:00:00'),
+(106, 'New Group', 'test group', 1, 1, '2025-07-21 00:20:49');
 
 -- --------------------------------------------------------
 
@@ -153,10 +194,20 @@ CREATE TABLE `to_do` (
   `group_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `task` varchar(200) NOT NULL,
+  `description` text DEFAULT NULL,
   `due_date` date DEFAULT NULL,
   `assigned_to` int(11) DEFAULT NULL,
   `status` enum('Open','in progress','done') DEFAULT 'Open'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `to_do`
+--
+
+INSERT INTO `to_do` (`to_do_id`, `group_id`, `user_id`, `task`, `description`, `due_date`, `assigned_to`, `status`) VALUES
+(1, 101, 1, 'Complete Chapter 3 exercises', NULL, '2025-07-25', NULL, 'Open'),
+(2, 104, 1, 'Read The Hindu newspaper', NULL, '2025-07-22', NULL, 'in progress'),
+(3, 101, 1, 'Review partial derivatives', NULL, '2025-07-28', NULL, 'Open');
 
 -- --------------------------------------------------------
 
@@ -182,7 +233,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_name`, `name`, `email`, `phone_no`, `password`, `status`, `reputation_score`, `profile_pic`, `created_at`) VALUES
-(1, 'testuser', '', 'testuser@gmail.com', '1234567890', '123', 'active', 0, 'https://placehold.co/100x100/0f0f2c/00ffd5?text=DP', '2025-07-19 17:38:05');
+(1, 'testuser', 'Test User', 'testuser@gmail.com', '1234567890', '123', 'active', 0, 'user_files/profile_pics/profile_687d3c1a07d20.jpeg', '2025-07-19 17:38:05'),
+(2, 'jane_doe', 'Jane Doe', 'jane.doe@example.com', '9876543210', 'password123', 'active', 15, 'https://placehold.co/100x100/0f0f2c/00ffd5?text=JD', '2025-07-20 10:00:00'),
+(3, 'sam_jones', 'Sam Jones', 'sam.jones@example.com', '1122334455', 'password456', 'active', 5, 'https://placehold.co/100x100/0f0f2c/00ffd5?text=SJ', '2025-07-20 11:30:00'),
+(4, 'alex_smith', 'Alex Smith', 'alex.smith@example.com', '5566778899', 'password789', 'active', 25, 'https://placehold.co/100x100/0f0f2c/00ffd5?text=AS', '2025-07-20 12:00:00'),
+(5, 'emily_white', 'Emily White', 'emily.white@example.com', '9988776655', 'password101', 'active', 0, 'https://placehold.co/100x100/0f0f2c/00ffd5?text=EW', '2025-07-21 09:00:00');
 
 --
 -- Indexes for dumped tables
@@ -294,7 +349,7 @@ ALTER TABLE `downloaded_notes`
 -- AUTO_INCREMENT for table `group_members`
 --
 ALTER TABLE `group_members`
-  MODIFY `members_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `members_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `group_messages`
@@ -306,7 +361,7 @@ ALTER TABLE `group_messages`
 -- AUTO_INCREMENT for table `notes`
 --
 ALTER TABLE `notes`
-  MODIFY `note_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `note_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `reports`
@@ -318,19 +373,19 @@ ALTER TABLE `reports`
 -- AUTO_INCREMENT for table `study_group`
 --
 ALTER TABLE `study_group`
-  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT for table `to_do`
 --
 ALTER TABLE `to_do`
-  MODIFY `to_do_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `to_do_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
