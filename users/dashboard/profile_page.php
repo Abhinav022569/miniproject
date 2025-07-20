@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <nav class="sidebar-nav">
         <ul>
           <li><a href="user_panel.php"><i class="fas fa-th-large"></i> Dashboard</a></li>
-          <li><a href="#"><i class="fas fa-users"></i> Study Groups</a></li>
+          <li><a href="./study_group.php"><i class="fas fa-users"></i> Study Groups</a></li>
           <li><a href="#"><i class="fas fa-book"></i> Notes</a></li>
           <li><a href="#"><i class="fas fa-comments"></i> Group Chat</a></li>
           <li><a href="#"><i class="fas fa-clipboard-list"></i> To-Do List</a></li>

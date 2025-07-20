@@ -1,0 +1,102 @@
+/* Specific styles for Study Group cards, to be included in study_groups_style.css */
+
+/* General Card Styling (reverted to dark glassmorphism theme) */
+/* Increased specificity for .card to ensure it overrides panelstyle.css for specific properties if needed */
+.dashboard-grid .card {
+  /* Reverted to match panelstyle.css card background */
+  background-color: rgba(255, 255, 255, 0.08); /* Lighter glassmorphism for cards */
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Card shadow */
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle card border */
+  backdrop-filter: blur(10px); /* Re-add blur for glassmorphism effect */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: white; /* Revert to white text for general card content */
+}
+
+.dashboard-grid .card:hover {
+  transform: translateY(-8px); /* Revert to more dramatic lift */
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4); /* Revert to stronger hover shadow */
+}
+
+/* Specific styles for content within Study Group cards */
+.card .group-title {
+  font-size: 24px;
+  color: #00ffd5; /* Accent color for title */
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.card .group-description {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.7); /* Lighter white for description */
+  margin-bottom: 15px; /* Space below description */
+  line-height: 1.5;
+  flex-grow: 1; /* Allows description to take available space */
+}
+
+.card .group-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 15px; /* Added space ABOVE group-meta (between description and members) */
+  margin-bottom: 20px; /* Space below meta section (between status and button) */
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8); /* Slightly transparent white for meta info */
+}
+
+.card .group-meta i {
+  margin-right: 8px;
+  color: #00ffd5; /* Accent color for icons */
+}
+
+/* Status colors */
+.card .status-active {
+  color: #4CAF50; /* Green for active status */
+  font-weight: bold;
+}
+
+.card .status-pending {
+  color: #FFC107; /* Orange/Yellow for pending status */
+  font-weight: bold;
+}
+
+/* Refined Button Styling for "View Details" (reverted to dashboard button style) */
+.view-btn {
+  background-color: rgba(0, 255, 213, 0.2); /* Light accent background */
+  color: #00ffd5; /* Accent color text */
+  padding: 10px 15px; /* Reverted padding */
+  border: 1px solid #00ffd5; /* Accent border */
+  border-radius: 6px; /* Reverted border-radius */
+  font-size: 14px; /* Reverted font size */
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  align-self: flex-start; /* Align button to the start of its flex container */
+  font-weight: bold; /* Reverted font weight */
+}
+
+.view-btn:hover {
+  background-color: #00ffd5; /* Accent background on hover */
+  color: black; /* Black text on accent hover */
+  transform: translateY(-2px); /* Subtle lift on hover */
+}
+
+/* No Data Message (reverted to dark theme colors) */
+.no-data {
+  text-align: center;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.6); /* Revert to white for no-data message */
+  padding: 20px;
+  grid-column: 1 / -1; /* Center across the grid */
+}
+
+.no-data a {
+  color: #00ffd5; /* Revert to accent color for links in no-data */
+  font-weight: bold;
+}
+
+.no-data a:hover {
+  text-decoration: underline;
+}
