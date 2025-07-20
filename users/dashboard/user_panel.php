@@ -180,7 +180,8 @@ $conn->close();
                     <h4><?= htmlspecialchars($row['group_name']) ?></h4>
                     <p><?= htmlspecialchars($row['member_count'] ?? 0) ?> Members</p>
                   </div>
-                  <button class="view-btn">View</button>
+                  <!-- MODIFIED: Changed button to a link -->
+                  <a href="study_group.php" class="view-btn">View</a>
                 </div>
               <?php endwhile; ?>
             <?php else: ?>
