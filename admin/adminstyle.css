@@ -43,7 +43,7 @@ body {
   list-style: none;
   display: flex;
   gap: 30px;
-  margin-right: -8px; /* Spacing for navigation links */
+  margin-right: 9px; /* Spacing for navigation links */
 }
 
 .nav-links a {

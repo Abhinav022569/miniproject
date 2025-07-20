@@ -20,7 +20,7 @@
     </nav>
     <!-- Admin login doesn't need a register button, so it's omitted -->
     <div class="nav-btn">
-      <a href="login_page.php" class="login-btn">Admin Login</a>
+      <a href="../users/login_page.php" class="login-btn">User Login</a>
     </div>
   </header>
 
