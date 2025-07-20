@@ -8,7 +8,8 @@ $password = trim($_POST['password']);
 $username = $conn->real_escape_string($username);
 $password = $conn->real_escape_string($password);
 
-$sql = "SELECT * FROM Users WHERE user_name = '$username' OR email = '$username'";
+// MODIFIED: Select 'name' column in the query
+$sql = "SELECT user_id, user_name, name, password, status FROM users WHERE user_name = '$username' OR email = '$username'";
 $result = $conn->query($sql);
 
 if ($result->num_rows === 1) {
@@ -18,6 +19,8 @@ if ($result->num_rows === 1) {
         $_SESSION['user_id'] = $user['user_id'];
         $_SESSION['user_name'] = $user['user_name'];
         $_SESSION['status'] = $user['status'];
+        // NEW: Store the user's full name in the session
+        $_SESSION['name'] = $user['name'];
 
         if ($user['status'] === 'banned') {
             echo "<script>alert('Your account is banned. Please contact admin.'); window.location='login_page.php';</script>";

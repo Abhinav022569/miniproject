@@ -8,9 +8,19 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Get the user ID and name from the session
+// Get the user ID from the session
 $user_id = $_SESSION['user_id'];
-$user_name = $_SESSION['user_name'] ?? 'User'; // Fallback for user_name if not set in session
+// Fetch the user's 'name' from the session, fallback to 'user_name', then 'User'
+$user_display_name = $_SESSION['name'] ?? $_SESSION['user_name'] ?? 'User';
+
+// Fetch user's profile picture path
+$profile_pic_query = "SELECT profile_pic FROM users WHERE user_id = ?";
+$stmt_profile_pic = $conn->prepare($profile_pic_query);
+$stmt_profile_pic->bind_param("i", $user_id);
+$stmt_profile_pic->execute();
+$profile_pic_result = $stmt_profile_pic->get_result();
+$profile_pic_data = $profile_pic_result->fetch_assoc();
+$user_profile_pic = $profile_pic_data['profile_pic'] ?? 'https://placehold.co/100x100/0f0f2c/00ffd5?text=DP'; // Default placeholder
 
 // Function to calculate time ago for notes
 function time_ago($datetime, $full = false) {
@@ -46,8 +56,8 @@ function time_ago($datetime, $full = false) {
 // Fetch Study Groups created by or joined by the user, including member count
 $groups_query = "
     SELECT sg.group_id, sg.group_name, COUNT(gm.members_id) AS member_count
-    FROM Study_Group sg
-    LEFT JOIN Group_Members gm ON sg.group_id = gm.group_id
+    FROM study_group sg
+    LEFT JOIN group_members gm ON sg.group_id = gm.group_id
     WHERE sg.user_id = ? OR gm.user_id = ?
     GROUP BY sg.group_id, sg.group_name
     ORDER BY sg.created_at DESC
@@ -60,7 +70,7 @@ $groups_result = $stmt_groups->get_result();
 
 
 // Fetch Upcoming Tasks for the user
-$tasks_query = "SELECT task, due_date FROM To_Do WHERE user_id = ? AND status IN ('Open', 'in progress') ORDER BY due_date ASC LIMIT 3";
+$tasks_query = "SELECT task, due_date FROM to_do WHERE user_id = ? AND status IN ('Open', 'in progress') ORDER BY due_date ASC LIMIT 3";
 $stmt_tasks = $conn->prepare($tasks_query);
 $stmt_tasks->bind_param("i", $user_id);
 $stmt_tasks->execute();
@@ -69,17 +79,24 @@ $tasks_result = $stmt_tasks->get_result();
 // Fetch Recently Downloaded Notes by the user, including uploader's name and time since upload
 $notes_query = "
   SELECT n.title AS note_title, dn.downloaded_at AS download_date, u.user_name AS uploader_name, n.upload_time
-  FROM Downloaded_Notes dn
-  JOIN Notes n ON dn.note_id = n.note_id 
-  JOIN Users u ON n.user_id = u.user_id
-  WHERE dn.user_id = ? 
-  ORDER BY dn.downloaded_at DESC 
+  FROM downloaded_notes dn
+  JOIN notes n ON dn.note_id = n.note_id
+  JOIN users u ON n.user_id = u.user_id
+  WHERE dn.user_id = ?
+  ORDER BY dn.downloaded_at DESC
   LIMIT 3
 ";
 $stmt_notes = $conn->prepare($notes_query);
 $stmt_notes->bind_param("i", $user_id);
 $stmt_notes->execute();
 $notes_result = $stmt_notes->get_result();
+
+// Close all statements and connection
+$stmt_profile_pic->close();
+$stmt_groups->close();
+$stmt_tasks->close();
+$stmt_notes->close();
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -102,11 +119,11 @@ $notes_result = $stmt_notes->get_result();
       <nav class="sidebar-nav">
         <ul>
           <li class="active"><a href="#"><i class="fas fa-th-large"></i> Dashboard</a></li>
-          <li><a href="./study_group.php"><i class="fas fa-users"></i> Study Groups</a></li>
+          <li><a href="study_group.php"><i class="fas fa-users"></i> Study Groups</a></li>
           <li><a href="#"><i class="fas fa-book"></i> Notes</a></li>
           <li><a href="#"><i class="fas fa-comments"></i> Group Chat</a></li>
           <li><a href="#"><i class="fas fa-clipboard-list"></i> To-Do List</a></li>
-          <li><a href="./profile_page.php"><i class="fas fa-user-circle"></i> Profile</a></li>
+          <li><a href="profile_page.php"><i class="fas fa-user-circle"></i> Profile</a></li>
         </ul>
       </nav>
       <div class="sidebar-footer">
@@ -118,7 +135,7 @@ $notes_result = $stmt_notes->get_result();
     <main class="main-content">
       <header class="main-header">
         <div class="welcome-section">
-          <h2>Welcome, <?php echo htmlspecialchars($user_name); ?>!</h2>
+          <h2>Welcome, <?php echo htmlspecialchars($user_display_name); ?>!</h2>
         </div>
         <div class="header-actions">
           <div class="search-bar">
@@ -126,10 +143,24 @@ $notes_result = $stmt_notes->get_result();
             <i class="fas fa-search"></i>
           </div>
           <button class="create-new-btn"><i class="fas fa-plus"></i> Create New</button>
+          <!-- Removed profile pic display from header-actions -->
         </div>
       </header>
 
       <section class="dashboard-grid">
+        <!-- NEW: Profile Picture Card -->
+        <div class="card profile-overview-card">
+            <h3>Your Profile</h3>
+            <div class="card-content profile-card-content">
+                <div class="profile-card-avatar">
+                    <img src="../../<?= htmlspecialchars($user_profile_pic) ?>" alt="Profile Picture" class="profile-card-img">
+                </div>
+                <p class="profile-card-name"><?= htmlspecialchars($user_display_name) ?></p>
+                <p class="profile-card-username">@<?= htmlspecialchars($_SESSION['user_name'] ?? 'N/A') ?></p>
+                <button class="view-btn profile-card-button" onclick="location.href='profile_page.php'">View Profile</button>
+            </div>
+        </div>
+
         <!-- Your Study Groups Section -->
         <div class="card study-groups-card">
           <h3>Your Study Groups</h3>
