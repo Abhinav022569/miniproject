@@ -1,7 +1,7 @@
-/* Specific styles for Study Group cards, to be included in study_groups_style.css */
+/* Specific styles for Study Group cards, to be included in study_group_style.css */
 
 /* General Card Styling (reverted to dark glassmorphism theme) */
-/* Increased specificity for .card to ensure it overrides panelstyle.css for specific properties if needed */
+/* Increased specificity for .card to ensure it overrides panelstyle.css */
 .dashboard-grid .card {
   /* Reverted to match panelstyle.css card background */
   background-color: rgba(255, 255, 255, 0.08); /* Lighter glassmorphism for cards */
@@ -99,4 +99,80 @@
 
 .no-data a:hover {
   text-decoration: underline;
+}
+
+/* Styles for Group Creation Form */
+.create-group-card {
+    grid-column: 1 / -1;
+    background-color: rgba(10, 10, 30, 0.7); /* Dark glassmorphism */
+    color: white; /* White text */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+}
+
+.create-group-card h3 {
+    color: #00ffd5; /* Accent color for heading */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Lighter border */
+}
+
+.create-group-card .input-group label {
+    color: rgba(255, 255, 255, 0.8); /* Lighter label text */
+}
+
+.create-group-card .input-group input[type="text"],
+.create-group-card .input-group textarea {
+    width: 100%;
+    padding: 10px 15px;
+    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent input background */
+    color: white; /* White text in input */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.create-group-card .input-group input::placeholder,
+.create-group-card .input-group textarea::placeholder {
+    color: rgba(255, 255, 255, 0.6); /* Light placeholder text */
+}
+
+.create-group-card .input-group input:focus,
+.create-group-card .input-group textarea:focus {
+    border-color: #00ffd5; /* Accent border on focus */
+}
+
+/* Removed .submit-group-request-btn styles as the button is removed from HTML */
+/* .submit-group-request-btn { ... } */
+/* .submit-group-request-btn:hover { ... } */
+
+
+.create-new-btn.request-creation-active {
+    background-color: #00ffd5;
+    color: black;
+    border: none;
+}
+
+.create-new-btn.request-creation-active:hover {
+    background-color: #00c8aa;
+    color: black;
+}
+
+.message {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    grid-column: 1 / -1;
+}
+.success-message {
+    background-color: rgba(76, 175, 80, 0.2);
+    color: #4CAF50;
+    border: 1px solid #4CAF50;
+}
+.error-message {
+    background-color: rgba(244, 67, 54, 0.2);
+    color: #f44336;
+    border: 1px solid #f44336;
 }

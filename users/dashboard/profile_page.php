@@ -1,5 +1,6 @@
 <?php
 session_start();
+// IMPORTANT: Keep require_once here to ensure $conn is available for all POST handling
 require '../connect.php'; // Ensure this path is correct relative to profile_page.php
 
 // Check if user is logged in, otherwise redirect to login page
@@ -17,6 +18,11 @@ $error_message = '';
 
 // --- Handle Profile Picture Upload ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_pic_upload'])) {
+    // Re-fetch $conn if it was closed by a previous operation (though it shouldn't be with this structure)
+    if (!$conn || $conn->connect_error) {
+        require '../connect.php';
+    }
+
     $target_dir = "../../user_files/profile_pics/"; // Directory to save uploaded pictures
     if (!is_dir($target_dir)) {
         mkdir($target_dir, 0777, true);
@@ -50,13 +56,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_pic_upload']
         if (move_uploaded_file($_FILES["profile_pic_upload"]["tmp_name"], $target_file_unique)) {
             $update_query = "UPDATE users SET profile_pic = ? WHERE user_id = ?";
             $stmt_update = $conn->prepare($update_query);
-            $stmt_update->bind_param("si", $db_file_path, $user_id);
-            if ($stmt_update->execute()) {
-                $success_message = "Profile picture updated successfully!";
+            if ($stmt_update === false) {
+                $error_message = "Prepare failed for profile pic update: " . $conn->error;
+                error_log("Profile Pic Update Prepare Error: " . $conn->error);
             } else {
-                $error_message = "Error updating database: " . $stmt_update->error;
+                $stmt_update->bind_param("si", $db_file_path, $user_id);
+                if ($stmt_update->execute()) {
+                    $success_message = "Profile picture updated successfully!";
+                } else {
+                    $error_message = "Error updating database: " . $stmt_update->error;
+                    error_log("Profile Pic Update Execute Error: " . $stmt_update->error);
+                }
+                $stmt_update->close();
             }
-            $stmt_update->close();
         } else {
             $error_message = "Sorry, there was an error uploading your file.";
         }
@@ -65,94 +77,136 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_pic_upload']
 
 // --- Handle Personal Information Update ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_personal_info_submit'])) {
+    // Re-fetch $conn if it was closed by a previous operation
+    if (!$conn || $conn->connect_error) {
+        require '../connect.php';
+    }
+
     $new_name = trim($_POST['name'] ?? '');
     $new_email = trim($_POST['email'] ?? '');
     $new_phone_no = trim($_POST['phone_no'] ?? '');
 
-    // Basic validation
     if (empty($new_name) || empty($new_email) || empty($new_phone_no)) {
         $error_message = "All personal information fields are required.";
     } elseif (!filter_var($new_email, FILTER_VALIDATE_EMAIL)) {
         $error_message = "Invalid email format.";
     } else {
-        // Check if email or phone number already exists for another user
         $check_duplicate_query = "SELECT user_id FROM users WHERE (email = ? OR phone_no = ?) AND user_id != ?";
         $stmt_check = $conn->prepare($check_duplicate_query);
-        $stmt_check->bind_param("ssi", $new_email, $new_phone_no, $user_id);
-        $stmt_check->execute();
-        $duplicate_result = $stmt_check->get_result();
-
-        if ($duplicate_result->num_rows > 0) {
-            $error_message = "Email or Phone number already in use by another account.";
+        if ($stmt_check === false) {
+            $error_message = "Prepare failed for duplicate check: " . $conn->error;
+            error_log("Duplicate Check Prepare Error: " . $conn->error);
         } else {
-            // Update personal information in database
-            $update_query = "UPDATE users SET name = ?, email = ?, phone_no = ? WHERE user_id = ?";
-            $stmt_update = $conn->prepare($update_query);
-            $stmt_update->bind_param("sssi", $new_name, $new_email, $new_phone_no, $user_id);
+            $stmt_check->bind_param("ssi", $new_email, $new_phone_no, $user_id);
+            $stmt_check->execute();
+            $duplicate_result = $stmt_check->get_result();
 
-            if ($stmt_update->execute()) {
-                $success_message = "Personal information updated successfully!";
-                // Update session variable if you store name there
-                $_SESSION['name'] = $new_name; // Update session with new name
+            if ($duplicate_result->num_rows > 0) {
+                $error_message = "Email or Phone number already in use by another account.";
             } else {
-                $error_message = "Error updating personal information: " . $stmt_update->error;
+                $update_query = "UPDATE users SET name = ?, email = ?, phone_no = ? WHERE user_id = ?";
+                $stmt_update = $conn->prepare($update_query);
+                if ($stmt_update === false) {
+                    $error_message = "Prepare failed for personal info update: " . $conn->error;
+                    error_log("Personal Info Update Prepare Error: " . $conn->error);
+                } else {
+                    $stmt_update->bind_param("sssi", $new_name, $new_email, $new_phone_no, $user_id);
+                    if ($stmt_update->execute()) {
+                        $success_message = "Personal information updated successfully!";
+                        $_SESSION['name'] = $new_name;
+                    } else {
+                        $error_message = "Error updating personal information: " . $stmt_update->error;
+                        error_log("Personal Info Update Execute Error: " . $stmt_update->error);
+                    }
+                    $stmt_update->close();
+                }
             }
-            $stmt_update->close();
+            $stmt_check->close();
         }
-        $stmt_check->close();
     }
 }
 
 // --- Handle Password Change ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_password_submit'])) {
+    // Re-fetch $conn if it was closed by a previous operation
+    if (!$conn || $conn->connect_error) {
+        require '../connect.php';
+    }
+
     $current_password = $_POST['current_password'] ?? '';
     $new_password = $_POST['new_password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
 
+    // Fetch current password from the database
     $get_password_query = "SELECT password FROM users WHERE user_id = ?";
     $stmt_get_password = $conn->prepare($get_password_query);
-    $stmt_get_password->bind_param("i", $user_id);
-    $stmt_get_password->execute();
-    $password_result = $stmt_get_password->get_result();
-    $user_db_password = $password_result->fetch_assoc()['password'] ?? '';
-    $stmt_get_password->close();
-
-    if ($current_password !== $user_db_password) {
-        $error_message = "Current password is incorrect.";
-    } elseif (empty($new_password) || empty($confirm_password)) {
-        $error_message = "New password and confirm password fields cannot be empty.";
-    } elseif ($new_password !== $confirm_password) {
-        $error_message = "New password and confirm password do not match.";
-    } elseif (strlen($new_password) < 6) {
-        $error_message = "New password must be at least 6 characters long.";
+    if ($stmt_get_password === false) {
+        $error_message = "Prepare failed for get password: " . $conn->error;
+        error_log("Get Password Prepare Error: " . $conn->error);
     } else {
-        $hashed_new_password = $new_password; // Still plain text for now, should be hashed
-        $update_password_query = "UPDATE users SET password = ? WHERE user_id = ?";
-        $stmt_update_password = $conn->prepare($update_password_query);
-        $stmt_update_password->bind_param("si", $hashed_new_password, $user_id);
+        $stmt_get_password->bind_param("i", $user_id);
+        $stmt_get_password->execute();
+        $password_result = $stmt_get_password->get_result();
+        $user_db_password = $password_result->fetch_assoc()['password'] ?? '';
+        $stmt_get_password->close();
 
-        if ($stmt_update_password->execute()) {
-            $success_message = "Password updated successfully!";
+        // Validate current password (plain text comparison as per your DB)
+        if ($current_password !== $user_db_password) {
+            $error_message = "Current password is incorrect.";
+        } elseif (empty($new_password) || empty($confirm_password)) {
+            $error_message = "New password and confirm password fields cannot be empty.";
+        } elseif ($new_password !== $confirm_password) {
+            $error_message = "New password and confirm password do not match.";
+        } elseif (strlen($new_password) < 6) {
+            $error_message = "New password must be at least 6 characters long.";
         } else {
-            $error_message = "Error updating password: " . $stmt_update_password->error;
+            // Update password in database
+            // IMPORTANT: Still storing plain text. Hash passwords in a real app!
+            $hashed_new_password = $new_password;
+
+            $update_password_query = "UPDATE users SET password = ? WHERE user_id = ?";
+            $stmt_update_password = $conn->prepare($update_password_query);
+            if ($stmt_update_password === false) {
+                $error_message = "Prepare failed for password update: " . $conn->error;
+                error_log("Password Update Prepare Error: " . $conn->error);
+            } else {
+                $stmt_update_password->bind_param("si", $hashed_new_password, $user_id);
+                if ($stmt_update_password->execute()) {
+                    $success_message = "Password updated successfully!";
+                } else {
+                    $error_message = "Error updating password: " . $stmt_update_password->error;
+                    error_log("Password Update Execute Error: " . $stmt_update_password->error);
+                }
+                $stmt_update_password->close();
+            }
         }
-        $stmt_update_password->close();
     }
 }
 
 
 // --- Fetch user data from the Users table (after potential updates) ---
 // This query is run after all POST handling to get the latest data
+// Re-fetch $conn if it was closed by a previous operation (e.g., if a POST handler closed it)
+if (!$conn || $conn->connect_error) {
+    require '../connect.php';
+}
 $user_query = "SELECT user_name, name, email, phone_no, status, reputation_score, profile_pic, created_at FROM users WHERE user_id = ?";
 $stmt_user = $conn->prepare($user_query);
-$stmt_user->bind_param("i", $user_id);
-$stmt_user->execute();
-$user_result = $stmt_user->get_result();
-$user_data = $user_result->fetch_assoc();
+if ($stmt_user === false) {
+    error_log("User Data Fetch Prepare Error: " . $conn->error);
+    // Handle error, maybe redirect or show a generic message
+} else {
+    $stmt_user->bind_param("i", $user_id);
+    $stmt_user->execute();
+    $user_result = $stmt_user->get_result();
+    $user_data = $user_result->fetch_assoc();
+    $stmt_user->close();
+}
 
-// Close the statement and connection
-$stmt_user->close();
-$conn->close();
+// Close the database connection at the very end of the script
+if ($conn && !$conn->connect_error) {
+    $conn->close();
+}
 ?>
 
 <!DOCTYPE html>
@@ -197,7 +251,7 @@ $conn->close();
           <h2>Profile Settings</h2>
         </div>
         <div class="header-actions">
-          <!-- The "Save Changes" button will now trigger both forms if needed -->
+          <!-- The "Save Changes" button will now trigger the personal info form submission -->
           <button type="submit" form="personal-info-form" class="save-changes-btn"><i class="fas fa-save"></i> Save Changes</button>
         </div>
       </header>
@@ -287,18 +341,7 @@ $conn->close();
     </main>
   </div>
 
-  <script>
-    // JavaScript to trigger file input when "Change Avatar" button is clicked
-    document.getElementById('trigger-pic-upload').addEventListener('click', function() {
-        document.getElementById('profile_pic_input').click();
-    });
-
-    // Automatically submit the form when a file is selected
-    document.getElementById('profile_pic_input').addEventListener('change', function() {
-        if (this.files.length > 0) {
-            document.getElementById('profile-pic-form').submit();
-        }
-    });
-  </script>
+  <!-- Link to the new dscript.js file -->
+  <script src="dscript.js"></script>
 </body>
 </html>
