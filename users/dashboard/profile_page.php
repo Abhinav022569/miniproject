@@ -18,59 +18,41 @@ $error_message = '';
 // --- Handle Profile Picture Upload ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_pic_upload'])) {
     $target_dir = "../../user_files/profile_pics/"; // Directory to save uploaded pictures
-    // Create the directory if it doesn't exist
     if (!is_dir($target_dir)) {
-        mkdir($target_dir, 0777, true); // Create recursively with full permissions
+        mkdir($target_dir, 0777, true);
     }
 
     $file_name = basename($_FILES["profile_pic_upload"]["name"]);
-    $target_file = $target_dir . $file_name;
     $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    $imageFileType = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
-    // Generate a unique filename to prevent overwriting and conflicts
     $unique_file_name = uniqid('profile_') . '.' . $imageFileType;
     $target_file_unique = $target_dir . $unique_file_name;
-    $db_file_path = "user_files/profile_pics/" . $unique_file_name; // Path to save in DB
+    $db_file_path = "user_files/profile_pics/" . $unique_file_name;
 
-    // Check if image file is a actual image or fake image
     $check = getimagesize($_FILES["profile_pic_upload"]["tmp_name"]);
-    if($check !== false) {
-        // file is an image
-        $uploadOk = 1;
-    } else {
+    if($check === false) {
         $error_message = "File is not an image.";
         $uploadOk = 0;
     }
 
-    // Check file size (e.g., max 5MB)
     if ($_FILES["profile_pic_upload"]["size"] > 5000000) { // 5MB
         $error_message = "Sorry, your file is too large (max 5MB).";
         $uploadOk = 0;
     }
 
-    // Allow certain file formats
-    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-    && $imageFileType != "gif" ) {
+    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
         $error_message = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
         $uploadOk = 0;
     }
 
-    // Check if $uploadOk is set to 0 by an error
-    if ($uploadOk == 0) {
-        // Error message already set
-    } else {
-        // if everything is ok, try to upload file
+    if ($uploadOk == 1) {
         if (move_uploaded_file($_FILES["profile_pic_upload"]["tmp_name"], $target_file_unique)) {
-            // Update profile_pic path in database
             $update_query = "UPDATE users SET profile_pic = ? WHERE user_id = ?";
             $stmt_update = $conn->prepare($update_query);
             $stmt_update->bind_param("si", $db_file_path, $user_id);
-
             if ($stmt_update->execute()) {
                 $success_message = "Profile picture updated successfully!";
-                // Update session variable if you store profile_pic there
-                // $_SESSION['profile_pic'] = $db_file_path;
             } else {
                 $error_message = "Error updating database: " . $stmt_update->error;
             }
@@ -81,14 +63,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_pic_upload']
     }
 }
 
+// --- Handle Personal Information Update ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_personal_info_submit'])) {
+    $new_name = trim($_POST['name'] ?? '');
+    $new_email = trim($_POST['email'] ?? '');
+    $new_phone_no = trim($_POST['phone_no'] ?? '');
+
+    // Basic validation
+    if (empty($new_name) || empty($new_email) || empty($new_phone_no)) {
+        $error_message = "All personal information fields are required.";
+    } elseif (!filter_var($new_email, FILTER_VALIDATE_EMAIL)) {
+        $error_message = "Invalid email format.";
+    } else {
+        // Check if email or phone number already exists for another user
+        $check_duplicate_query = "SELECT user_id FROM users WHERE (email = ? OR phone_no = ?) AND user_id != ?";
+        $stmt_check = $conn->prepare($check_duplicate_query);
+        $stmt_check->bind_param("ssi", $new_email, $new_phone_no, $user_id);
+        $stmt_check->execute();
+        $duplicate_result = $stmt_check->get_result();
+
+        if ($duplicate_result->num_rows > 0) {
+            $error_message = "Email or Phone number already in use by another account.";
+        } else {
+            // Update personal information in database
+            $update_query = "UPDATE users SET name = ?, email = ?, phone_no = ? WHERE user_id = ?";
+            $stmt_update = $conn->prepare($update_query);
+            $stmt_update->bind_param("sssi", $new_name, $new_email, $new_phone_no, $user_id);
+
+            if ($stmt_update->execute()) {
+                $success_message = "Personal information updated successfully!";
+                // Update session variable if you store name there
+                $_SESSION['name'] = $new_name; // Update session with new name
+            } else {
+                $error_message = "Error updating personal information: " . $stmt_update->error;
+            }
+            $stmt_update->close();
+        }
+        $stmt_check->close();
+    }
+}
+
 // --- Handle Password Change ---
-// Check if the password change form was submitted (e.g., by checking a hidden field or button name)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_password_submit'])) {
     $current_password = $_POST['current_password'] ?? '';
     $new_password = $_POST['new_password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
 
-    // Fetch current hashed password from the database
     $get_password_query = "SELECT password FROM users WHERE user_id = ?";
     $stmt_get_password = $conn->prepare($get_password_query);
     $stmt_get_password->bind_param("i", $user_id);
@@ -97,24 +117,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_password_submi
     $user_db_password = $password_result->fetch_assoc()['password'] ?? '';
     $stmt_get_password->close();
 
-    // Validate current password
-    // IMPORTANT: Your database stores plain text passwords ('123').
-    // In a real application, you should hash passwords during registration
-    // and use password_verify() here. For now, we'll compare plain text.
     if ($current_password !== $user_db_password) {
         $error_message = "Current password is incorrect.";
     } elseif (empty($new_password) || empty($confirm_password)) {
         $error_message = "New password and confirm password fields cannot be empty.";
     } elseif ($new_password !== $confirm_password) {
         $error_message = "New password and confirm password do not match.";
-    } elseif (strlen($new_password) < 6) { // Example: minimum password length
+    } elseif (strlen($new_password) < 6) {
         $error_message = "New password must be at least 6 characters long.";
     } else {
-        // All validations passed, proceed to update password
-        // In a real application, you would hash the new password:
-        // $hashed_new_password = password_hash($new_password, PASSWORD_DEFAULT);
-        $hashed_new_password = $new_password; // For now, storing plain text as per your DB
-
+        $hashed_new_password = $new_password; // Still plain text for now, should be hashed
         $update_password_query = "UPDATE users SET password = ? WHERE user_id = ?";
         $stmt_update_password = $conn->prepare($update_password_query);
         $stmt_update_password->bind_param("si", $hashed_new_password, $user_id);
@@ -185,8 +197,8 @@ $conn->close();
           <h2>Profile Settings</h2>
         </div>
         <div class="header-actions">
-          <!-- The "Save Changes" button will now trigger the password form submission -->
-          <button type="submit" form="password-change-form" class="save-changes-btn"><i class="fas fa-save"></i> Save Changes</button>
+          <!-- The "Save Changes" button will now trigger both forms if needed -->
+          <button type="submit" form="personal-info-form" class="save-changes-btn"><i class="fas fa-save"></i> Save Changes</button>
         </div>
       </header>
 
@@ -227,23 +239,26 @@ $conn->close();
               <!-- Profile Picture Upload Form -->
               <form action="" method="POST" enctype="multipart/form-data" id="profile-pic-form" style="display: none;">
                 <input type="file" name="profile_pic_upload" id="profile_pic_input" accept="image/*">
-                <!-- A submit button is needed, but can be hidden and triggered by JS -->
                 <input type="submit" value="Upload" style="display: none;">
               </form>
               <button class="change-avatar-btn" id="trigger-pic-upload">Change Avatar</button>
             </div>
-            <div class="info-item">
-              <span class="info-label">Full Name</span>
-              <span class="info-value"><?= htmlspecialchars($user_data['name'] ?? 'N/A') ?></span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">Email Address</span>
-              <span class="info-value"><?= htmlspecialchars($user_data['email'] ?? 'N/A') ?></span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">Phone No.</span>
-              <span class="info-value"><?= htmlspecialchars($user_data['phone_no'] ?? 'N/A') ?></span>
-            </div>
+            <!-- Personal Information Update Form -->
+            <form action="" method="POST" id="personal-info-form">
+              <input type="hidden" name="update_personal_info_submit" value="1">
+              <div class="input-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" value="<?= htmlspecialchars($user_data['name'] ?? '') ?>" placeholder="Enter full name" required>
+              </div>
+              <div class="input-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" value="<?= htmlspecialchars($user_data['email'] ?? '') ?>" placeholder="Enter email address" required>
+              </div>
+              <div class="input-group">
+                <label for="phone_no">Phone No.</label>
+                <input type="tel" id="phone_no" name="phone_no" value="<?= htmlspecialchars($user_data['phone_no'] ?? '') ?>" placeholder="Enter phone number" required>
+              </div>
+            </form>
           </div>
         </div>
 
@@ -251,7 +266,6 @@ $conn->close();
         <div class="card password-settings-card full-width">
           <h3>Password Settings</h3>
           <div class="card-content">
-            <!-- Added id="password-change-form" and a hidden input to identify submission -->
             <form action="" method="POST" id="password-change-form">
               <input type="hidden" name="change_password_submit" value="1">
               <div class="input-group">
@@ -266,7 +280,6 @@ $conn->close();
                 <label for="confirm-password">Confirm New Password</label>
                 <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm new password">
               </div>
-              <!-- Removed the conceptual save button here as it's now in the header -->
             </form>
           </div>
         </div>

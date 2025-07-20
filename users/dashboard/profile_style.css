@@ -93,7 +93,7 @@
   transform: translateY(-2px);
 }
 
-/* Input Group Styling for Forms (Password Settings) */
+/* Input Group Styling for Forms (Personal Info & Password Settings) */
 .input-group {
   margin-bottom: 15px;
 }
@@ -106,9 +106,9 @@
 }
 
 .input-group input[type="password"],
-.input-group input[type="text"], /* Added for consistency if text inputs are used */
+.input-group input[type="text"],
 .input-group input[type="email"],
-.input-group input[type="tel"] {
+.input-group input[type="tel"] { /* Added tel type for phone number */
   width: 100%;
   padding: 10px 15px;
   background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent input background */
