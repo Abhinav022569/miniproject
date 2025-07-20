@@ -1,127 +1,290 @@
-body {
+/* General Reset and Base Styles - Adopted from user panelstyle.css */
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: 'Segoe UI', sans-serif;
-  background: #f4f6f8;
 }
 
-.dashboard-container {
+body {
+  background: linear-gradient(135deg, #0f0f2c, #1a1a40); /* Dark gradient background */
+  color: white; /* Light text color for contrast */
+  min-height: 100vh;
+  display: flex; /* Use flex for the main dashboard layout */
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Dashboard Wrapper - Main Layout */
+.dashboard-container { /* Renamed from .dashboard-wrapper for clarity, but serves same purpose */
   display: flex;
+  width: 100%;
   min-height: 100vh;
 }
 
+/* Sidebar Styling - Adopted and adapted from user panelstyle.css */
 .sidebar {
   width: 250px;
-  background: #1e2a38;
-  color: white;
-  padding: 30px 20px;
+  background-color: rgba(0, 0, 0, 0.7); /* Darker glassmorphism background */
+  backdrop-filter: blur(10px); /* Glassmorphism blur */
+  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.4); /* Enhanced shadow */
   display: flex;
   flex-direction: column;
-  gap: 20px;
-}
-
-.sidebar h2 {
-  font-size: 22px;
-  margin-bottom: 40px;
-  text-align: center;
-}
-
-.sidebar-option {
-  background-color: rgba(255, 255, 255, 0.05);
-  padding: 15px;
-  border-radius: 12px;
-  font-size: 15px;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
-  text-align: center;
-}
-
-.sidebar-option:hover {
-  background-color: rgba(255, 255, 255, 0.15);
-  transform: scale(1.03);
-}
-
-.sidebar-option a {
-  color: inherit;
-  text-decoration: none;
-  display: block;
-}
-
-.dashboard-content {
-  flex-grow: 1;
-  padding: 50px 40px;
-  background: linear-gradient(to bottom left, #1d0d3a, #ffffff);
-}
-
-.dashboard-content h1 {
-  font-size: 32px;
-  margin-bottom: 10px;
-}
-
-.dashboard-content p {
-  font-size: 16px;
-  color: #3e3e3e;
-}
-
-.dashboard-widgets {
-  margin-top: 40px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 30px;
-}
-
-.widget {
-  position: relative;
-  width: 100%;
-  height: 240px;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.widget:hover {
-  transform: translateY(-5px);
-}
-
-.card-bg {
-  position: absolute;
+  padding: 20px 0;
+  position: sticky; /* Keep sidebar fixed on scroll */
   top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
+  height: 100vh;
+  border-right: 1px solid rgba(255, 255, 255, 0.08); /* Subtle border */
 }
 
-.widget-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 20px;
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.3);
-  color: #fff;
-  z-index: 2;
+.sidebar-header {
+  padding: 0 20px 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Lighter border */
+  margin-bottom: 20px;
 }
 
-.widget-overlay h3 {
-  margin: 0 0 5px;
+.sidebar-header .logo { /* Added .logo class for consistency with user dashboard */
+  font-size: 28px;
+  font-weight: bold;
+  color: #00ffd5; /* Accent color for logo */
+  text-align: center;
+}
+/* Existing admin sidebar h2 is now .sidebar-header .logo for theme consistency */
+
+
+.sidebar-nav ul { /* New ul for navigation items */
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-nav li { /* New li for navigation items */
+  margin-bottom: 5px;
+}
+
+.sidebar-nav li a { /* New a for navigation links */
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
+  font-size: 16px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  border-radius: 8px;
+  margin: 0 10px;
+}
+
+.sidebar-nav li a i { /* Icon styling */
+  margin-right: 10px;
   font-size: 18px;
 }
 
-.widget-overlay p {
+.sidebar-nav li.active a { /* Active state for sidebar links */
+  background-color: rgba(0, 255, 213, 0.2); /* Light accent background for active */
+  color: #00ffd5; /* Accent color for active item */
+  font-weight: bold;
+}
+
+.sidebar-nav li a:hover:not(.active) { /* Hover for non-active links */
+  background-color: rgba(255, 255, 255, 0.08); /* Subtle hover for non-active */
+  color: #00ffd5;
+}
+
+.sidebar-footer { /* Added for logout button placement */
+  margin-top: auto;
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.logout-btn { /* Logout button styling */
+  background-color: transparent;
+  border: 2px solid white; /* White border for logout */
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.logout-btn i {
+  margin-right: 8px;
+}
+
+.logout-btn:hover {
+  background-color: #00ffd5; /* Accent background on hover */
+  color: black; /* Black text on accent hover */
+  transform: translateY(-2px);
+}
+
+
+/* Main Content Styling - Adopted and adapted from user panelstyle.css */
+.main-content {
+  flex-grow: 1;
+  padding: 30px;
+  background-color: rgba(10, 10, 30, 0.7); /* Dark glassmorphism for main content */
+  backdrop-filter: blur(20px); /* Stronger blur */
+  border-radius: 16px; /* Rounded corners for the main content area */
+  margin: 20px; /* Margin around the main content area */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6); /* Prominent shadow */
+}
+
+.main-header { /* New header for welcome section and actions */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.welcome-section h2 { /* Styling for welcome message */
+  font-size: 32px;
+  color: #00ffd5; /* Accent color for welcome text */
   margin: 0;
-  font-size: 14px;
 }
 
-.widget h3 {
-  margin-bottom: 8px;
-  color: #333;
-  font-size: 20px;
+.dashboard-grid { /* Grid for the overview cards - Adopted from user dashboard grid */
+  margin-top: 40px; /* Spacing from header */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted min-width for admin cards */
+  gap: 30px;
 }
 
-.widget p {
-  color: #2f2f2f;
+.card { /* Styling for individual overview cards - Adopted from user card styling */
+  background-color: rgba(255, 255, 255, 0.08); /* Lighter glassmorphism for cards */
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Card shadow */
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle card border */
+  backdrop-filter: blur(10px); /* Card blur */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 200px; /* Ensure a minimum height for cards */
+  justify-content: space-between; /* Distribute content and button */
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+}
+
+.card h3 {
+  font-size: 22px;
+  color: #00ffd5; /* Accent color for card headings */
+  margin-bottom: 10px;
+  /* border-bottom: 1px solid rgba(255, 255, 255, 0.1); */ /* Removed border-bottom for cleaner look based on image */
+  padding-bottom: 5px; /* Reduced padding for cleaner look */
+}
+
+.card .metric-value { /* Styling for the large numbers */
+  font-size: 48px;
+  font-weight: bold;
+  color: white; /* White for the main metric */
+  margin-bottom: 10px;
+}
+
+.card .metric-description { /* Styling for the descriptive text */
   font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 20px;
+}
+
+.card .manage-btn { /* Styling for the "Manage" buttons */
+  background-color: rgba(0, 255, 213, 0.2); /* Light accent background */
+  color: #00ffd5;
+  padding: 10px 15px;
+  border: 1px solid #00ffd5; /* Accent border */
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  align-self: flex-start; /* Align button to the start of its flex container */
+}
+
+.card .manage-btn:hover {
+  background-color: #00ffd5;
+  color: black;
+}
+
+/* Responsive Adjustments - Adopted and adapted from user panelstyle.css */
+@media (max-width: 992px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  .main-content {
+    padding: 20px;
+    margin: 10px; /* Smaller margin */
+  }
+
+  .main-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding-bottom: 10px;
+    border-right: none; /* Remove right border when stacked */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Add bottom border */
+  }
+
+  .sidebar-header {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+  }
+
+  .sidebar-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .sidebar-nav li a {
+    padding: 8px 12px;
+    font-size: 14px;
+    margin: 0 5px;
+  }
+
+  .sidebar-nav li a i {
+    margin-right: 5px;
+  }
+
+  .sidebar-footer {
+    padding: 10px;
+  }
+
+  .main-content {
+    padding: 15px;
+    margin: 10px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .welcome-section h2 {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-section h2 {
+    font-size: 24px;
+  }
 }
