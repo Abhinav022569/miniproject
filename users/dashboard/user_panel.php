@@ -139,16 +139,24 @@ $conn->close();
         </div>
         <div class="header-actions">
           <div class="search-bar">
-            <input type="text" placeholder="Search..." />
-            <i class="fas fa-search"></i>
+            <input type="text" id="group-search-input" placeholder="Search for groups..." />
+            <button id="group-search-btn" class="search-action-btn">Search</button>
           </div>
-          <button class="create-new-btn"><i class="fas fa-plus"></i> Create New</button>
-          <!-- Removed profile pic display from header-actions -->
         </div>
       </header>
 
+      <!-- Search Results Section (Initially Hidden) - Placed outside the grid -->
+      <div id="search-results-container" style="display: none; margin-bottom: 30px;">
+          <div class="card">
+              <h3>Search Results</h3>
+              <div id="search-results-content" class="card-content">
+                  <!-- Search results will be injected here by JavaScript -->
+              </div>
+          </div>
+      </div>
+
       <section class="dashboard-grid">
-        <!-- NEW: Profile Picture Card -->
+        <!-- Profile Picture Card -->
         <div class="card profile-overview-card">
             <h3>Your Profile</h3>
             <div class="card-content profile-card-content">
@@ -176,7 +184,7 @@ $conn->close();
                 </div>
               <?php endwhile; ?>
             <?php else: ?>
-              <p class="no-data">No study groups found. <a href="#">Create or join one!</a></p>
+              <p class="no-data">No study groups found. <a href="study_group.php">Create or join one!</a></p>
             <?php endif; ?>
           </div>
         </div>
@@ -223,5 +231,7 @@ $conn->close();
       </section>
     </main>
   </div>
+  <div id="notification-container"></div>
+   <script src="dscript.js"></script>
 </body>
 </html>

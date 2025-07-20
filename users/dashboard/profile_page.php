@@ -251,8 +251,7 @@ if ($conn && !$conn->connect_error) {
           <h2>Profile Settings</h2>
         </div>
         <div class="header-actions">
-          <!-- The "Save Changes" button will now trigger the personal info form submission -->
-          <button type="submit" form="personal-info-form" class="save-changes-btn"><i class="fas fa-save"></i> Save Changes</button>
+          <!-- The "Save Changes" button has been removed from here -->
         </div>
       </header>
 
@@ -264,25 +263,6 @@ if ($conn && !$conn->connect_error) {
         <?php if ($error_message): ?>
             <div class="message error-message"><?= htmlspecialchars($error_message) ?></div>
         <?php endif; ?>
-
-        <!-- Account Overview -->
-        <div class="card account-overview-card">
-          <h3>Account Overview</h3>
-          <div class="card-content">
-            <div class="info-item">
-              <span class="info-label">Status</span>
-              <span class="info-value"><?= htmlspecialchars($user_data['status'] ?? 'N/A') ?></span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">Created At</span>
-              <span class="info-value"><?= htmlspecialchars(date('Y-m-d', strtotime($user_data['created_at'] ?? ''))) ?></span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">Reputation Score</span>
-              <span class="info-value"><?= htmlspecialchars($user_data['reputation_score'] ?? '0') ?></span>
-            </div>
-          </div>
-        </div>
 
         <!-- Personal Information -->
         <div class="card personal-info-card">
@@ -299,7 +279,6 @@ if ($conn && !$conn->connect_error) {
             </div>
             <!-- Personal Information Update Form -->
             <form action="" method="POST" id="personal-info-form">
-              <input type="hidden" name="update_personal_info_submit" value="1">
               <div class="input-group">
                 <label for="name">Full Name</label>
                 <input type="text" id="name" name="name" value="<?= htmlspecialchars($user_data['name'] ?? '') ?>" placeholder="Enter full name" required>
@@ -312,16 +291,16 @@ if ($conn && !$conn->connect_error) {
                 <label for="phone_no">Phone No.</label>
                 <input type="tel" id="phone_no" name="phone_no" value="<?= htmlspecialchars($user_data['phone_no'] ?? '') ?>" placeholder="Enter phone number" required>
               </div>
+              <button type="submit" name="update_personal_info_submit" class="save-changes-btn-local"><i class="fas fa-save"></i> Save Personal Info</button>
             </form>
           </div>
         </div>
 
         <!-- Password Settings -->
-        <div class="card password-settings-card full-width">
+        <div class="card password-settings-card">
           <h3>Password Settings</h3>
           <div class="card-content">
             <form action="" method="POST" id="password-change-form">
-              <input type="hidden" name="change_password_submit" value="1">
               <div class="input-group">
                 <label for="current-password">Current Password</label>
                 <input type="password" id="current-password" name="current_password" placeholder="Enter current password">
@@ -334,7 +313,27 @@ if ($conn && !$conn->connect_error) {
                 <label for="confirm-password">Confirm New Password</label>
                 <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm new password">
               </div>
+              <button type="submit" name="change_password_submit" class="save-changes-btn-local"><i class="fas fa-key"></i> Change Password</button>
             </form>
+          </div>
+        </div>
+
+        <!-- Account Overview -->
+        <div class="card account-overview-card full-width">
+          <h3>Account Overview</h3>
+          <div class="card-content">
+            <div class="info-item">
+              <span class="info-label">Status</span>
+              <span class="info-value"><?= htmlspecialchars($user_data['status'] ?? 'N/A') ?></span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Created At</span>
+              <span class="info-value"><?= htmlspecialchars(date('Y-m-d', strtotime($user_data['created_at'] ?? ''))) ?></span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Reputation Score</span>
+              <span class="info-value"><?= htmlspecialchars($user_data['reputation_score'] ?? '0') ?></span>
+            </div>
           </div>
         </div>
       </section>

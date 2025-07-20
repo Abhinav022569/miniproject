@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_group_submit']
     }
 }
 
-// Fetch study groups that the user has created OR is a member of
+// --- CORRECTED QUERY to fetch only groups the user created or is a member of ---
 $study_groups = [];
 $query_groups = "
     SELECT
@@ -48,17 +48,13 @@ $query_groups = "
         sg.description,
         sg.approved,
         u.user_name AS creator_name,
-        COUNT(gm.members_id) AS member_count
+        (SELECT COUNT(*) FROM group_members gm_count WHERE gm_count.group_id = sg.group_id) AS member_count
     FROM
         study_group sg
-    LEFT JOIN
+    JOIN
         users u ON sg.user_id = u.user_id
-    LEFT JOIN
-        group_members gm ON sg.group_id = gm.group_id
     WHERE
-        sg.user_id = ? OR gm.user_id = ? /* Filter by groups created by user OR where user is a member */
-    GROUP BY
-        sg.group_id, sg.group_name, sg.description, sg.approved, u.user_name
+        sg.user_id = ? OR EXISTS (SELECT 1 FROM group_members gm WHERE gm.group_id = sg.group_id AND gm.user_id = ?)
     ORDER BY
         sg.created_at DESC;
 ";
@@ -149,7 +145,6 @@ $conn->close(); // Close connection after fetching data
                         <label for="group_description">Description</label>
                         <textarea id="group_description" name="group_description" placeholder="Briefly describe the group's purpose..." rows="3"></textarea>
                     </div>
-                    <!-- Removed the extra "Request Creation" button from inside the form -->
                 </form>
             </div>
         </div>
@@ -179,7 +174,7 @@ $conn->close(); // Close connection after fetching data
       </section>
     </main>
   </div>
-
+  <div id="notification-container"></div>
   <!-- Link to the new dscript.js file -->
   <script src="dscript.js"></script>
 </body>

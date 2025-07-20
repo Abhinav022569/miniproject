@@ -133,8 +133,8 @@
   grid-column: 1 / -1; /* Spans all columns in the grid */
 }
 
-/* Save Changes Button (from header, but styled here for consistency) */
-.save-changes-btn {
+/* NEW: Style for local save/change buttons inside the cards */
+.save-changes-btn-local {
   background-color: #00ffd5; /* Accent color for save button */
   color: black; /* Black text on accent button */
   padding: 10px 20px;
@@ -147,12 +147,18 @@
   gap: 8px;
   font-weight: bold;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 10px; /* Space above the button */
 }
 
-.save-changes-btn:hover {
+.save-changes-btn-local:hover {
   background-color: #00c8aa; /* Slightly darker accent on hover */
   transform: translateY(-2px);
 }
+
+.save-changes-btn-local i {
+    margin-right: 5px;
+}
+
 
 /* Message Styles (for success/error messages) */
 .message {

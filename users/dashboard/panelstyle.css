@@ -151,39 +151,52 @@ a {
   flex-wrap: wrap;
 }
 
+/* --- SEARCH BAR STYLES --- */
 .search-bar {
   position: relative;
+  display: flex;
 }
 
 .search-bar input {
   padding: 10px 15px;
-  padding-right: 40px;
-  background-color: rgba(255, 255, 255, 0.1); /* Lighter input background */
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
-  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-right: none;
+  border-radius: 8px 0 0 8px; /* Rounded left corners */
   font-size: 16px;
   width: 250px;
-  color: white; /* White text in input */
+  color: white;
   transition: border-color 0.2s ease;
+  height: 42px;
 }
 
 .search-bar input::placeholder {
-  color: rgba(255, 255, 255, 0.6); /* Light placeholder text */
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .search-bar input:focus {
   outline: none;
-  border-color: #00ffd5; /* Accent border on focus */
+  border-color: #00ffd5;
 }
 
-.search-bar i {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: rgba(255, 255, 255, 0.6); /* Light icon color */
+.search-action-btn {
+  background-color: #00ffd5;
+  color: black;
+  padding: 0 20px;
+  height: 42px;
+  border: none;
+  border-radius: 0 8px 8px 0; /* Rounded right corners */
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
+.search-action-btn:hover {
+  background-color: #00c8aa;
+}
+
+/* --- CREATE NEW BUTTON STYLE --- */
 .create-new-btn {
   background-color: #00ffd5; /* Accent color for create button */
   color: black; /* Black text on accent button */
@@ -197,14 +210,13 @@ a {
   gap: 8px;
   font-weight: bold;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  height: 42px; /* Match search button height */
 }
 
 .create-new-btn:hover {
   background-color: #00c8aa; /* Slightly darker accent on hover */
   transform: translateY(-2px);
 }
-
-/* Removed old .profile-pic-display and .header-avatar-img as it's now a card */
 
 
 /* Dashboard Grid for Cards */
@@ -243,12 +255,10 @@ a {
   flex-grow: 1;
 }
 
-/* NEW: Profile Card specific styles */
+/* Profile Card specific styles */
 .profile-overview-card {
-  /* You can adjust its grid placement if you want it to always be first or last */
-  /* For example, grid-column: 1 / span 1; if you want it to always take the first slot */
-  text-align: center; /* Center content within the profile card */
-  justify-content: center; /* Vertically center content */
+  text-align: center;
+  justify-content: center;
 }
 
 .profile-card-content {
@@ -260,42 +270,42 @@ a {
 }
 
 .profile-card-avatar {
-  width: 80px; /* Size of the circular profile pic */
+  width: 80px;
   height: 80px;
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid #00ffd5; /* Accent border */
-  box-shadow: 0 0 10px rgba(0, 255, 213, 0.5); /* Subtle glow */
+  border: 3px solid #00ffd5;
+  box-shadow: 0 0 10px rgba(0, 255, 213, 0.5);
   margin-bottom: 15px;
-  flex-shrink: 0; /* Prevent it from shrinking */
+  flex-shrink: 0;
 }
 
 .profile-card-img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensure image covers the circle */
+  object-fit: cover;
 }
 
 .profile-card-name {
   font-size: 20px;
   font-weight: bold;
-  color: white; /* White for the name */
+  color: white;
   margin-bottom: 5px;
 }
 
 .profile-card-username {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.7); /* Lighter for username */
+  color: rgba(255, 255, 255, 0.7);
   margin-bottom: 15px;
 }
 
 .profile-card-button {
-  margin-top: auto; /* Push button to the bottom of the card-content */
+  margin-top: auto;
 }
 
 
-/* Specific Card Styles (from user_panel.php) */
-.recent-notes-card {
+/* Specific Card Styles */
+.recent-notes-card, .full-width {
   grid-column: 1 / -1; /* Occupy full width */
 }
 
@@ -332,10 +342,10 @@ a {
 }
 
 .view-btn {
-  background-color: rgba(0, 255, 213, 0.2); /* Light accent background */
+  background-color: rgba(0, 255, 213, 0.2);
   color: #00ffd5;
   padding: 8px 15px;
-  border: 1px solid #00ffd5; /* Accent border */
+  border: 1px solid #00ffd5;
   border-radius: 6px;
   font-size: 14px;
   cursor: pointer;
@@ -347,13 +357,41 @@ a {
   color: black;
 }
 
+/* STYLES FOR SEARCH RESULTS */
+.join-btn {
+    background-color: rgba(0, 255, 213, 0.2);
+    color: #00ffd5;
+    padding: 8px 15px;
+    border: 1px solid #00ffd5;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.join-btn:hover {
+    background-color: #00ffd5;
+    color: black;
+}
+
+.joined-message {
+    color: #4CAF50;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 8px 15px;
+    border: 1px solid #4CAF50;
+    border-radius: 6px;
+    background-color: rgba(76, 175, 80, 0.2);
+}
+
+
 .task-checkbox {
   width: 20px;
   height: 20px;
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 4px;
   cursor: pointer;
-  accent-color: #00ffd5; /* Accent color for checked state */
+  accent-color: #00ffd5;
 }
 
 .download-icon {
@@ -384,6 +422,40 @@ a {
   text-decoration: underline;
 }
 
+/* NOTIFICATION STYLES */
+#notification-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.notification {
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    opacity: 0;
+    transform: translateX(100%);
+    animation: slideInAndFadeOut 4s forwards ease-in-out;
+}
+.notification.success {
+    background-color: #4CAF50;
+}
+.notification.error {
+    background-color: #f44336;
+}
+@keyframes slideInAndFadeOut {
+    0% { opacity: 0; transform: translateX(100%); }
+    15% { opacity: 1; transform: translateX(0); }
+    85% { opacity: 1; transform: translateX(0); }
+    100% { opacity: 0; transform: translateX(100%); }
+}
+
+
 /* Responsive Adjustments */
 @media (max-width: 992px) {
   .sidebar {
@@ -392,7 +464,7 @@ a {
 
   .main-content {
     padding: 20px;
-    margin: 10px; /* Smaller margin */
+    margin: 10px;
   }
 
   .main-header {
@@ -405,14 +477,12 @@ a {
     justify-content: flex-start;
   }
 
-  .search-bar input {
+  .search-bar {
     width: 100%;
   }
 
-  /* Adjust profile pic display on smaller screens */
-  .profile-pic-display { /* This class is now unused in user_panel.php */
-    margin-top: 15px;
-    align-self: flex-end;
+  .search-bar input {
+    width: 100%;
   }
 }
 
@@ -427,8 +497,8 @@ a {
     position: relative;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     padding-bottom: 10px;
-    border-right: none; /* Remove right border when stacked */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Add bottom border */
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .sidebar-header {
@@ -466,17 +536,12 @@ a {
     grid-template-columns: 1fr;
   }
 
-  .recent-notes-card {
+  .recent-notes-card, .full-width {
     grid-column: auto;
   }
 
   .welcome-section h2 {
     font-size: 28px;
-  }
-
-  .create-new-btn {
-    width: 100%;
-    justify-content: center;
   }
 }
 
