@@ -74,9 +74,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 handleGroupAction('join_group.php', joinButton, 'Successfully joined the group!', 'join');
                 return;
             }
+            
+            // MODIFIED: Added event listener for the leave button
+            const leaveButton = event.target.closest('.leave-btn');
+            if (leaveButton) {
+                // A confirmation dialog is good practice for destructive actions,
+                // but implementing a custom modal is beyond this scope.
+                // Proceeding directly as requested.
+                handleGroupAction('leave_group.php', leaveButton, 'Successfully left the group!', 'leave');
+                return;
+            }
         });
     }
 
+    // MODIFIED: Updated handleGroupAction to include 'leave' logic
     function handleGroupAction(url, button, successMessage, action) {
         const groupId = button.dataset.groupId;
         
@@ -89,15 +100,25 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.success) {
                 showNotification(data.message || successMessage, 'success');
                 if (action === 'join') {
+                    // Replace 'Join' button with 'Joined' message
                     button.outerHTML = '<span class="joined-message">Joined</span>';
+                } else if (action === 'leave') {
+                    // If leaving was successful, remove the entire group card from the UI
+                    const card = button.closest('.card');
+                    if (card) {
+                        card.style.transition = 'opacity 0.5s ease';
+                        card.style.opacity = '0';
+                        setTimeout(() => card.remove(), 500);
+                    }
                 }
             } else {
+                // Show an error notification if the action failed
                 showNotification(data.message || 'An error occurred.', 'error');
             }
         })
         .catch(error => {
             console.error(`Error with action ${action}:`, error);
-            showNotification('A network error occurred.', 'error');
+            showNotification('A network error occurred. Please try again.', 'error');
         });
     }
 

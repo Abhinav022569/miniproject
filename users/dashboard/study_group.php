@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_group_submit']
     }
 }
 
-// --- CORRECTED QUERY to fetch only groups the user created or is a member of ---
+// --- Fetch groups the user created OR is a member of ---
 $study_groups = [];
 $query_groups = "
     SELECT
@@ -47,6 +47,7 @@ $query_groups = "
         sg.group_name,
         sg.description,
         sg.approved,
+        sg.user_id AS creator_id, -- MODIFIED: Added creator_id to distinguish created vs. joined groups
         u.user_name AS creator_name,
         (SELECT COUNT(*) FROM group_members gm_count WHERE gm_count.group_id = sg.group_id) AS member_count
     FROM
@@ -164,7 +165,14 @@ $conn->close(); // Close connection after fetching data
                     </span>
                   </p>
                 </div>
-                <button class="view-btn">View Details</button>
+                <!-- MODIFIED: Conditional button display -->
+                <?php if ($group['creator_id'] == $user_id): ?>
+                    <!-- If the user is the creator, show a 'Manage' button -->
+                    <button class="view-btn">Manage Group</button>
+                <?php else: ?>
+                    <!-- If the user is just a member, show a 'Leave Group' button -->
+                    <button class="leave-btn" data-group-id="<?= $group['group_id'] ?>">Leave Group</button>
+                <?php endif; ?>
               </div>
             </div>
           <?php endforeach; ?>
