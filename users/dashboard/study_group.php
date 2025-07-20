@@ -8,21 +8,17 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Get the user ID and name from the session
+// Get the user ID from the session
 $user_id = $_SESSION['user_id'];
-$user_name = $_SESSION['user_name'] ?? 'User'; // Fallback for user_name if not set in session
+$user_name = $_SESSION['name'] ?? $_SESSION['user_name'] ?? 'User'; // Fallback for user_name if not set in session
 
-// Fetch all study groups with their creator's username and member count
-// Assuming 'approved' (tinyint(1)) is used for active status.
-// The image shows 'Active' and 'Archived'. Since 'archived' field is not in DB,
-// we'll only show 'Active' based on `approved = 1`.
-// If `approved = 0`, we'll show 'Pending Approval' or similar, as per the database schema.
+// Fetch study groups that the user has created OR is a member of
 $study_groups = [];
 $query_groups = "
     SELECT
         sg.group_id,
         sg.group_name,
-        sg.description, -- Assuming description column exists in study_group
+        sg.description,
         sg.approved,
         u.user_name AS creator_name,
         COUNT(gm.members_id) AS member_count
@@ -32,13 +28,19 @@ $query_groups = "
         users u ON sg.user_id = u.user_id
     LEFT JOIN
         group_members gm ON sg.group_id = gm.group_id
+    WHERE
+        sg.user_id = ? OR gm.user_id = ? /* Filter by groups created by user OR where user is a member */
     GROUP BY
         sg.group_id, sg.group_name, sg.description, sg.approved, u.user_name
     ORDER BY
         sg.created_at DESC;
 ";
 
-$result_groups = $conn->query($query_groups);
+$stmt_groups = $conn->prepare($query_groups);
+// Bind the user_id twice for the OR condition
+$stmt_groups->bind_param("ii", $user_id, $user_id);
+$stmt_groups->execute();
+$result_groups = $stmt_groups->get_result();
 
 if ($result_groups) {
     while ($row = $result_groups->fetch_assoc()) {
@@ -48,6 +50,7 @@ if ($result_groups) {
     error_log("Error fetching study groups: " . $conn->error);
 }
 
+$stmt_groups->close();
 $conn->close(); // Close connection after fetching data
 ?>
 
@@ -60,7 +63,7 @@ $conn->close(); // Close connection after fetching data
   <!-- Link to the main panelstyle.css for overall dashboard layout and sidebar -->
   <link rel="stylesheet" href="panelstyle.css">
   <!-- Link to the NEW study_groups_style.css (should come AFTER panelstyle.css to override/add specific styles) -->
-  <link rel="stylesheet" href="./studygroupstyle.css">
+  <link rel="stylesheet" href="study_group_style.css">
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -105,7 +108,6 @@ $conn->close(); // Close connection after fetching data
                 <h3 class="group-title"><?= htmlspecialchars($group['group_name']) ?></h3>
                 <p class="group-description"><?= htmlspecialchars($group['description'] ?? 'No description provided.') ?></p>
                 <div class="group-meta">
-                  <!-- Rearranged to match the image: Members then Status -->
                   <p><i class="fas fa-user-friends"></i> <?= htmlspecialchars($group['member_count']) ?> Members</p>
                   <p>
                     <i class="fas fa-check-circle"></i> Status:
