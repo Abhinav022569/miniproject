@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 20, 2025 at 09:57 PM
+-- Generation Time: Jul 21, 2025 at 05:23 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -98,49 +98,49 @@ CREATE TABLE `group_members` (
   `members_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `role` enum('member','moderator') DEFAULT 'member',
-  `status` enum('pending','joined') DEFAULT 'pending'
+  `role` enum('member','moderator') DEFAULT 'member'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `group_members`
 --
 
-INSERT INTO `group_members` (`members_id`, `group_id`, `user_id`, `role`, `status`) VALUES
-(1, 101, 2, 'moderator', 'joined'),
-(2, 101, 1, 'member', 'joined'),
-(3, 101, 3, 'member', 'joined'),
-(4, 101, 4, 'member', 'joined'),
-(5, 102, 3, 'moderator', 'joined'),
-(6, 102, 2, 'member', 'joined'),
-(7, 102, 5, 'member', 'joined'),
-(8, 103, 4, 'moderator', 'joined'),
-(9, 103, 2, 'member', 'joined'),
-(10, 103, 3, 'member', 'joined'),
-(11, 103, 5, 'member', 'joined'),
-(12, 104, 1, 'moderator', 'joined'),
-(15, 107, 6, 'moderator', 'joined'),
-(16, 107, 1, 'member', 'joined'),
-(17, 107, 4, 'member', 'joined'),
-(18, 107, 10, 'member', 'joined'),
-(19, 109, 8, 'moderator', 'joined'),
-(20, 109, 3, 'member', 'joined'),
-(21, 109, 7, 'member', 'joined'),
-(22, 110, 10, 'moderator', 'joined'),
-(23, 110, 1, 'member', 'joined'),
-(24, 110, 6, 'member', 'joined'),
-(25, 107, 11, 'member', 'joined'),
-(26, 112, 11, 'moderator', 'joined'),
-(27, 112, 1, 'member', 'joined'),
-(28, 112, 6, 'member', 'joined'),
-(29, 113, 1, 'moderator', 'joined'),
-(30, 113, 8, 'member', 'joined'),
-(31, 113, 5, 'member', 'joined'),
-(33, 101, 12, 'member', 'joined'),
-(36, 102, 12, 'member', 'joined'),
-(37, 104, 12, 'member', 'joined'),
-(38, 107, 12, 'member', 'joined'),
-(39, 113, 12, 'member', 'joined');
+INSERT INTO `group_members` (`members_id`, `group_id`, `user_id`, `role`) VALUES
+(1, 101, 2, 'moderator'),
+(2, 101, 1, 'member'),
+(3, 101, 3, 'member'),
+(4, 101, 4, 'member'),
+(5, 102, 3, 'moderator'),
+(6, 102, 2, 'member'),
+(7, 102, 5, 'member'),
+(8, 103, 4, 'moderator'),
+(9, 103, 2, 'member'),
+(10, 103, 3, 'member'),
+(11, 103, 5, 'member'),
+(12, 104, 1, 'moderator'),
+(15, 107, 6, 'moderator'),
+(16, 107, 1, 'member'),
+(17, 107, 4, 'member'),
+(18, 107, 10, 'member'),
+(19, 109, 8, 'moderator'),
+(20, 109, 3, 'member'),
+(21, 109, 7, 'member'),
+(22, 110, 10, 'moderator'),
+(23, 110, 1, 'member'),
+(25, 107, 11, 'member'),
+(26, 112, 11, 'moderator'),
+(27, 112, 1, 'member'),
+(29, 113, 1, 'moderator'),
+(30, 113, 8, 'member'),
+(31, 113, 5, 'member'),
+(33, 101, 12, 'member'),
+(36, 102, 12, 'member'),
+(37, 104, 12, 'member'),
+(38, 107, 12, 'member'),
+(39, 113, 12, 'member'),
+(41, 101, 6, 'member'),
+(42, 102, 6, 'member'),
+(43, 104, 6, 'member');
 
 -- --------------------------------------------------------
 
@@ -315,7 +315,7 @@ INSERT INTO `users` (`user_id`, `user_name`, `name`, `email`, `phone_no`, `passw
 (3, 'sam_jones', 'Sam Jones', 'sam.jones@example.com', '1122334455', 'password456', 'active', 5, 'https://placehold.co/100x100/1e293b/ffffff?text=SJ', '2025-07-20 11:30:00'),
 (4, 'alex_smith', 'Alex Smith', 'alex.smith@example.com', '5566778899', 'password789', 'active', 30, 'https://placehold.co/100x100/1e293b/ffffff?text=AS', '2025-07-20 12:00:00'),
 (5, 'emily_white', 'Emily White', 'emily.white@example.com', '9988776655', 'password101', 'active', 10, 'https://placehold.co/100x100/1e293b/ffffff?text=EW', '2025-07-21 09:00:00'),
-(6, 'rahul_sharma', 'Rahul Sharma', 'rahul.sharma@example.com', '8877665544', 'pass123', 'active', 10, 'https://placehold.co/100x100/1e293b/ffffff?text=RS', '2025-07-21 01:20:00'),
+(6, 'rahul_sharma', 'Rahul Sharma', 'rahul.sharma@example.com', '8877665544', 'pass123', 'active', 10, 'user_files/profile_pics/profile_687e569533e69.jpeg', '2025-07-21 01:20:00'),
 (7, 'priya_patel', 'Priya Patel', 'priya.patel@example.com', '7766554433', 'pass456', 'active', 5, 'https://placehold.co/100x100/1e293b/ffffff?text=PP', '2025-07-21 01:22:00'),
 (8, 'anika_verma', 'Anika Verma', 'anika.verma@example.com', '6655443322', 'pass789', 'active', 22, 'https://placehold.co/100x100/1e293b/ffffff?text=AV', '2025-07-21 01:35:00'),
 (9, 'vikram_singh', 'Vikram Singh', 'vikram.singh@example.com', '5544332211', 'pass101', 'banned', 0, 'https://placehold.co/100x100/1e293b/ffffff?text=VS', '2025-07-21 01:36:00'),
@@ -433,7 +433,7 @@ ALTER TABLE `downloaded_notes`
 -- AUTO_INCREMENT for table `group_members`
 --
 ALTER TABLE `group_members`
-  MODIFY `members_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `members_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `group_messages`

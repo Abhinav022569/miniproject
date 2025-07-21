@@ -31,7 +31,7 @@ if ($result_check->num_rows > 0) {
 $stmt_check->close();
 
 // If not a member, add the user
-$insert_query = "INSERT INTO group_members (group_id, user_id, role, status) VALUES (?, ?, 'member', 'joined')";
+$insert_query = "INSERT INTO group_members (group_id, user_id, role) VALUES (?, ?, 'member')";
 $stmt_insert = $conn->prepare($insert_query);
 $stmt_insert->bind_param("ii", $group_id, $user_id);
 
