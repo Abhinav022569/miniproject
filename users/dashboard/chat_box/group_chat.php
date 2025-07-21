@@ -1,9 +1,7 @@
 <?php
 session_start();
-// Path updated to go up two directories
 require '../../connect.php';
 
-// Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../../login_page.php");
     exit();
@@ -11,7 +9,6 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Fetch all groups the user is a member of
 $groups_query = "
     SELECT sg.group_id, sg.group_name
     FROM study_group sg
@@ -37,19 +34,14 @@ $conn->close();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Group Chat - Athena</title>
-  <!-- Path updated for panelstyle.css -->
   <link rel="stylesheet" href="../panelstyle.css">
-  <!-- This path is now relative to the current folder -->
   <link rel="stylesheet" href="chat_style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <div class="dashboard-wrapper">
-    <!-- Sidebar (paths updated) -->
     <aside class="sidebar">
-      <div class="sidebar-header">
-        <div class="logo">ATHENA</div>
-      </div>
+      <div class="sidebar-header"><div class="logo">ATHENA</div></div>
       <nav class="sidebar-nav">
         <ul>
           <li><a href="../user_panel.php"><i class="fas fa-th-large"></i> Dashboard</a></li>
@@ -60,18 +52,13 @@ $conn->close();
           <li><a href="../profile_page.php"><i class="fas fa-user-circle"></i> Profile</a></li>
         </ul>
       </nav>
-      <div class="sidebar-footer">
-        <a href="../../user_logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
-      </div>
+      <div class="sidebar-footer"><a href="../../user_logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></div>
     </aside>
 
-    <!-- Main Chat Content (No changes needed here) -->
     <main class="main-content">
         <div class="chat-container">
             <div class="chat-sidebar">
-                <div class="chat-sidebar-header">
-                    <h3>Group Chats</h3>
-                </div>
+                <div class="chat-sidebar-header"><h3>Group Chats</h3></div>
                 <ul class="group-list">
                     <?php if (!empty($joined_groups)): ?>
                         <?php foreach ($joined_groups as $group): ?>
@@ -88,9 +75,7 @@ $conn->close();
                 </ul>
             </div>
             <div class="chat-main">
-                <div class="chat-header">
-                    <h3 id="current-group-name">Select a group to start chatting</h3>
-                </div>
+                <div class="chat-header"><h3 id="current-group-name">Select a group to start chatting</h3></div>
                 <div class="chat-messages" id="chat-messages-container">
                     <div class="no-group-selected">
                         <i class="fas fa-comments"></i>
@@ -98,6 +83,11 @@ $conn->close();
                     </div>
                 </div>
                 <div class="chat-input-area" id="chat-input-container" style="display: none;">
+                    <!-- Hidden file input -->
+                    <input type="file" id="note-file-input" style="display: none;">
+                    <!-- The button that triggers the file input -->
+                    <button type="button" id="upload-file-btn" class="upload-btn"><i class="fas fa-plus"></i></button>
+                    
                     <form id="message-form">
                         <input type="hidden" id="group-id-input" name="group_id">
                         <input type="text" id="message-input" name="message" placeholder="Type your message..." autocomplete="off" required>
@@ -108,9 +98,7 @@ $conn->close();
         </div>
     </main>
   </div>
-  <!-- **** ADD THIS SCRIPT TAG **** -->
   <script>const currentUserId = <?php echo json_encode($_SESSION['user_id']); ?>;</script>
-  <!-- This path is now relative to the current folder -->
   <script src="chat_script.js"></script>
 </body>
 </html>

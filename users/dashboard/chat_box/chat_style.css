@@ -1,3 +1,42 @@
+/* Add these new styles to your existing chat_style.css file */
+
+.chat-input-area {
+    padding: 20px;
+    background-color: #27293d;
+    border-top: 1px solid #3a3b50;
+    display: flex; /* Make it a flex container */
+    align-items: center; /* Align items vertically */
+}
+
+#message-form {
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* Allow the form to take up remaining space */
+}
+
+.upload-btn {
+    background-color: #40444b;
+    color: #b0b0c0;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    margin-right: 15px; /* Space between upload and text input */
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.upload-btn:hover {
+    background-color: #7289da;
+    color: white;
+}
+
+/* --- Keep all your existing styles below this line --- */
+
 /* Main chat layout styles */
 .chat-container {
     display: flex;
@@ -139,6 +178,15 @@
     margin: 0;
     word-wrap: break-word;
 }
+/* Style for links inside messages */
+.message-content a {
+    color: #8ab4f8;
+    text-decoration: underline;
+}
+.message-content a:hover {
+    text-decoration: none;
+}
+
 
 .message-timestamp {
     font-size: 0.75rem;
@@ -168,17 +216,6 @@
 }
 
 /* Chat input area */
-.chat-input-area {
-    padding: 20px;
-    background-color: #27293d;
-    border-top: 1px solid #3a3b50;
-}
-
-#message-form {
-    display: flex;
-    align-items: center;
-}
-
 #message-input {
     flex-grow: 1;
     padding: 12px 15px;
