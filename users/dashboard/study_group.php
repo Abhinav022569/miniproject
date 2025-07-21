@@ -47,7 +47,7 @@ $query_groups = "
         sg.group_name,
         sg.description,
         sg.approved,
-        sg.user_id AS creator_id, -- MODIFIED: Added creator_id to distinguish created vs. joined groups
+        sg.user_id AS creator_id,
         u.user_name AS creator_name,
         (SELECT COUNT(*) FROM group_members gm_count WHERE gm_count.group_id = sg.group_id) AS member_count
     FROM
@@ -146,6 +146,7 @@ $conn->close(); // Close connection after fetching data
                         <label for="group_description">Description</label>
                         <textarea id="group_description" name="group_description" placeholder="Briefly describe the group's purpose..." rows="3"></textarea>
                     </div>
+                    <!-- The submit button is now part of the main page JS -->
                 </form>
             </div>
         </div>
@@ -167,8 +168,11 @@ $conn->close(); // Close connection after fetching data
                 </div>
                 <!-- MODIFIED: Conditional button display -->
                 <?php if ($group['creator_id'] == $user_id): ?>
-                    <!-- If the user is the creator, show a 'Manage' button -->
-                    <button class="view-btn">Manage Group</button>
+                    <!-- If the user is the creator, show a 'Disband' button -->
+                    <form action="disband_group.php" method="post" onsubmit="return confirm('Are you sure you want to PERMANENTLY disband this group? This cannot be undone.');" style="display: inline;">
+                        <input type="hidden" name="group_id" value="<?= $group['group_id'] ?>">
+                        <button type="submit" class="leave-btn">Disband</button>
+                    </form>
                 <?php else: ?>
                     <!-- If the user is just a member, show a 'Leave Group' button -->
                     <button class="leave-btn" data-group-id="<?= $group['group_id'] ?>">Leave Group</button>
