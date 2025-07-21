@@ -181,7 +181,7 @@ $conn->close();
                     <p><?= htmlspecialchars($row['member_count'] ?? 0) ?> Members</p>
                   </div>
                   <!-- MODIFIED: Changed button to a link -->
-                  <a href="study_group.php" class="view-btn">View</a>
+                  <a href="./chat_box/group_chat.php" class="view-btn">View</a>
                 </div>
               <?php endwhile; ?>
             <?php else: ?>
