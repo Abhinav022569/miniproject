@@ -56,54 +56,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['group_id'])) {
         $stmt->close();
 
     } elseif (isset($_POST['disband'])) {
-        // --- CORRECTED: Disband Logic (for approved groups) ---
+        // --- Disband Logic (for approved groups) ---
         $conn->begin_transaction();
         try {
-            // To maintain database integrity, we delete related records first.
-            // Order of deletion is important due to foreign key constraints.
-
-            // 1. Delete from downloaded_notes (related via notes)
             $sql_dn = "DELETE dn FROM downloaded_notes dn JOIN notes n ON dn.note_id = n.note_id WHERE n.group_id = ?";
             $stmt_dn = $conn->prepare($sql_dn);
             $stmt_dn->bind_param("i", $group_id);
             $stmt_dn->execute();
             $stmt_dn->close();
 
-            // 2. Delete from notes
             $sql_notes = "DELETE FROM notes WHERE group_id = ?";
             $stmt_notes = $conn->prepare($sql_notes);
             $stmt_notes->bind_param("i", $group_id);
             $stmt_notes->execute();
             $stmt_notes->close();
 
-            // 3. Delete from group_messages
             $sql_msgs = "DELETE FROM group_messages WHERE group_id = ?";
             $stmt_msgs = $conn->prepare($sql_msgs);
             $stmt_msgs->bind_param("i", $group_id);
             $stmt_msgs->execute();
             $stmt_msgs->close();
 
-            // 4. Delete from group_members
             $sql_members = "DELETE FROM group_members WHERE group_id = ?";
             $stmt_members = $conn->prepare($sql_members);
             $stmt_members->bind_param("i", $group_id);
             $stmt_members->execute();
             $stmt_members->close();
 
-            // 5. Finally, delete the group itself
             $sql_group = "DELETE FROM study_group WHERE group_id = ?";
             $stmt_group = $conn->prepare($sql_group);
             $stmt_group->bind_param("i", $group_id);
             $stmt_group->execute();
             $stmt_group->close();
 
-            // If all deletions were successful, commit the changes
             $conn->commit();
             $message = "Group disbanded successfully. All associated data has been removed.";
             $message_type = 'success';
 
         } catch (Exception $e) {
-            // If any step failed, roll back all changes
             $conn->rollback();
             $message = "Error disbanding group: " . $e->getMessage();
             $message_type = 'error';
@@ -111,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['group_id'])) {
     }
 }
 
-// --- Fetch Pending Group Requests ---
+// --- Fetch Pending Group Requests into an array ---
 $pending_groups_query = "
     SELECT sg.group_id, sg.group_name, sg.description, u.user_name AS creator_name
     FROM study_group sg
@@ -120,6 +110,14 @@ $pending_groups_query = "
     ORDER BY sg.created_at ASC
 ";
 $pending_groups_result = $conn->query($pending_groups_query);
+$pending_groups = [];
+if ($pending_groups_result) {
+    while ($row = $pending_groups_result->fetch_assoc()) {
+        $pending_groups[] = $row;
+    }
+}
+$num_pending = count($pending_groups);
+
 
 // --- Fetch Approved Groups for Management ---
 $approved_groups_query = "
@@ -179,9 +177,10 @@ $conn->close();
       <div class="content-container">
         <section class="management-section">
           <h2>Creation Requests</h2>
-          <div class="card-grid">
-            <?php if ($pending_groups_result && $pending_groups_result->num_rows > 0): ?>
-              <?php while($group = $pending_groups_result->fetch_assoc()): ?>
+          <!-- MODIFIED: Conditional container class -->
+          <div class="<?php echo ($num_pending === 1) ? 'single-item-container' : 'card-grid'; ?>">
+            <?php if ($num_pending > 0): ?>
+              <?php foreach ($pending_groups as $group): ?>
                 <div class="request-card">
                   <div class="card-content">
                     <h3><?php echo htmlspecialchars($group['group_name']); ?></h3>
@@ -189,17 +188,17 @@ $conn->close();
                     <p style="font-size: 13px; color: #a0a0b0;">Requested by: <?php echo htmlspecialchars($group['creator_name']); ?></p>
                   </div>
                   <div class="card-actions">
-                    <form method="POST" action="" style="flex-grow: 1;">
+                    <form method="POST" action="">
                       <input type="hidden" name="group_id" value="<?php echo $group['group_id']; ?>">
                       <button type="submit" name="approve" class="action-btn approve-btn">Approve</button>
                     </form>
-                    <form method="POST" action="" style="flex-grow: 1;">
+                    <form method="POST" action="">
                       <input type="hidden" name="group_id" value="<?php echo $group['group_id']; ?>">
                       <button type="submit" name="reject" class="action-btn reject-btn" onclick="return confirm('Are you sure you want to reject this group?');">Reject</button>
                     </form>
                   </div>
                 </div>
-              <?php endwhile; ?>
+              <?php endforeach; ?>
             <?php else: ?>
               <p class="no-requests">No pending group requests.</p>
             <?php endif; ?>
@@ -221,10 +220,9 @@ $conn->close();
                                 </p>
                             </div>
                             <div class="card-actions">
-                                <!-- CORRECTED: The form now submits with name="disband" -->
-                                <form method="POST" action="" style="flex-grow: 1;">
+                                <form method="POST" action="" style="width: 100%;">
                                     <input type="hidden" name="group_id" value="<?php echo $group['group_id']; ?>">
-                                    <button type="submit" name="disband" class="action-btn reject-btn" onclick="return confirm('Are you sure you want to PERMANENTLY disband this group? This cannot be undone.');">Disband Group</button>
+                                    <button type="submit" name="disband" class="action-btn reject-btn" style="width: 100%;" onclick="return confirm('Are you sure you want to PERMANENTLY disband this group? This cannot be undone.');">Disband Group</button>
                                 </form>
                             </div>
                         </div>

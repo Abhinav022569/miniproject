@@ -20,20 +20,25 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Grid for holding the cards */
+/* Grid for holding multiple cards */
 .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 25px;
 }
 
+/* MODIFIED: New container for when there is only one pending request */
+.single-item-container .request-card {
+    max-width: 450px; /* Constrains the width of the single card */
+}
+
+
 /* Individual card styling */
 .request-card {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: #1a1a2e; /* Darker background to match screenshot */
     border-radius: 12px;
-    padding: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -47,13 +52,13 @@
 
 .card-content h3 {
     font-size: 20px;
-    color: #00ffd5;
+    color: #00ffd5; /* Accent color for title */
     margin-bottom: 8px;
 }
 
 .card-content p {
     font-size: 15px;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.7); /* Lighter text color */
     line-height: 1.5;
     margin-bottom: 20px;
     flex-grow: 1;
@@ -62,41 +67,38 @@
 /* Action buttons styling */
 .card-actions {
     display: flex;
-    gap: 10px;
+    justify-content: space-between; /* This pushes the buttons to opposite ends */
+    align-items: center; /* This aligns them vertically */
     margin-top: auto; /* Pushes actions to the bottom */
 }
 
 .action-btn {
-    flex-grow: 1;
-    padding: 10px;
+    padding: 12px 25px; 
     border: none;
     border-radius: 8px;
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+    color: white; 
 }
 
 .approve-btn {
-    background-color: #2E7D32; /* Green for approve */
-    color: white;
-    border: 1px solid #4CAF50;
+    background-color: #28a745; /* Solid green for approve */
 }
 
 .approve-btn:hover {
-    background-color: #4CAF50;
-    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    background-color: #218838; /* Darker green on hover */
+    box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
 }
 
 .reject-btn {
-    background-color: #C62828; /* Red for reject */
-    color: white;
-    border: 1px solid #f44336;
+    background-color: #dc3545; /* Solid red for reject */
 }
 
 .reject-btn:hover {
-    background-color: #f44336;
-    box-shadow: 0 0 10px rgba(244, 67, 54, 0.5);
+    background-color: #c82333; /* Darker red on hover */
+    box-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
 }
 
 /* Message styling for success/error feedback */
