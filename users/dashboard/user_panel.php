@@ -163,7 +163,7 @@ $conn->close();
             <div class="card-content profile-card-content">
                 <div class="profile-card-avatar">
                     <!-- CORRECTED: Profile picture path -->
-                    <img src="../<?= htmlspecialchars($user_profile_pic) ?>" alt="Profile Picture" class="profile-card-img">
+                    <img src="../../<?= htmlspecialchars($user_profile_pic) ?>" alt="Profile Picture" class="profile-card-img">
                 </div>
                 <p class="profile-card-name"><?= htmlspecialchars($user_display_name) ?></p>
                 <p class="profile-card-username">@<?= htmlspecialchars($_SESSION['user_name'] ?? 'N/A') ?></p>

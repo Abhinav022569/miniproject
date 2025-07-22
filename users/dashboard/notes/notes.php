@@ -88,10 +88,12 @@ $conn->close();
                 <div class="notes-toolbar">
                     <div class="search-notes">
                         <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Search notes...">
+                        <!-- MODIFIED: Added ID for JavaScript -->
+                        <input type="text" id="notes-search-input" placeholder="Search notes...">
                     </div>
                     <div class="filter-groups">
-                        <select>
+                        <!-- MODIFIED: Added ID for JavaScript -->
+                        <select id="group-filter-select">
                             <option value="all">All Study Groups</option>
                             <?php foreach (array_keys($grouped_notes) as $group_name): ?>
                                 <option value="<?= htmlspecialchars($group_name) ?>"><?= htmlspecialchars($group_name) ?></option>
@@ -130,5 +132,7 @@ $conn->close();
             </section>
         </main>
     </div>
+    <!-- MODIFIED: Added the script tag to load the JavaScript file -->
+    <script src="notes_script.js"></script>
 </body>
 </html>
