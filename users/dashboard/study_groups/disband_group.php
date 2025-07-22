@@ -10,8 +10,9 @@ if (!isset($_SESSION['user_id'])) {
 
 // Ensure the request is a POST request and group_id is set
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['group_id'])) {
-    $_SESSION['error'] = "Invalid request.";
-    header("Location: ../study_group.php");
+    // Redirect with an error message if the request is invalid
+    $_SESSION['error_message'] = "Invalid request.";
+    header("Location: study_group.php");
     exit();
 }
 
@@ -71,21 +72,14 @@ try {
     $stmt_todo->execute();
     $stmt_todo->close();
     
-    // 5. Delete from announcements
-    $sql_ann = "DELETE FROM announcements WHERE group_id = ?";
-    $stmt_ann = $conn->prepare($sql_ann);
-    $stmt_ann->bind_param("i", $group_id);
-    $stmt_ann->execute();
-    $stmt_ann->close();
-
-    // 6. Delete from group_members
+    // 5. Delete from group_members
     $sql_members = "DELETE FROM group_members WHERE group_id = ?";
     $stmt_members = $conn->prepare($sql_members);
     $stmt_members->bind_param("i", $group_id);
     $stmt_members->execute();
     $stmt_members->close();
 
-    // 7. Finally, delete the group itself from the study_group table
+    // 6. Finally, delete the group itself from the study_group table
     $sql_group = "DELETE FROM study_group WHERE group_id = ?";
     $stmt_group = $conn->prepare($sql_group);
     $stmt_group->bind_param("i", $group_id);
@@ -94,15 +88,16 @@ try {
 
     // If all queries were successful, commit the transaction
     $conn->commit();
-    $_SESSION['message'] = "Group was successfully disbanded.";
+    $_SESSION['success_message'] = "Group was successfully disbanded.";
 
 } catch (Exception $e) {
     // If any step failed, roll back all changes
     $conn->rollback();
-    $_SESSION['error'] = "An error occurred: " . $e->getMessage();
+    $_SESSION['error_message'] = "An error occurred: " . $e->getMessage();
 }
 
 $conn->close();
-header("Location: ../study_group.php");
+// CORRECTED: Redirect back to the study_group.php in the *same* directory.
+header("Location: study_group.php");
 exit();
 ?>

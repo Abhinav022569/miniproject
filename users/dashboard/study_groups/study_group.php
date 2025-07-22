@@ -169,7 +169,7 @@ $conn->close(); // Close connection after fetching data
                 <!-- MODIFIED: Conditional button display -->
                 <?php if ($group['creator_id'] == $user_id): ?>
                     <!-- If the user is the creator, show a 'Disband' button -->
-                    <form action="disband_group.php" method="post" onsubmit="return confirm('Are you sure you want to PERMANENTLY disband this group? This cannot be undone.');" style="display: inline;">
+                    <form action="./disband_group.php" method="post" onsubmit="return confirm('Are you sure you want to PERMANENTLY disband this group? This cannot be undone.');" style="display: inline;">
                         <input type="hidden" name="group_id" value="<?= $group['group_id'] ?>">
                         <button type="submit" class="leave-btn">Disband</button>
                     </form>
