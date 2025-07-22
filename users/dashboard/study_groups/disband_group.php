@@ -1,17 +1,17 @@
 <?php
 session_start();
-require '../connect.php';
+require '../../connect.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../login_page.php");
+    header("Location: ../../login_page.php");
     exit();
 }
 
 // Ensure the request is a POST request and group_id is set
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['group_id'])) {
     $_SESSION['error'] = "Invalid request.";
-    header("Location: study_group.php");
+    header("Location: ../study_group.php");
     exit();
 }
 
@@ -103,6 +103,6 @@ try {
 }
 
 $conn->close();
-header("Location: study_group.php");
+header("Location: ../study_group.php");
 exit();
 ?>

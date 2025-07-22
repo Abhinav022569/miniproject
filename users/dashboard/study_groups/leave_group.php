@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../connect.php'; // Ensures the database connection is available
+require '../../connect.php'; // Ensures the database connection is available
 
 /**
  * leave_group.php

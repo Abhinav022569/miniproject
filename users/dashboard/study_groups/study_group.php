@@ -1,10 +1,10 @@
 <?php
 session_start();
-require '../connect.php'; // Ensure this path is correct relative to study_group.php
+require '../../connect.php'; // Ensure this path is correct relative to study_group.php
 
 // Check if user is logged in, otherwise redirect to login page
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../login_page.php");
+    header("Location: ../../login_page.php");
     exit();
 }
 
@@ -84,7 +84,7 @@ $conn->close(); // Close connection after fetching data
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>User - Study Group - Athena</title>
   <!-- Link to the main panelstyle.css for overall dashboard layout and sidebar -->
-  <link rel="stylesheet" href="panelstyle.css">
+  <link rel="stylesheet" href="../panelstyle.css">
   <!-- Link to the NEW study_group_style.css -->
   <link rel="stylesheet" href="study_group_style.css">
   <!-- Font Awesome for icons -->
@@ -99,16 +99,16 @@ $conn->close(); // Close connection after fetching data
       </div>
       <nav class="sidebar-nav">
         <ul>
-          <li><a href="user_panel.php"><i class="fas fa-th-large"></i> Dashboard</a></li>
-          <li class="active"><a href="#"><i class="fas fa-users"></i> Study Groups</a></li>
+          <li><a href="../user_panel.php"><i class="fas fa-th-large"></i> Dashboard</a></li>
+          <li class="active"><a href="study_group.php"><i class="fas fa-users"></i> Study Groups</a></li>
           <li><a href="#"><i class="fas fa-book"></i> Notes</a></li>
-          <li><a href="./chat_box/group_chat.php"><i class="fas fa-comments"></i> Group Chat</a></li>
+          <li><a href="../chat_box/group_chat.php"><i class="fas fa-comments"></i> Group Chat</a></li>
           <li><a href="#"><i class="fas fa-clipboard-list"></i> To-Do List</a></li>
-          <li><a href="profile_page.php"><i class="fas fa-user-circle"></i> Profile</a></li>
+          <li><a href="../profile/profile_page.php"><i class="fas fa-user-circle"></i> Profile</a></li>
         </ul>
       </nav>
       <div class="sidebar-footer">
-        <a href="../user_logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <a href="../../user_logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
       </div>
     </aside>
 
@@ -188,6 +188,6 @@ $conn->close(); // Close connection after fetching data
   </div>
   <div id="notification-container"></div>
   <!-- Link to the new dscript.js file -->
-  <script src="dscript.js"></script>
+  <script src="../dscript.js"></script>
 </body>
 </html>
