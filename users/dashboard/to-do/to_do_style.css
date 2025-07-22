@@ -1,0 +1,117 @@
+/* Styles for the To-Do List Page */
+
+.add-task-card {
+    background-color: rgba(255, 255, 255, 0.08);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+#add-task-form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+#task-input {
+    flex-grow: 1;
+    padding: 12px 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    outline: none;
+}
+
+.date-picker {
+    display: flex;
+    gap: 10px;
+}
+
+.date-picker select {
+    padding: 12px 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    outline: none;
+}
+
+.date-picker select option {
+    background-color: #1e1e2d;
+}
+
+.add-task-btn {
+    background-color: #00ffd5;
+    color: black;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.add-task-btn:hover {
+    background-color: #00c8aa;
+}
+
+.task-list h3 {
+    font-size: 20px;
+    color: #00ffd5;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: background-color 0.2s ease;
+}
+
+.task-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.task-checkbox {
+    font-size: 20px;
+    color: #00ffd5;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.task-text {
+    flex-grow: 1;
+    font-size: 16px;
+}
+
+.task-item.completed .task-text {
+    text-decoration: line-through;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.task-due-date {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-right: 15px;
+}
+
+.task-delete {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.task-delete:hover {
+    color: #f44336;
+}
