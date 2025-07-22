@@ -1,0 +1,118 @@
+/* Styles for the Notes Management Page */
+
+.notes-container {
+    margin-top: 20px;
+}
+
+.notes-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.search-notes {
+    position: relative;
+    flex-grow: 1;
+}
+
+.search-notes i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.search-notes input {
+    width: 100%;
+    padding: 12px 15px 12px 40px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    outline: none;
+}
+
+.search-notes input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.filter-groups select {
+    padding: 12px 15px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    outline: none;
+    cursor: pointer;
+}
+
+.filter-groups select option {
+    background-color: #1e1e2d;
+    color: white;
+}
+
+.study-group-section {
+    margin-bottom: 30px;
+}
+
+.study-group-header {
+    font-size: 20px;
+    color: #00ffd5;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.note-item-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.note-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.note-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.note-icon {
+    font-size: 24px;
+    color: #00ffd5;
+    margin-right: 20px;
+}
+
+.note-info {
+    flex-grow: 1;
+}
+
+.note-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 0 5px 0;
+}
+
+.note-date {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+}
+
+.note-action {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.6);
+}

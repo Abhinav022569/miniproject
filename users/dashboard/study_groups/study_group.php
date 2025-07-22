@@ -101,7 +101,7 @@ $conn->close(); // Close connection after fetching data
         <ul>
           <li><a href="../user_panel.php"><i class="fas fa-th-large"></i> Dashboard</a></li>
           <li class="active"><a href="study_group.php"><i class="fas fa-users"></i> Study Groups</a></li>
-          <li><a href="#"><i class="fas fa-book"></i> Notes</a></li>
+          <li><a href="../notes/notes.php"><i class="fas fa-book"></i> Notes</a></li>
           <li><a href="../chat_box/group_chat.php"><i class="fas fa-comments"></i> Group Chat</a></li>
           <li><a href="#"><i class="fas fa-clipboard-list"></i> To-Do List</a></li>
           <li><a href="../profile/profile_page.php"><i class="fas fa-user-circle"></i> Profile</a></li>
