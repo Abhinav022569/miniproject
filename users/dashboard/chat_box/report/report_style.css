@@ -1,0 +1,93 @@
+.report-container {
+    margin-top: 30px;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.card h3 {
+    font-size: 22px;
+    color: #00ffd5;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.input-group select,
+.input-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+/* ADDED: Style for the dropdown options */
+.input-group select option {
+    background-color: #1e1e2d; /* Dark background from your theme */
+    color: white; /* White text for options */
+}
+
+
+.input-group select:focus,
+.input-group textarea:focus {
+    border-color: #00ffd5;
+}
+
+.submit-report-btn {
+    background-color: #00ffd5;
+    color: black;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.submit-report-btn:hover {
+    background-color: #00c8aa;
+}
+
+/* Styles for success/error messages */
+.message {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+}
+.success-message {
+    background-color: rgba(76, 175, 80, 0.2);
+    color: #4CAF50;
+    border: 1px solid #4CAF50;
+}
+.error-message {
+    background-color: rgba(244, 67, 54, 0.2);
+    color: #f44336;
+    border: 1px solid #f44336;
+}

@@ -120,17 +120,46 @@
 }
 
 /* Main chat area styles */
+/* MODIFIED: Made chat-header a flex container */
 .chat-header {
     padding: 20px;
     background-color: #27293d;
     border-bottom: 1px solid #3a3b50;
     color: #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .chat-header h3 {
     margin: 0;
     font-size: 1.2rem;
 }
+
+/* ADDED: Styles for the new report button */
+.report-btn {
+    background-color: rgba(244, 67, 54, 0.2);
+    color: #f44336;
+    padding: 8px 12px;
+    border: 1px solid #f44336;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.report-btn i {
+    margin-right: 5px;
+}
+
+.report-btn:hover {
+    background-color: #f44336;
+    color: white;
+}
+
 
 .chat-messages {
     flex-grow: 1;

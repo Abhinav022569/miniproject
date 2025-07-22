@@ -75,7 +75,13 @@ $conn->close();
                 </ul>
             </div>
             <div class="chat-main">
-                <div class="chat-header"><h3 id="current-group-name">Select a group to start chatting</h3></div>
+                <div class="chat-header">
+                    <h3 id="current-group-name">Select a group to start chatting</h3>
+                    <!-- ADDED: Report button, initially hidden -->
+                    <a href="#" id="report-group-btn" class="report-btn" style="display: none;">
+                        <i class="fas fa-flag"></i> Report
+                    </a>
+                </div>
                 <div class="chat-messages" id="chat-messages-container">
                     <div class="no-group-selected">
                         <i class="fas fa-comments"></i>
@@ -83,9 +89,7 @@ $conn->close();
                     </div>
                 </div>
                 <div class="chat-input-area" id="chat-input-container" style="display: none;">
-                    <!-- Hidden file input -->
                     <input type="file" id="note-file-input" style="display: none;">
-                    <!-- The button that triggers the file input -->
                     <button type="button" id="upload-file-btn" class="upload-btn"><i class="fas fa-plus"></i></button>
                     
                     <form id="message-form">
