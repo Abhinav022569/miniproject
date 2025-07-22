@@ -58,10 +58,12 @@ if (move_uploaded_file($_FILES['note_file']['tmp_name'], $target_path)) {
         $stmt_note = $conn->prepare($sql_insert_note);
         $stmt_note->bind_param("iiss", $group_id, $user_id, $note_title, $db_path);
         $stmt_note->execute();
+        // Get the ID of the note we just inserted
+        $new_note_id = $stmt_note->insert_id;
         $stmt_note->close();
 
-        // 2. Post a message in the chat linking to the file
-        $chat_message_content = "Shared a file: <a href='../../{$db_path}' target='_blank'>{$note_title}</a>";
+        // 2. MODIFIED: Post a message in the chat linking to the new log_download.php script
+        $chat_message_content = "Shared a file: <a href='log_download.php?note_id={$new_note_id}' target='_blank'>{$note_title}</a>";
         $sql_insert_message = "INSERT INTO group_messages (group_id, user_id, content) VALUES (?, ?, ?)";
         $stmt_message = $conn->prepare($sql_insert_message);
         $stmt_message->bind_param("iis", $group_id, $user_id, $chat_message_content);

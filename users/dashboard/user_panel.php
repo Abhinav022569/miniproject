@@ -77,8 +77,9 @@ $stmt_tasks->execute();
 $tasks_result = $stmt_tasks->get_result();
 
 // Fetch Recently Downloaded Notes by the user, including uploader's name and time since upload
+// This query now also fetches the note_id to create the download link
 $notes_query = "
-  SELECT n.title AS note_title, dn.downloaded_at AS download_date, u.user_name AS uploader_name, n.upload_time
+  SELECT dn.note_id, dn.title AS note_title, dn.downloaded_at AS download_date, u.user_name AS uploader_name
   FROM downloaded_notes dn
   JOIN notes n ON dn.note_id = n.note_id
   JOIN users u ON n.user_id = u.user_id
@@ -161,7 +162,8 @@ $conn->close();
             <h3>Your Profile</h3>
             <div class="card-content profile-card-content">
                 <div class="profile-card-avatar">
-                    <img src="../../<?= htmlspecialchars($user_profile_pic) ?>" alt="Profile Picture" class="profile-card-img">
+                    <!-- CORRECTED: Profile picture path -->
+                    <img src="../<?= htmlspecialchars($user_profile_pic) ?>" alt="Profile Picture" class="profile-card-img">
                 </div>
                 <p class="profile-card-name"><?= htmlspecialchars($user_display_name) ?></p>
                 <p class="profile-card-username">@<?= htmlspecialchars($_SESSION['user_name'] ?? 'N/A') ?></p>
@@ -180,7 +182,6 @@ $conn->close();
                     <h4><?= htmlspecialchars($row['group_name']) ?></h4>
                     <p><?= htmlspecialchars($row['member_count'] ?? 0) ?> Members</p>
                   </div>
-                  <!-- MODIFIED: Changed button to a link -->
                   <a href="./chat_box/group_chat.php" class="view-btn">View</a>
                 </div>
               <?php endwhile; ?>
@@ -219,9 +220,13 @@ $conn->close();
                 <div class="note-item">
                   <div class="note-details">
                     <h4><?= htmlspecialchars($row['note_title']) ?></h4>
-                    <p>Uploaded by <?= htmlspecialchars($row['uploader_name']) ?>, <?= time_ago($row['upload_time']) ?></p>
+                    <!-- CORRECTED: Time calculation now uses download_date -->
+                    <p>Downloaded <?= time_ago($row['download_date']) ?> by <?= htmlspecialchars($row['uploader_name']) ?></p>
                   </div>
-                  <i class="fas fa-download download-icon"></i>
+                  <!-- ADDED: Download button is now a functional link -->
+                  <a href="./chat_box/log_download.php?note_id=<?= $row['note_id'] ?>" class="download-link">
+                    <i class="fas fa-download download-icon"></i>
+                  </a>
                 </div>
               <?php endwhile; ?>
             <?php else: ?>
