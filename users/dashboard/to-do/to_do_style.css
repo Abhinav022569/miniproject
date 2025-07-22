@@ -82,12 +82,20 @@
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+/* MODIFIED: Centered the icon and gave it a fixed size */
 .task-checkbox {
     font-size: 20px;
     color: #00ffd5;
     margin-right: 15px;
     cursor: pointer;
+    width: 24px;      /* Added fixed width */
+    height: 24px;     /* Added fixed height */
+    display: flex;    /* Added flex properties to center the icon */
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;   /* Prevents the checkbox from shrinking */
 }
+
 
 .task-text {
     flex-grow: 1;
