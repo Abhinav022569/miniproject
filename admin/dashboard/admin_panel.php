@@ -90,8 +90,9 @@ $admin_name = $_SESSION['admin_name'] ?? 'Admin';
       </div>
       <nav class="sidebar-nav">
         <ul>
-          <li class="active"><a href="#"><i class="fas fa-th-large"></i> Dashboard</a></li>
-          <li><a href="./approve_group/approve_group.php"><i class="fas fa-users"></i> Approve Groups</a></li>
+          <li class="active"><a href="admin_panel.php"><i class="fas fa-th-large"></i> Dashboard</a></li>
+          <!-- MODIFIED: Corrected the link to the new page -->
+          <li><a href="./approve_group/approve_group.php"><i class="fas fa-check-circle"></i> Approve Groups</a></li>
           <li><a href="#"><i class="fas fa-flag"></i> Reports</a></li>
           <li><a href="#"><i class="fas fa-user-friends"></i> User Management</a></li>
           <li><a href="#"><i class="fas fa-bullhorn"></i> Announcements</a></li>
@@ -118,7 +119,7 @@ $admin_name = $_SESSION['admin_name'] ?? 'Admin';
           <div class="card-content">
             <div class="metric-value"><?php echo $study_groups_count; ?></div>
             <p class="metric-description">Active groups currently running</p>
-            <button class="manage-btn">Manage Groups</button>
+            <button class="manage-btn" onclick="location.href='./approve_group/approve_group.php'">Manage Groups</button>
           </div>
         </div>
 
