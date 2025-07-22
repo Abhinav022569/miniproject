@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 22, 2025 at 05:07 PM
+-- Generation Time: Jul 22, 2025 at 07:37 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -74,6 +74,7 @@ CREATE TABLE `downloaded_notes` (
   `download_id` int(11) NOT NULL,
   `note_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
   `downloaded_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -81,12 +82,15 @@ CREATE TABLE `downloaded_notes` (
 -- Dumping data for table `downloaded_notes`
 --
 
-INSERT INTO `downloaded_notes` (`download_id`, `note_id`, `user_id`, `downloaded_at`) VALUES
-(1, 1, 2, '2025-07-22 09:00:00'),
-(2, 1, 3, '2025-07-22 09:05:00'),
-(3, 3, 5, '2025-07-22 09:10:00'),
-(4, 4, 9, '2025-07-22 09:15:00'),
-(5, 5, 12, '2025-07-22 09:20:00');
+INSERT INTO `downloaded_notes` (`download_id`, `note_id`, `user_id`, `title`, `downloaded_at`) VALUES
+(1, 1, 2, '', '2025-07-22 09:00:00'),
+(2, 1, 3, '', '2025-07-22 09:05:00'),
+(3, 3, 5, '', '2025-07-22 09:10:00'),
+(4, 4, 9, '', '2025-07-22 09:15:00'),
+(5, 5, 12, '', '2025-07-22 09:20:00'),
+(8, 16, 1, 'Zodiac Quizzes on BuzzFeed.jpeg', '2025-07-22 21:50:07'),
+(9, 17, 1, 'Snapchat sticker.jpeg', '2025-07-22 21:59:29'),
+(10, 18, 1, 'receipt.pdf', '2025-07-22 22:17:35');
 
 -- --------------------------------------------------------
 
@@ -122,7 +126,8 @@ INSERT INTO `group_members` (`members_id`, `group_id`, `user_id`, `role`) VALUES
 (14, 105, 11, 'member'),
 (15, 105, 12, 'member'),
 (16, 105, 13, 'member'),
-(17, 101, 8, 'member');
+(17, 101, 8, 'member'),
+(53, 102, 1, 'member');
 
 -- --------------------------------------------------------
 
@@ -148,7 +153,10 @@ INSERT INTO `group_messages` (`message_id`, `group_id`, `user_id`, `content`, `t
 (3, 102, 3, 'Has anyone started the quantum mechanics homework?', '2025-07-21 11:12:00'),
 (4, 102, 5, 'I have. It\'s pretty tough.', '2025-07-21 11:13:00'),
 (5, 104, 8, 'Let\'s meet tomorrow to discuss the lab report.', '2025-07-21 11:22:00'),
-(6, 104, 9, 'Sounds good. What time?', '2025-07-21 11:23:00');
+(6, 104, 9, 'Sounds good. What time?', '2025-07-21 11:23:00'),
+(25, 101, 1, 'Shared a file: <a href=\'log_download.php?note_id=16\' target=\'_blank\'>Zodiac Quizzes on BuzzFeed.jpeg</a>', '2025-07-22 21:50:06'),
+(26, 101, 1, 'Shared a file: <a href=\'log_download.php?note_id=17\' target=\'_blank\'>Snapchat sticker.jpeg</a>', '2025-07-22 21:59:10'),
+(27, 102, 1, 'Shared a file: <a href=\'log_download.php?note_id=18\' target=\'_blank\'>receipt.pdf</a>', '2025-07-22 22:17:33');
 
 -- --------------------------------------------------------
 
@@ -174,7 +182,12 @@ INSERT INTO `notes` (`note_id`, `group_id`, `user_id`, `title`, `file_path`, `up
 (2, 101, 2, 'Chapter 2: Derivatives', '/notes/calculus/chapter2.pdf', '2025-07-21 12:05:00'),
 (3, 102, 3, 'Quantum Mechanics Basics', '/notes/physics/quantum_basics.docx', '2025-07-21 12:10:00'),
 (4, 104, 8, 'Alkene Reactions', '/notes/chemistry/alkenes.pdf', '2025-07-21 12:15:00'),
-(5, 105, 11, 'Analysis of Moby Dick', '/notes/literature/moby_dick_analysis.txt', '2025-07-21 12:20:00');
+(5, 105, 11, 'Analysis of Moby Dick', '/notes/literature/moby_dick_analysis.txt', '2025-07-21 12:20:00'),
+(14, 101, 1, 'Zodiac Quizzes on BuzzFeed.jpeg', 'user_files/notes/note_687fb0495d5e46.56916139.jpeg', '2025-07-22 21:07:45'),
+(15, 101, 1, 'Snapchat sticker.jpeg', 'user_files/notes/note_687fb99b2065d6.73452490.jpeg', '2025-07-22 21:47:31'),
+(16, 101, 1, 'Zodiac Quizzes on BuzzFeed.jpeg', 'user_files/notes/note_687fba3603bd13.55382616.jpeg', '2025-07-22 21:50:06'),
+(17, 101, 1, 'Snapchat sticker.jpeg', 'user_files/notes/note_687fbc56da8629.48106875.jpeg', '2025-07-22 21:59:10'),
+(18, 102, 1, 'receipt.pdf', 'user_files/notes/note_687fc0a563a5e7.56291142.pdf', '2025-07-22 22:17:33');
 
 -- --------------------------------------------------------
 
@@ -197,7 +210,8 @@ CREATE TABLE `reports` (
 
 INSERT INTO `reports` (`report_id`, `user_id`, `target_id`, `reason`, `status`, `created_at`) VALUES
 (1, 2, 4, 'Inappropriate language in the Physics Phantoms group chat.', 'open', '2025-07-22 11:00:00'),
-(2, 6, 7, 'Suspected of sharing copyrighted material in the History Buffs group.', 'review', '2025-07-22 11:30:00');
+(2, 6, 7, 'Suspected of sharing copyrighted material in the History Buffs group.', 'review', '2025-07-22 11:30:00'),
+(3, 1, 2, 'jusb because i can', 'open', '2025-07-22 20:59:19');
 
 -- --------------------------------------------------------
 
@@ -233,10 +247,8 @@ INSERT INTO `study_group` (`group_id`, `group_name`, `description`, `user_id`, `
 
 CREATE TABLE `to_do` (
   `to_do_id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `task` varchar(200) NOT NULL,
-  `description` text DEFAULT NULL,
   `due_date` date DEFAULT NULL,
   `status` enum('in progress','done') DEFAULT 'in progress'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -245,12 +257,12 @@ CREATE TABLE `to_do` (
 -- Dumping data for table `to_do`
 --
 
-INSERT INTO `to_do` (`to_do_id`, `group_id`, `user_id`, `task`, `description`, `due_date`, `status`) VALUES
-(1, 101, 1, 'Prepare presentation on derivatives', 'Cover the chain rule and product rule.', '2025-07-25', 'in progress'),
-(2, 101, 2, 'Complete practice problems for Ch. 2', 'Problems 1-20 from the textbook.', '2025-07-24', 'in progress'),
-(3, 102, 3, 'Research Schrödinger\'s cat', 'Find and summarize two articles.', '2025-07-26', 'done'),
-(4, 104, 8, 'Create flashcards for functional groups', 'Include name, structure, and properties.', '2025-07-23', 'in progress'),
-(5, 105, 10, 'Outline essay on The Great Gatsby', 'Focus on the theme of the American Dream.', '2025-07-28', 'in progress');
+INSERT INTO `to_do` (`to_do_id`, `user_id`, `task`, `due_date`, `status`) VALUES
+(1, 1, 'Prepare presentation on derivatives', '2025-07-25', 'in progress'),
+(2, 2, 'Complete practice problems for Ch. 2', '2025-07-24', 'in progress'),
+(3, 3, 'Research Schrödinger\'s cat', '2025-07-26', 'done'),
+(4, 8, 'Create flashcards for functional groups', '2025-07-23', 'in progress'),
+(5, 10, 'Outline essay on The Great Gatsby', '2025-07-28', 'in progress');
 
 -- --------------------------------------------------------
 
@@ -276,7 +288,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_name`, `name`, `email`, `phone_no`, `password`, `status`, `reputation_score`, `profile_pic`, `created_at`) VALUES
-(1, 'testuser', 'Test User', 'john.doe@example.com', '1234567890', '123', 'active', 10, 'user_files/profile_pics/profile_687fa8e509140.jpeg', '2025-07-21 10:00:00'),
+(1, 'testuser', 'Test User', 'john.doe@example.com', '1234567890', '123', 'active', 10, 'user_files/profile_pics/profile_687fb97a9a5e5.jpeg', '2025-07-21 10:00:00'),
 (2, 'jane_smith', 'Jane Smith', 'jane.smith@example.com', '0987654321', 'hashed_password_2', 'active', 5, 'https://placehold.co/100x100/e74c3c/ffffff?text=JS', '2025-07-21 10:05:00'),
 (3, 'alice_jones', 'Alice Jones', 'alice.jones@example.com', '1122334455', 'hashed_password_3', 'active', 20, 'https://placehold.co/100x100/2ecc71/ffffff?text=AJ', '2025-07-21 10:10:00'),
 (4, 'bob_brown', 'Bob Brown', 'bob.brown@example.com', '5566778899', 'hashed_password_4', 'banned', 0, 'https://placehold.co/100x100/f1c40f/ffffff?text=BB', '2025-07-21 10:15:00'),
@@ -362,7 +374,6 @@ ALTER TABLE `study_group`
 --
 ALTER TABLE `to_do`
   ADD PRIMARY KEY (`to_do_id`),
-  ADD KEY `group_id` (`group_id`),
   ADD KEY `user_id` (`user_id`);
 
 --
@@ -394,37 +405,37 @@ ALTER TABLE `announcements`
 -- AUTO_INCREMENT for table `downloaded_notes`
 --
 ALTER TABLE `downloaded_notes`
-  MODIFY `download_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `download_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `group_members`
 --
 ALTER TABLE `group_members`
-  MODIFY `members_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `members_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `group_messages`
 --
 ALTER TABLE `group_messages`
-  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `notes`
 --
 ALTER TABLE `notes`
-  MODIFY `note_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `note_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `reports`
 --
 ALTER TABLE `reports`
-  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `study_group`
 --
 ALTER TABLE `study_group`
-  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
+  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
 
 --
 -- AUTO_INCREMENT for table `to_do`
@@ -494,7 +505,6 @@ ALTER TABLE `study_group`
 -- Constraints for table `to_do`
 --
 ALTER TABLE `to_do`
-  ADD CONSTRAINT `to_do_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `study_group` (`group_id`),
   ADD CONSTRAINT `to_do_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 COMMIT;
 
