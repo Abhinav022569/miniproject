@@ -91,7 +91,7 @@ $admin_name = $_SESSION['admin_name'] ?? 'Admin';
       <nav class="sidebar-nav">
         <ul>
           <li class="active"><a href="#"><i class="fas fa-th-large"></i> Dashboard</a></li>
-          <li><a href="./approve_group/approve_group.php"><i class="fas fa-users"></i> Study Groups</a></li>
+          <li><a href="./approve_group/approve_group.php"><i class="fas fa-users"></i> Approve Groups</a></li>
           <li><a href="#"><i class="fas fa-flag"></i> Reports</a></li>
           <li><a href="#"><i class="fas fa-user-friends"></i> User Management</a></li>
           <li><a href="#"><i class="fas fa-bullhorn"></i> Announcements</a></li>
