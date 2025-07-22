@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 21, 2025 at 05:23 PM
+-- Generation Time: Jul 22, 2025 at 05:07 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -39,7 +39,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`admin_id`, `user_name`, `password`, `email`) VALUES
-(1, 'testadmin', '123', 'admin@gmail.com');
+(1, 'admin', '123', 'admin@athena.com');
 
 -- --------------------------------------------------------
 
@@ -52,7 +52,7 @@ CREATE TABLE `announcements` (
   `admin_id` int(11) NOT NULL,
   `title` varchar(150) NOT NULL,
   `content` text NOT NULL,
-  `group_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -60,9 +60,9 @@ CREATE TABLE `announcements` (
 -- Dumping data for table `announcements`
 --
 
-INSERT INTO `announcements` (`announcement_id`, `admin_id`, `title`, `content`, `group_id`, `created_at`) VALUES
-(1, 1, 'Scheduled Maintenance', 'The platform will be down for scheduled maintenance on July 25th from 2 AM to 3 AM. We apologize for any inconvenience.', NULL, '2025-07-21 02:30:00'),
-(2, 1, 'New Feature: Group Chat!', 'We are excited to announce that group chat is now live! Start collaborating with your study group members in real-time.', NULL, '2025-07-21 02:32:00');
+INSERT INTO `announcements` (`announcement_id`, `admin_id`, `title`, `content`, `user_id`, `created_at`) VALUES
+(1, 1, 'Welcome to Athena!', 'Welcome to our new collaborative study platform. We hope you find it useful!', NULL, '2025-07-21 09:00:00'),
+(2, 1, 'Scheduled Maintenance', 'The platform will be down for maintenance this Friday from 2 AM to 3 AM.', NULL, '2025-07-22 10:00:00');
 
 -- --------------------------------------------------------
 
@@ -82,11 +82,11 @@ CREATE TABLE `downloaded_notes` (
 --
 
 INSERT INTO `downloaded_notes` (`download_id`, `note_id`, `user_id`, `downloaded_at`) VALUES
-(1, 5, 1, '2025-07-21 02:15:00'),
-(2, 7, 3, '2025-07-21 02:16:00'),
-(3, 8, 6, '2025-07-21 02:17:00'),
-(4, 1, 1, '2025-07-21 02:18:00'),
-(5, 9, 1, '2025-07-21 02:19:00');
+(1, 1, 2, '2025-07-22 09:00:00'),
+(2, 1, 3, '2025-07-22 09:05:00'),
+(3, 3, 5, '2025-07-22 09:10:00'),
+(4, 4, 9, '2025-07-22 09:15:00'),
+(5, 5, 12, '2025-07-22 09:20:00');
 
 -- --------------------------------------------------------
 
@@ -106,41 +106,23 @@ CREATE TABLE `group_members` (
 --
 
 INSERT INTO `group_members` (`members_id`, `group_id`, `user_id`, `role`) VALUES
-(1, 101, 2, 'moderator'),
-(2, 101, 1, 'member'),
+(1, 101, 1, 'moderator'),
+(2, 101, 2, 'member'),
 (3, 101, 3, 'member'),
-(4, 101, 4, 'member'),
-(5, 102, 3, 'moderator'),
-(6, 102, 2, 'member'),
-(7, 102, 5, 'member'),
-(8, 103, 4, 'moderator'),
-(9, 103, 2, 'member'),
-(10, 103, 3, 'member'),
-(11, 103, 5, 'member'),
-(12, 104, 1, 'moderator'),
-(15, 107, 6, 'moderator'),
-(16, 107, 1, 'member'),
-(17, 107, 4, 'member'),
-(18, 107, 10, 'member'),
-(19, 109, 8, 'moderator'),
-(20, 109, 3, 'member'),
-(21, 109, 7, 'member'),
-(22, 110, 10, 'moderator'),
-(23, 110, 1, 'member'),
-(25, 107, 11, 'member'),
-(26, 112, 11, 'moderator'),
-(27, 112, 1, 'member'),
-(29, 113, 1, 'moderator'),
-(30, 113, 8, 'member'),
-(31, 113, 5, 'member'),
-(33, 101, 12, 'member'),
-(36, 102, 12, 'member'),
-(37, 104, 12, 'member'),
-(38, 107, 12, 'member'),
-(39, 113, 12, 'member'),
-(41, 101, 6, 'member'),
-(42, 102, 6, 'member'),
-(43, 104, 6, 'member');
+(4, 102, 3, 'moderator'),
+(5, 102, 4, 'member'),
+(6, 102, 5, 'member'),
+(7, 103, 5, 'moderator'),
+(8, 103, 6, 'member'),
+(9, 103, 7, 'member'),
+(10, 104, 8, 'moderator'),
+(11, 104, 9, 'member'),
+(12, 104, 10, 'member'),
+(13, 105, 10, 'moderator'),
+(14, 105, 11, 'member'),
+(15, 105, 12, 'member'),
+(16, 105, 13, 'member'),
+(17, 101, 8, 'member');
 
 -- --------------------------------------------------------
 
@@ -161,11 +143,12 @@ CREATE TABLE `group_messages` (
 --
 
 INSERT INTO `group_messages` (`message_id`, `group_id`, `user_id`, `content`, `time_stamp`) VALUES
-(1, 107, 1, 'Has anyone solved the \"Two Sum\" problem yet?', '2025-07-21 02:20:00'),
-(2, 107, 6, 'Yes, I have a solution in Python if you want to compare.', '2025-07-21 02:21:00'),
-(3, 109, 7, 'I found a great documentary on Surrealism, I\'ll share the link!', '2025-07-21 02:25:00'),
-(4, 112, 1, 'The market seems really volatile this week.', '2025-07-21 02:26:00'),
-(5, 112, 11, 'Agreed. Sticking to blue-chip stocks for now. Less risk.', '2025-07-21 02:27:00');
+(1, 101, 1, 'Hey everyone, welcome to the Calculus Crew!', '2025-07-21 11:06:00'),
+(2, 101, 2, 'Glad to be here! Ready to tackle some derivatives.', '2025-07-21 11:07:00'),
+(3, 102, 3, 'Has anyone started the quantum mechanics homework?', '2025-07-21 11:12:00'),
+(4, 102, 5, 'I have. It\'s pretty tough.', '2025-07-21 11:13:00'),
+(5, 104, 8, 'Let\'s meet tomorrow to discuss the lab report.', '2025-07-21 11:22:00'),
+(6, 104, 9, 'Sounds good. What time?', '2025-07-21 11:23:00');
 
 -- --------------------------------------------------------
 
@@ -187,16 +170,11 @@ CREATE TABLE `notes` (
 --
 
 INSERT INTO `notes` (`note_id`, `group_id`, `user_id`, `title`, `file_path`, `upload_time`) VALUES
-(1, 101, 2, 'Integration by Parts Cheatsheet', 'user_files/notes/calculus_integration.pdf', '2025-07-20 18:00:00'),
-(2, 101, 4, 'Lecture 5 - Series and Sequences', 'user_files/notes/calculus_series.pdf', '2025-07-21 09:00:00'),
-(3, 102, 3, 'Summary of Modern Indian History', 'user_files/notes/modern_history.docx', '2025-07-20 19:00:00'),
-(4, 104, 1, 'Current Affairs - June 2025', 'user_files/notes/current_affairs_june.pdf', '2025-07-21 10:00:00'),
-(5, 107, 6, 'Big O Notation Guide', 'user_files/notes/big_o_guide.pdf', '2025-07-21 01:30:00'),
-(6, 107, 10, 'Quick Sort Implementation', 'user_files/notes/quicksort.txt', '2025-07-21 02:00:00'),
-(7, 109, 8, 'Cubism vs. Surrealism', 'user_files/notes/art_movements.docx', '2025-07-21 02:05:00'),
-(8, 110, 1, 'Common Network Ports', 'user_files/notes/network_ports.pdf', '2025-07-21 02:10:00'),
-(9, 112, 11, 'Beginners Guide to Candlestick Charts', 'user_files/notes/candlestick_guide.pdf', '2025-07-21 02:12:00'),
-(10, 113, 8, 'Rule of Thirds in Composition', 'user_files/notes/composition_rules.pdf', '2025-07-21 02:14:00');
+(1, 101, 1, 'Chapter 1: Limits', '/notes/calculus/chapter1.pdf', '2025-07-21 12:00:00'),
+(2, 101, 2, 'Chapter 2: Derivatives', '/notes/calculus/chapter2.pdf', '2025-07-21 12:05:00'),
+(3, 102, 3, 'Quantum Mechanics Basics', '/notes/physics/quantum_basics.docx', '2025-07-21 12:10:00'),
+(4, 104, 8, 'Alkene Reactions', '/notes/chemistry/alkenes.pdf', '2025-07-21 12:15:00'),
+(5, 105, 11, 'Analysis of Moby Dick', '/notes/literature/moby_dick_analysis.txt', '2025-07-21 12:20:00');
 
 -- --------------------------------------------------------
 
@@ -206,8 +184,7 @@ INSERT INTO `notes` (`note_id`, `group_id`, `user_id`, `title`, `file_path`, `up
 
 CREATE TABLE `reports` (
   `report_id` int(11) NOT NULL,
-  `user_by` int(11) NOT NULL,
-  `target_type` enum('user','message','note') NOT NULL,
+  `user_id` int(11) NOT NULL,
   `target_id` int(11) NOT NULL,
   `reason` text NOT NULL,
   `status` enum('open','resolved','review') DEFAULT 'open',
@@ -218,9 +195,9 @@ CREATE TABLE `reports` (
 -- Dumping data for table `reports`
 --
 
-INSERT INTO `reports` (`report_id`, `user_by`, `target_type`, `target_id`, `reason`, `status`, `created_at`) VALUES
-(1, 2, 'user', 9, 'This user is posting spam links in the group chat.', 'open', '2025-07-21 02:35:00'),
-(2, 10, 'note', 7, 'This note contains incorrect information and is misleading.', 'open', '2025-07-21 02:36:00');
+INSERT INTO `reports` (`report_id`, `user_id`, `target_id`, `reason`, `status`, `created_at`) VALUES
+(1, 2, 4, 'Inappropriate language in the Physics Phantoms group chat.', 'open', '2025-07-22 11:00:00'),
+(2, 6, 7, 'Suspected of sharing copyrighted material in the History Buffs group.', 'review', '2025-07-22 11:30:00');
 
 -- --------------------------------------------------------
 
@@ -242,18 +219,11 @@ CREATE TABLE `study_group` (
 --
 
 INSERT INTO `study_group` (`group_id`, `group_name`, `description`, `user_id`, `approved`, `created_at`) VALUES
-(101, 'Calculus Study Group', 'Dedicated to mastering advanced calculus concepts and problem-solving.', 2, 1, '2025-07-20 14:00:00'),
-(102, 'History Research Team', 'Collaborative group for historical research and essay writing.', 3, 1, '2025-07-20 15:00:00'),
-(103, 'Physics Problem Solvers', 'Solving complex physics problems and preparing for exams.', 4, 1, '2025-07-20 16:00:00'),
-(104, 'UPSC Aspirants 2026', 'A focused group for UPSC civil services examination preparation.', 1, 1, '2025-07-21 08:00:00'),
-(105, 'Web Dev Beginners', 'A place for beginners to learn and share web development resources.', 5, 0, '2025-07-21 11:00:00'),
-(107, 'Data Structures & Algo', 'A group for practicing DSA problems from LeetCode and HackerRank.', 6, 1, '2025-07-21 01:25:00'),
-(108, 'Machine Learning Enthusiasts', 'Discussing papers, projects, and concepts in ML.', 7, 0, '2025-07-21 01:28:00'),
-(109, 'Modern Art History', 'For students passionate about 20th-century art movements.', 8, 1, '2025-07-21 01:40:00'),
-(110, 'Cybersecurity Beginners', 'A safe space to learn the fundamentals of cybersecurity and ethical hacking.', 10, 1, '2025-07-21 01:42:00'),
-(111, 'Creative Writing Circle', 'Share your stories, poems, and get constructive feedback.', 2, 0, '2025-07-21 01:45:00'),
-(112, 'Finance & Stock Market', 'Discussing investment strategies, market trends, and financial news.', 11, 1, '2025-07-21 01:55:00'),
-(113, 'Photography Club', 'A place to share photos, techniques, and plan photo walks.', 1, 1, '2025-07-21 01:58:00');
+(101, 'Calculus Crew', 'A group for students taking MATH-101.', 1, 1, '2025-07-21 11:05:00'),
+(102, 'Physics Phantoms', 'Collaborating on advanced physics problems.', 3, 1, '2025-07-21 11:10:00'),
+(103, 'History Buffs', 'Discussions and study sessions for HIST-202.', 5, 0, '2025-07-21 11:15:00'),
+(104, 'Chem Champions', 'Working through organic chemistry.', 8, 1, '2025-07-21 11:20:00'),
+(105, 'Literature Lovers', 'For deep dives into classic literature.', 10, 1, '2025-07-21 11:25:00');
 
 -- --------------------------------------------------------
 
@@ -268,23 +238,19 @@ CREATE TABLE `to_do` (
   `task` varchar(200) NOT NULL,
   `description` text DEFAULT NULL,
   `due_date` date DEFAULT NULL,
-  `assigned_to` int(11) DEFAULT NULL,
-  `status` enum('Open','in progress','done') DEFAULT 'Open'
+  `status` enum('in progress','done') DEFAULT 'in progress'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `to_do`
 --
 
-INSERT INTO `to_do` (`to_do_id`, `group_id`, `user_id`, `task`, `description`, `due_date`, `assigned_to`, `status`) VALUES
-(1, 101, 1, 'Complete Chapter 3 exercises', NULL, '2025-07-25', NULL, 'Open'),
-(2, 104, 1, 'Read The Hindu newspaper', NULL, '2025-07-22', NULL, 'in progress'),
-(3, 101, 1, 'Review partial derivatives', NULL, '2025-07-28', NULL, 'Open'),
-(4, 107, 6, 'Solve 5 easy array problems', 'From LeetCode top interview questions list.', '2025-07-28', NULL, 'Open'),
-(5, 109, 8, 'Research Picasso\'s Blue Period', NULL, '2025-07-30', NULL, 'in progress'),
-(6, 110, 1, 'Set up a firewall on a VM', 'Use UFW on a test Ubuntu server.', '2025-08-01', NULL, 'Open'),
-(7, 101, 2, 'Review final exam topics', 'Focus on chapters 4-6.', '2025-07-25', NULL, 'done'),
-(8, 112, 11, 'Analyze Q1 earnings for Tech Sector', NULL, '2025-07-29', NULL, 'Open');
+INSERT INTO `to_do` (`to_do_id`, `group_id`, `user_id`, `task`, `description`, `due_date`, `status`) VALUES
+(1, 101, 1, 'Prepare presentation on derivatives', 'Cover the chain rule and product rule.', '2025-07-25', 'in progress'),
+(2, 101, 2, 'Complete practice problems for Ch. 2', 'Problems 1-20 from the textbook.', '2025-07-24', 'in progress'),
+(3, 102, 3, 'Research Schrödinger\'s cat', 'Find and summarize two articles.', '2025-07-26', 'done'),
+(4, 104, 8, 'Create flashcards for functional groups', 'Include name, structure, and properties.', '2025-07-23', 'in progress'),
+(5, 105, 10, 'Outline essay on The Great Gatsby', 'Focus on the theme of the American Dream.', '2025-07-28', 'in progress');
 
 -- --------------------------------------------------------
 
@@ -299,7 +265,7 @@ CREATE TABLE `users` (
   `email` varchar(100) NOT NULL,
   `phone_no` varchar(20) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `status` enum('active','banned','Suspected') DEFAULT 'active',
+  `status` enum('active','banned') DEFAULT 'active',
   `reputation_score` int(11) DEFAULT 0,
   `profile_pic` varchar(255) DEFAULT 'https://placehold.co/100x100/0f0f2c/00ffd5?text=DP',
   `created_at` datetime DEFAULT current_timestamp()
@@ -310,18 +276,19 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_name`, `name`, `email`, `phone_no`, `password`, `status`, `reputation_score`, `profile_pic`, `created_at`) VALUES
-(1, 'testuser', 'Test User', 'testuser@gmail.com', '1234567890', '123', 'active', 15, 'user_files/profile_pics/profile_687d3c1a07d20.jpeg', '2025-07-19 17:38:05'),
-(2, 'jane_doe', 'Jane Doe', 'jane.doe@example.com', '9876543210', 'password123', 'active', 25, 'https://placehold.co/100x100/1e293b/ffffff?text=JD', '2025-07-20 10:00:00'),
-(3, 'sam_jones', 'Sam Jones', 'sam.jones@example.com', '1122334455', 'password456', 'active', 5, 'https://placehold.co/100x100/1e293b/ffffff?text=SJ', '2025-07-20 11:30:00'),
-(4, 'alex_smith', 'Alex Smith', 'alex.smith@example.com', '5566778899', 'password789', 'active', 30, 'https://placehold.co/100x100/1e293b/ffffff?text=AS', '2025-07-20 12:00:00'),
-(5, 'emily_white', 'Emily White', 'emily.white@example.com', '9988776655', 'password101', 'active', 10, 'https://placehold.co/100x100/1e293b/ffffff?text=EW', '2025-07-21 09:00:00'),
-(6, 'rahul_sharma', 'Rahul Sharma', 'rahul.sharma@example.com', '8877665544', 'pass123', 'active', 10, 'user_files/profile_pics/profile_687e569533e69.jpeg', '2025-07-21 01:20:00'),
-(7, 'priya_patel', 'Priya Patel', 'priya.patel@example.com', '7766554433', 'pass456', 'active', 5, 'https://placehold.co/100x100/1e293b/ffffff?text=PP', '2025-07-21 01:22:00'),
-(8, 'anika_verma', 'Anika Verma', 'anika.verma@example.com', '6655443322', 'pass789', 'active', 22, 'https://placehold.co/100x100/1e293b/ffffff?text=AV', '2025-07-21 01:35:00'),
-(9, 'vikram_singh', 'Vikram Singh', 'vikram.singh@example.com', '5544332211', 'pass101', 'banned', 0, 'https://placehold.co/100x100/1e293b/ffffff?text=VS', '2025-07-21 01:36:00'),
-(10, 'neha_chopra', 'Neha Chopra', 'neha.chopra@example.com', '4433221100', 'pass202', 'active', 18, 'https://placehold.co/100x100/1e293b/ffffff?text=NC', '2025-07-21 01:37:00'),
-(11, 'arjun_mehta', 'Arjun Mehta', 'arjun.mehta@example.com', '3322110099', 'pass303', 'active', 40, 'https://placehold.co/100x100/1e293b/ffffff?text=AM', '2025-07-21 01:50:00'),
-(12, 'testuser1', 'Test User 1', 'testuser1@gmail.com', '7591534682', '123', 'active', 0, 'user_files/profile_pics/profile_687d49bf8abaf.jpeg', '2025-07-21 01:25:09');
+(1, 'testuser', 'Test User', 'john.doe@example.com', '1234567890', '123', 'active', 10, 'user_files/profile_pics/profile_687fa8e509140.jpeg', '2025-07-21 10:00:00'),
+(2, 'jane_smith', 'Jane Smith', 'jane.smith@example.com', '0987654321', 'hashed_password_2', 'active', 5, 'https://placehold.co/100x100/e74c3c/ffffff?text=JS', '2025-07-21 10:05:00'),
+(3, 'alice_jones', 'Alice Jones', 'alice.jones@example.com', '1122334455', 'hashed_password_3', 'active', 20, 'https://placehold.co/100x100/2ecc71/ffffff?text=AJ', '2025-07-21 10:10:00'),
+(4, 'bob_brown', 'Bob Brown', 'bob.brown@example.com', '5566778899', 'hashed_password_4', 'banned', 0, 'https://placehold.co/100x100/f1c40f/ffffff?text=BB', '2025-07-21 10:15:00'),
+(5, 'charlie_davis', 'Charlie Davis', 'charlie.davis@example.com', '1231231234', 'hashed_password_5', 'active', 15, 'https://placehold.co/100x100/9b59b6/ffffff?text=CD', '2025-07-21 10:20:00'),
+(6, 'diana_miller', 'Diana Miller', 'diana.miller@example.com', '4564564567', 'hashed_password_6', 'active', 8, 'https://placehold.co/100x100/1abc9c/ffffff?text=DM', '2025-07-21 10:25:00'),
+(7, 'ethan_wilson', 'Ethan Wilson', 'ethan.wilson@example.com', '7897897890', 'hashed_password_7', 'banned', 2, 'https://placehold.co/100x100/e67e22/ffffff?text=EW', '2025-07-21 10:30:00'),
+(8, 'fiona_moore', 'Fiona Moore', 'fiona.moore@example.com', '1472583690', 'hashed_password_8', 'active', 30, 'https://placehold.co/100x100/34495e/ffffff?text=FM', '2025-07-21 10:35:00'),
+(9, 'george_taylor', 'George Taylor', 'george.taylor@example.com', '3692581470', 'hashed_password_9', 'active', 12, 'https://placehold.co/100x100/95a5a6/ffffff?text=GT', '2025-07-21 10:40:00'),
+(10, 'hannah_anderson', 'Hannah Anderson', 'hannah.anderson@example.com', '2583691470', 'hashed_password_10', 'active', 25, 'https://placehold.co/100x100/d35400/ffffff?text=HA', '2025-07-21 10:45:00'),
+(11, 'ian_thomas', 'Ian Thomas', 'ian.thomas@example.com', '1593572468', 'hashed_password_11', 'active', 18, 'https://placehold.co/100x100/c0392b/ffffff?text=IT', '2025-07-21 10:50:00'),
+(12, 'jenna_jackson', 'Jenna Jackson', 'jenna.jackson@example.com', '3571592468', 'hashed_password_12', 'active', 22, 'https://placehold.co/100x100/8e44ad/ffffff?text=JJ', '2025-07-21 10:55:00'),
+(13, 'kevin_white', 'Kevin White', 'kevin.white@example.com', '9517538246', 'hashed_password_13', 'active', 3, 'https://placehold.co/100x100/2c3e50/ffffff?text=KW', '2025-07-21 11:00:00');
 
 --
 -- Indexes for dumped tables
@@ -341,7 +308,7 @@ ALTER TABLE `admin`
 ALTER TABLE `announcements`
   ADD PRIMARY KEY (`announcement_id`),
   ADD KEY `admin_id` (`admin_id`),
-  ADD KEY `group_id` (`group_id`);
+  ADD KEY `group_id` (`user_id`);
 
 --
 -- Indexes for table `downloaded_notes`
@@ -380,7 +347,8 @@ ALTER TABLE `notes`
 --
 ALTER TABLE `reports`
   ADD PRIMARY KEY (`report_id`),
-  ADD KEY `user_by` (`user_by`);
+  ADD KEY `user_by` (`user_id`),
+  ADD KEY `target_id` (`target_id`);
 
 --
 -- Indexes for table `study_group`
@@ -395,8 +363,7 @@ ALTER TABLE `study_group`
 ALTER TABLE `to_do`
   ADD PRIMARY KEY (`to_do_id`),
   ADD KEY `group_id` (`group_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `assigned_to` (`assigned_to`);
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `users`
@@ -433,19 +400,19 @@ ALTER TABLE `downloaded_notes`
 -- AUTO_INCREMENT for table `group_members`
 --
 ALTER TABLE `group_members`
-  MODIFY `members_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `members_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `group_messages`
 --
 ALTER TABLE `group_messages`
-  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `notes`
 --
 ALTER TABLE `notes`
-  MODIFY `note_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `note_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `reports`
@@ -457,7 +424,7 @@ ALTER TABLE `reports`
 -- AUTO_INCREMENT for table `study_group`
 --
 ALTER TABLE `study_group`
-  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
+  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
 
 --
 -- AUTO_INCREMENT for table `to_do`
@@ -469,7 +436,7 @@ ALTER TABLE `to_do`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
@@ -480,7 +447,7 @@ ALTER TABLE `users`
 --
 ALTER TABLE `announcements`
   ADD CONSTRAINT `announcements_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`admin_id`),
-  ADD CONSTRAINT `announcements_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `study_group` (`group_id`);
+  ADD CONSTRAINT `announcements_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Constraints for table `downloaded_notes`
@@ -514,7 +481,8 @@ ALTER TABLE `notes`
 -- Constraints for table `reports`
 --
 ALTER TABLE `reports`
-  ADD CONSTRAINT `reports_ibfk_1` FOREIGN KEY (`user_by`) REFERENCES `users` (`user_id`);
+  ADD CONSTRAINT `reports_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `reports_ibfk_2` FOREIGN KEY (`target_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Constraints for table `study_group`
@@ -527,8 +495,7 @@ ALTER TABLE `study_group`
 --
 ALTER TABLE `to_do`
   ADD CONSTRAINT `to_do_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `study_group` (`group_id`),
-  ADD CONSTRAINT `to_do_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
-  ADD CONSTRAINT `to_do_ibfk_3` FOREIGN KEY (`assigned_to`) REFERENCES `users` (`user_id`);
+  ADD CONSTRAINT `to_do_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
