@@ -196,29 +196,6 @@ a {
   background-color: #00c8aa;
 }
 
-/* --- CREATE NEW BUTTON STYLE --- */
-.create-new-btn {
-  background-color: #00ffd5; /* Accent color for create button */
-  color: black; /* Black text on accent button */
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  height: 42px; /* Match search button height */
-}
-
-.create-new-btn:hover {
-  background-color: #00c8aa; /* Slightly darker accent on hover */
-  transform: translateY(-2px);
-}
-
-
 /* Dashboard Grid for Cards */
 .dashboard-grid {
   display: grid;
@@ -226,15 +203,23 @@ a {
   gap: 30px;
 }
 
+/* NEW: Grid container for the bottom row of cards */
+.bottom-grid-container {
+    grid-column: 1 / -1; /* Make this container span the full width of the parent grid */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
 .card {
-  background-color: rgba(255, 255, 255, 0.08); /* Lighter glassmorphism for cards */
+  background-color: rgba(255, 255, 255, 0.08);
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Card shadow */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   padding: 25px;
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle card border */
-  backdrop-filter: blur(10px); /* Card blur */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -245,7 +230,7 @@ a {
 
 .card h3 {
   font-size: 22px;
-  color: #00ffd5; /* Accent color for card headings */
+  color: #00ffd5;
   margin-bottom: 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 15px;
@@ -303,32 +288,29 @@ a {
   margin-top: auto;
 }
 
-
-/* Specific Card Styles */
-.recent-notes-card, .full-width {
-  grid-column: 1 / -1; /* Occupy full width */
-}
-
 /* Item Styles within Cards */
 .group-item,
 .task-item,
-.note-item {
+.note-item,
+.report-item { /* Added report-item */
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Item separator */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .group-item:last-child,
 .task-item:last-child,
-.note-item:last-child {
+.note-item:last-child,
+.report-item:last-child { /* Added report-item */
   border-bottom: none;
 }
 
 .group-details h4,
 .task-details h4,
-.note-details h4 {
+.note-details h4,
+.report-details h4 { /* Added report-details */
   font-size: 18px;
   color: white;
   margin-bottom: 5px;
@@ -336,7 +318,8 @@ a {
 
 .group-details p,
 .task-details p,
-.note-details p {
+.note-details p,
+.report-details p { /* Added report-details */
   font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
 }
@@ -357,31 +340,25 @@ a {
   color: black;
 }
 
-/* STYLES FOR SEARCH RESULTS */
-.join-btn {
-    background-color: rgba(0, 255, 213, 0.2);
-    color: #00ffd5;
-    padding: 8px 15px;
-    border: 1px solid #00ffd5;
+/* NEW: Styles for the report status */
+.report-status {
+    padding: 5px 10px;
     border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.join-btn:hover {
-    background-color: #00ffd5;
-    color: black;
-}
-
-.joined-message {
-    color: #4CAF50;
+    font-size: 12px;
     font-weight: bold;
-    font-size: 14px;
-    padding: 8px 15px;
-    border: 1px solid #4CAF50;
-    border-radius: 6px;
+    text-transform: uppercase;
+}
+.status-reported {
+    background-color: rgba(244, 67, 54, 0.2);
+    color: #f44336;
+}
+.status-review {
+    background-color: rgba(255, 193, 7, 0.2);
+    color: #FFC107;
+}
+.status-resolved {
     background-color: rgba(76, 175, 80, 0.2);
+    color: #4CAF50;
 }
 
 
@@ -536,8 +513,8 @@ a {
     grid-template-columns: 1fr;
   }
 
-  .recent-notes-card, .full-width {
-    grid-column: auto;
+  .bottom-grid-container {
+    grid-template-columns: 1fr;
   }
 
   .welcome-section h2 {

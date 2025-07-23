@@ -22,7 +22,7 @@ $profile_pic_result = $stmt_profile_pic->get_result();
 $profile_pic_data = $profile_pic_result->fetch_assoc();
 $user_profile_pic = $profile_pic_data['profile_pic'] ?? 'https://placehold.co/100x100/0f0f2c/00ffd5?text=DP'; // Default placeholder
 
-// Function to calculate time ago for notes
+// Function to calculate time ago
 function time_ago($datetime, $full = false) {
     $now = new DateTime;
     $ago = new DateTime($datetime);
@@ -31,15 +31,7 @@ function time_ago($datetime, $full = false) {
     $diff->w = floor($diff->d / 7);
     $diff->d -= $diff->w * 7;
 
-    $string = array(
-        'y' => 'year',
-        'm' => 'month',
-        'w' => 'week',
-        'd' => 'day',
-        'h' => 'hour',
-        'i' => 'minute',
-        's' => 'second',
-    );
+    $string = array('y' => 'year', 'm' => 'month', 'w' => 'week', 'd' => 'day', 'h' => 'hour', 'i' => 'minute', 's' => 'second');
     foreach ($string as $k => &$v) {
         if ($diff->$k) {
             $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
@@ -53,7 +45,7 @@ function time_ago($datetime, $full = false) {
 }
 
 
-// Fetch Study Groups created by or joined by the user, including member count
+// Fetch Study Groups
 $groups_query = "
     SELECT sg.group_id, sg.group_name, COUNT(gm.members_id) AS member_count
     FROM study_group sg
@@ -69,15 +61,14 @@ $stmt_groups->execute();
 $groups_result = $stmt_groups->get_result();
 
 
-// Fetch Upcoming Tasks for the user
+// Fetch Upcoming Tasks
 $tasks_query = "SELECT task, due_date FROM to_do WHERE user_id = ? AND status IN ('Open', 'in progress') ORDER BY due_date ASC LIMIT 3";
 $stmt_tasks = $conn->prepare($tasks_query);
 $stmt_tasks->bind_param("i", $user_id);
 $stmt_tasks->execute();
 $tasks_result = $stmt_tasks->get_result();
 
-// Fetch Recently Downloaded Notes by the user, including uploader's name and time since upload
-// This query now also fetches the note_id to create the download link
+// Fetch Recently Downloaded Notes
 $notes_query = "
   SELECT dn.note_id, dn.title AS note_title, dn.downloaded_at AS download_date, u.user_name AS uploader_name
   FROM downloaded_notes dn
@@ -92,11 +83,32 @@ $stmt_notes->bind_param("i", $user_id);
 $stmt_notes->execute();
 $notes_result = $stmt_notes->get_result();
 
+// NEW: Fetch reports submitted by the user
+$reports_query = "
+    SELECT 
+        r.status, 
+        r.created_at,
+        u.user_name AS reported_user_name,
+        sg.group_name
+    FROM reports r
+    JOIN users u ON r.target_id = u.user_id
+    JOIN study_group sg ON r.group_id = sg.group_id
+    WHERE r.user_id = ?
+    ORDER BY r.created_at DESC
+    LIMIT 4
+";
+$stmt_reports = $conn->prepare($reports_query);
+$stmt_reports->bind_param("i", $user_id);
+$stmt_reports->execute();
+$reports_result = $stmt_reports->get_result();
+
+
 // Close all statements and connection
 $stmt_profile_pic->close();
 $stmt_groups->close();
 $stmt_tasks->close();
 $stmt_notes->close();
+$stmt_reports->close();
 $conn->close();
 ?>
 
@@ -107,12 +119,10 @@ $conn->close();
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>User Dashboard - Athena</title>
   <link rel="stylesheet" href="panelstyle.css" />
-  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <div class="dashboard-wrapper">
-    <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-header">
         <div class="logo">ATHENA</div>
@@ -132,7 +142,6 @@ $conn->close();
       </div>
     </aside>
 
-    <!-- Main Content -->
     <main class="main-content">
       <header class="main-header">
         <div class="welcome-section">
@@ -146,23 +155,18 @@ $conn->close();
         </div>
       </header>
 
-      <!-- Search Results Section (Initially Hidden) - Placed outside the grid -->
       <div id="search-results-container" style="display: none; margin-bottom: 30px;">
           <div class="card">
               <h3>Search Results</h3>
-              <div id="search-results-content" class="card-content">
-                  <!-- Search results will be injected here by JavaScript -->
-              </div>
+              <div id="search-results-content" class="card-content"></div>
           </div>
       </div>
 
       <section class="dashboard-grid">
-        <!-- Profile Picture Card -->
         <div class="card profile-overview-card">
             <h3>Your Profile</h3>
             <div class="card-content profile-card-content">
                 <div class="profile-card-avatar">
-                    <!-- CORRECTED: Profile picture path -->
                     <img src="../../<?= htmlspecialchars($user_profile_pic) ?>" alt="Profile Picture" class="profile-card-img">
                 </div>
                 <p class="profile-card-name"><?= htmlspecialchars($user_display_name) ?></p>
@@ -171,7 +175,6 @@ $conn->close();
             </div>
         </div>
 
-        <!-- Your Study Groups Section -->
         <div class="card study-groups-card">
           <h3>Your Study Groups</h3>
           <div class="card-content">
@@ -191,7 +194,6 @@ $conn->close();
           </div>
         </div>
 
-        <!-- Upcoming Tasks Section -->
         <div class="card upcoming-tasks-card">
           <h3>Upcoming Tasks</h3>
           <div class="card-content">
@@ -211,29 +213,68 @@ $conn->close();
           </div>
         </div>
 
-        <!-- Recent Notes Section -->
-        <div class="card recent-notes-card full-width">
-          <h3>Recent Notes</h3>
-          <div class="card-content">
-            <?php if ($notes_result && $notes_result->num_rows > 0): ?>
-              <?php while($row = $notes_result->fetch_assoc()): ?>
-                <div class="note-item">
-                  <div class="note-details">
-                    <h4><?= htmlspecialchars($row['note_title']) ?></h4>
-                    <!-- CORRECTED: Time calculation now uses download_date -->
-                    <p>Downloaded <?= time_ago($row['download_date']) ?> by <?= htmlspecialchars($row['uploader_name']) ?></p>
-                  </div>
-                  <!-- ADDED: Download button is now a functional link -->
-                  <a href="./chat_box/log_download.php?note_id=<?= $row['note_id'] ?>" class="download-link">
-                    <i class="fas fa-download download-icon"></i>
-                  </a>
+        <!-- MODIFIED: Wrapped notes and reports in a new grid container -->
+        <div class="bottom-grid-container">
+            <div class="card recent-notes-card">
+              <h3>Recent Notes</h3>
+              <div class="card-content">
+                <?php if ($notes_result && $notes_result->num_rows > 0): ?>
+                  <?php while($row = $notes_result->fetch_assoc()): ?>
+                    <div class="note-item">
+                      <div class="note-details">
+                        <h4><?= htmlspecialchars($row['note_title']) ?></h4>
+                        <p>Downloaded <?= time_ago($row['download_date']) ?> by <?= htmlspecialchars($row['uploader_name']) ?></p>
+                      </div>
+                      <a href="./chat_box/log_download.php?note_id=<?= $row['note_id'] ?>" class="download-link">
+                        <i class="fas fa-download download-icon"></i>
+                      </a>
+                    </div>
+                  <?php endwhile; ?>
+                <?php else: ?>
+                  <p class="no-data">No notes downloaded recently. <a href="#">Browse notes!</a></p>
+                <?php endif; ?>
+              </div>
+            </div>
+
+            <!-- NEW: Your Reports Card -->
+            <div class="card your-reports-card">
+                <h3>Your Reports</h3>
+                <div class="card-content">
+                    <?php if ($reports_result && $reports_result->num_rows > 0): ?>
+                        <?php while($report = $reports_result->fetch_assoc()): ?>
+                            <div class="report-item">
+                                <div class="report-details">
+                                    <h4>Reported: <?= htmlspecialchars($report['reported_user_name']) ?></h4>
+                                    <p>In group: <?= htmlspecialchars($report['group_name']) ?> on <?= date('M d, Y', strtotime($report['created_at'])) ?></p>
+                                </div>
+                                <?php
+                                    $status_class = '';
+                                    $status_text = '';
+                                    switch ($report['status']) {
+                                        case 'open':
+                                            $status_class = 'status-reported';
+                                            $status_text = 'Reported';
+                                            break;
+                                        case 'review':
+                                            $status_class = 'status-review';
+                                            $status_text = 'Under Review';
+                                            break;
+                                        case 'resolved':
+                                            $status_class = 'status-resolved';
+                                            $status_text = 'Resolved';
+                                            break;
+                                    }
+                                ?>
+                                <span class="report-status <?= $status_class ?>"><?= $status_text ?></span>
+                            </div>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <p class="no-data">You have not submitted any reports.</p>
+                    <?php endif; ?>
                 </div>
-              <?php endwhile; ?>
-            <?php else: ?>
-              <p class="no-data">No notes downloaded recently. <a href="#">Browse notes!</a></p>
-            <?php endif; ?>
-          </div>
+            </div>
         </div>
+
       </section>
     </main>
   </div>
