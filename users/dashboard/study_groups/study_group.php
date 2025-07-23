@@ -1,20 +1,14 @@
 <?php
 session_start();
-require '../../connect.php'; // Ensure this path is correct relative to study_group.php
+require '../../connect.php'; 
 
-// Check if user is logged in, otherwise redirect to login page
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../../login_page.php");
     exit();
 }
 
-// Get the user ID and name from the session
 $user_id = $_SESSION['user_id'];
-$user_name = $_SESSION['name'] ?? $_SESSION['user_name'] ?? 'User'; // Fallback for user_name if not set in session
-
-// Initialize message variables for group creation
-$group_success_message = '';
-$group_error_message = '';
+$user_name = $_SESSION['name'] ?? $_SESSION['user_name'] ?? 'User';
 
 // --- Handle Group Creation Form Submission ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_group_submit'])) {
@@ -22,42 +16,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_group_submit']
     $group_description = trim($_POST['group_description'] ?? '');
 
     if (empty($group_name)) {
-        $group_error_message = "Group name cannot be empty.";
+        $_SESSION['error_message'] = "Group name cannot be empty.";
     } else {
-        // Prepare and execute the insert query
-        // approved field will be 0 (pending approval)
         $insert_query = "INSERT INTO study_group (group_name, description, user_id, approved) VALUES (?, ?, ?, 0)";
         $stmt_insert = $conn->prepare($insert_query);
         $stmt_insert->bind_param("ssi", $group_name, $group_description, $user_id);
 
         if ($stmt_insert->execute()) {
-            $group_success_message = "Group '" . htmlspecialchars($group_name) . "' requested successfully! It will appear once approved by an admin.";
+            $_SESSION['success_message'] = "Group '" . htmlspecialchars($group_name) . "' requested successfully! It will appear once approved.";
         } else {
-            $group_error_message = "Error creating group: " . $stmt_insert->error;
+            $_SESSION['error_message'] = "Error creating group: " . $stmt_insert->error;
         }
         $stmt_insert->close();
     }
+    // Redirect to the same page to prevent form resubmission on refresh
+    header("Location: study_group.php");
+    exit();
 }
 
 // --- Fetch groups the user created OR is a member of ---
 $study_groups = [];
 $query_groups = "
     SELECT
-        sg.group_id,
-        sg.group_name,
-        sg.description,
-        sg.approved,
-        sg.user_id AS creator_id,
-        u.user_name AS creator_name,
+        sg.group_id, sg.group_name, sg.description, sg.approved,
+        sg.user_id AS creator_id, u.user_name AS creator_name,
         (SELECT COUNT(*) FROM group_members gm_count WHERE gm_count.group_id = sg.group_id) AS member_count
-    FROM
-        study_group sg
-    JOIN
-        users u ON sg.user_id = u.user_id
-    WHERE
-        sg.user_id = ? OR EXISTS (SELECT 1 FROM group_members gm WHERE gm.group_id = sg.group_id AND gm.user_id = ?)
-    ORDER BY
-        sg.created_at DESC;
+    FROM study_group sg
+    JOIN users u ON sg.user_id = u.user_id
+    WHERE sg.user_id = ? OR EXISTS (SELECT 1 FROM group_members gm WHERE gm.group_id = sg.group_id AND gm.user_id = ?)
+    ORDER BY sg.created_at DESC;
 ";
 
 $stmt_groups = $conn->prepare($query_groups);
@@ -69,12 +56,10 @@ if ($result_groups) {
     while ($row = $result_groups->fetch_assoc()) {
         $study_groups[] = $row;
     }
-} else {
-    error_log("Error fetching study groups: " . $conn->error);
 }
 
 $stmt_groups->close();
-$conn->close(); // Close connection after fetching data
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -83,16 +68,12 @@ $conn->close(); // Close connection after fetching data
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>User - Study Group - Athena</title>
-  <!-- Link to the main panelstyle.css for overall dashboard layout and sidebar -->
   <link rel="stylesheet" href="../panelstyle.css">
-  <!-- Link to the NEW study_group_style.css -->
   <link rel="stylesheet" href="study_group_style.css">
-  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <div class="dashboard-wrapper">
-    <!-- Sidebar - Copied from user_panel.php -->
     <aside class="sidebar">
       <div class="sidebar-header">
         <div class="logo">ATHENA</div>
@@ -112,7 +93,6 @@ $conn->close(); // Close connection after fetching data
       </div>
     </aside>
 
-    <!-- Main Content -->
     <main class="main-content">
       <header class="main-header">
         <div class="welcome-section">
@@ -124,15 +104,16 @@ $conn->close(); // Close connection after fetching data
       </header>
 
       <section class="dashboard-grid">
-        <!-- Display messages for group creation -->
-        <?php if ($group_success_message): ?>
-            <div class="message success-message"><?= htmlspecialchars($group_success_message) ?></div>
+        <!-- MODIFIED: Display session messages for all actions -->
+        <?php if (isset($_SESSION['success_message'])): ?>
+            <div class="message success-message"><?= htmlspecialchars($_SESSION['success_message']) ?></div>
+            <?php unset($_SESSION['success_message']); ?>
         <?php endif; ?>
-        <?php if ($group_error_message): ?>
-            <div class="message error-message"><?= htmlspecialchars($group_error_message) ?></div>
+        <?php if (isset($_SESSION['error_message'])): ?>
+            <div class="message error-message"><?= htmlspecialchars($_SESSION['error_message']) ?></div>
+            <?php unset($_SESSION['error_message']); ?>
         <?php endif; ?>
 
-        <!-- Group Creation Form (initially hidden) -->
         <div class="card create-group-card" id="create-group-form-card" style="display: none;">
             <h3>Request New Study Group</h3>
             <div class="card-content">
@@ -146,7 +127,6 @@ $conn->close(); // Close connection after fetching data
                         <label for="group_description">Description</label>
                         <textarea id="group_description" name="group_description" placeholder="Briefly describe the group's purpose..." rows="3"></textarea>
                     </div>
-                    <!-- The submit button is now part of the main page JS -->
                 </form>
             </div>
         </div>
@@ -166,12 +146,12 @@ $conn->close(); // Close connection after fetching data
                     </span>
                   </p>
                 </div>
-                <!-- MODIFIED: Conditional button display -->
                 <?php if ($group['creator_id'] == $user_id): ?>
                     <!-- If the user is the creator, show a 'Disband' button -->
                     <form action="./disband_group.php" method="post" onsubmit="return confirm('Are you sure you want to PERMANENTLY disband this group? This cannot be undone.');" style="display: inline;">
                         <input type="hidden" name="group_id" value="<?= $group['group_id'] ?>">
-                        <button type="submit" class="leave-btn">Disband</button>
+                        <!-- MODIFIED: Changed button class to 'disband-btn' -->
+                        <button type="submit" class="disband-btn">Disband</button>
                     </form>
                 <?php else: ?>
                     <!-- If the user is just a member, show a 'Leave Group' button -->
@@ -187,7 +167,6 @@ $conn->close(); // Close connection after fetching data
     </main>
   </div>
   <div id="notification-container"></div>
-  <!-- Link to the new dscript.js file -->
   <script src="../dscript.js"></script>
 </body>
 </html>

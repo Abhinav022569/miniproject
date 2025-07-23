@@ -1,26 +1,27 @@
 /* Specific styles for the User Profile Page */
 
-/* Profile Grid Layout */
+/* MODIFIED: Profile Grid Layout */
 .profile-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Creates a responsive 3-column grid */
   gap: 30px;
-  margin-top: 30px; /* Space from header */
+  margin-top: 30px;
 }
 
-/* Card Styling (inherits most from panelstyle.css, but some overrides for consistency) */
+/* REMOVED: The .profile-grid-row class is no longer needed */
+
+/* Card Styling */
 .profile-grid .card {
-  /* Ensure these match panelstyle.css's .card if you want exact consistency */
-  background-color: rgba(255, 255, 255, 0.08); /* Lighter glassmorphism for cards */
+  background-color: rgba(255, 255, 255, 0.08);
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Card shadow */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   padding: 25px;
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle card border */
-  backdrop-filter: blur(10px); /* Card blur */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  color: white; /* Default text color for card content */
+  color: white;
 }
 
 .profile-grid .card:hover {
@@ -30,10 +31,16 @@
 
 .profile-grid .card h3 {
   font-size: 22px;
-  color: #00ffd5; /* Accent color for card headings */
+  color: #00ffd5;
   margin-bottom: 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 15px;
+}
+
+.profile-grid .card .card-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Info Items within Cards */
@@ -42,7 +49,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Separator */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .info-item:last-child {
@@ -71,16 +78,16 @@
   height: 120px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #00ffd5; /* Accent border for avatar */
+  border: 3px solid #00ffd5;
   margin-bottom: 15px;
-  box-shadow: 0 0 10px rgba(0, 255, 213, 0.3); /* Subtle glow */
+  box-shadow: 0 0 10px rgba(0, 255, 213, 0.3);
 }
 
 .change-avatar-btn {
-  background-color: rgba(0, 255, 213, 0.2); /* Light accent background */
+  background-color: rgba(0, 255, 213, 0.2);
   color: #00ffd5;
   padding: 8px 15px;
-  border: 1px solid #00ffd5; /* Accent border */
+  border: 1px solid #00ffd5;
   border-radius: 6px;
   font-size: 14px;
   cursor: pointer;
@@ -93,7 +100,7 @@
   transform: translateY(-2px);
 }
 
-/* Input Group Styling for Forms (Personal Info & Password Settings) */
+/* Input Group Styling for Forms */
 .input-group {
   margin-bottom: 15px;
 }
@@ -108,12 +115,12 @@
 .input-group input[type="password"],
 .input-group input[type="text"],
 .input-group input[type="email"],
-.input-group input[type="tel"] { /* Added tel type for phone number */
+.input-group input[type="tel"] {
   width: 100%;
   padding: 10px 15px;
-  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent input background */
+  background-color: rgba(255, 255, 255, 0.1);
   color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   font-size: 16px;
   outline: none;
@@ -125,18 +132,42 @@
 }
 
 .input-group input:focus {
-  border-color: #00ffd5; /* Accent border on focus */
+  border-color: #00ffd5;
 }
 
-/* Full width card for Password Settings */
-.full-width {
-  grid-column: 1 / -1; /* Spans all columns in the grid */
+/* Styles for the majestic reputation score */
+.reputation-score-container {
+    text-align: center;
+    padding: 20px 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 10px;
 }
 
-/* NEW: Style for local save/change buttons inside the cards */
+.reputation-score-value {
+    font-size: 72px;
+    font-weight: bold;
+    color: #00ffd5;
+    line-height: 1;
+    text-shadow: 0 0 20px rgba(0, 255, 213, 0.5);
+}
+
+.reputation-score-label {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+
+/* Style for local save/change buttons inside the cards */
 .save-changes-btn-local {
-  background-color: #00ffd5; /* Accent color for save button */
-  color: black; /* Black text on accent button */
+  background-color: #00ffd5;
+  color: black;
   padding: 10px 20px;
   border: none;
   border-radius: 8px;
@@ -147,11 +178,11 @@
   gap: 8px;
   font-weight: bold;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  margin-top: 10px; /* Space above the button */
+  margin-top: 10px;
 }
 
 .save-changes-btn-local:hover {
-  background-color: #00c8aa; /* Slightly darker accent on hover */
+  background-color: #00c8aa;
   transform: translateY(-2px);
 }
 
@@ -159,30 +190,29 @@
     margin-right: 5px;
 }
 
-
-/* Message Styles (for success/error messages) */
+/* Message Styles */
 .message {
     padding: 10px;
     margin-bottom: 15px;
     border-radius: 8px;
     font-weight: bold;
     text-align: center;
-    grid-column: 1 / -1; /* Make messages span full width */
+    grid-column: 1 / -1;
 }
 .success-message {
-    background-color: rgba(76, 175, 80, 0.2); /* Green with transparency */
+    background-color: rgba(76, 175, 80, 0.2);
     color: #4CAF50;
     border: 1px solid #4CAF50;
 }
 .error-message {
-    background-color: rgba(244, 67, 54, 0.2); /* Red with transparency */
+    background-color: rgba(244, 67, 54, 0.2);
     color: #f44336;
     border: 1px solid #f44336;
 }
 
-/* Responsive Adjustments (adapted from panelstyle.css logic) */
-@media (max-width: 768px) {
+/* Responsive Adjustments */
+@media (max-width: 1200px) { /* Adjust breakpoint for when cards stack */
   .profile-grid {
-    grid-template-columns: 1fr; /* Stack cards vertically on smaller screens */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   }
 }

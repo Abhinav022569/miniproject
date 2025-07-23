@@ -10,7 +10,6 @@ if (!isset($_SESSION['user_id'])) {
 
 // Ensure the request is a POST request and group_id is set
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['group_id'])) {
-    // Redirect with an error message if the request is invalid
     $_SESSION['error_message'] = "Invalid request.";
     header("Location: study_group.php");
     exit();
@@ -37,14 +36,13 @@ try {
     $group_data = $result_check->fetch_assoc();
     
     if ($group_data['user_id'] != $current_user_id) {
-        // If the user is not the creator, roll back and show an error
         throw new Exception("You do not have permission to disband this group.");
     }
     $stmt_check->close();
 
     // Proceed with deletion in the correct order to avoid foreign key errors
 
-    // 1. Delete from downloaded_notes (which is linked to the notes table)
+    // 1. Delete from downloaded_notes
     $sql_dn = "DELETE dn FROM downloaded_notes dn JOIN notes n ON dn.note_id = n.note_id WHERE n.group_id = ?";
     $stmt_dn = $conn->prepare($sql_dn);
     $stmt_dn->bind_param("i", $group_id);
@@ -64,22 +62,17 @@ try {
     $stmt_msgs->bind_param("i", $group_id);
     $stmt_msgs->execute();
     $stmt_msgs->close();
-
-    // 4. Delete from to_do
-    $sql_todo = "DELETE FROM to_do WHERE group_id = ?";
-    $stmt_todo = $conn->prepare($sql_todo);
-    $stmt_todo->bind_param("i", $group_id);
-    $stmt_todo->execute();
-    $stmt_todo->close();
     
-    // 5. Delete from group_members
+    // 4. Delete from group_members
     $sql_members = "DELETE FROM group_members WHERE group_id = ?";
     $stmt_members = $conn->prepare($sql_members);
     $stmt_members->bind_param("i", $group_id);
     $stmt_members->execute();
     $stmt_members->close();
+    
+    // REMOVED: The erroneous query that was trying to delete from the 'to_do' table.
 
-    // 6. Finally, delete the group itself from the study_group table
+    // 5. Finally, delete the group itself from the study_group table
     $sql_group = "DELETE FROM study_group WHERE group_id = ?";
     $stmt_group = $conn->prepare($sql_group);
     $stmt_group->bind_param("i", $group_id);
@@ -97,7 +90,6 @@ try {
 }
 
 $conn->close();
-// CORRECTED: Redirect back to the study_group.php in the *same* directory.
 header("Location: study_group.php");
 exit();
 ?>

@@ -151,6 +151,7 @@ a {
   flex-wrap: wrap;
 }
 
+/* --- SEARCH BAR STYLES --- */
 .search-bar {
   position: relative;
   display: flex;
@@ -193,6 +194,28 @@ a {
 
 .search-action-btn:hover {
   background-color: #00c8aa;
+}
+
+/* --- CREATE NEW BUTTON STYLE (Used on study_group.php) --- */
+.create-new-btn {
+  background-color: #00ffd5;
+  color: black;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  height: 42px;
+}
+
+.create-new-btn:hover {
+  background-color: #00c8aa;
+  transform: translateY(-2px);
 }
 
 .dashboard-grid {
@@ -319,7 +342,7 @@ a {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.view-btn {
+.view-btn, .join-btn { /* MODIFIED: Combined .view-btn and .join-btn for consistency */
   background-color: rgba(0, 255, 213, 0.2);
   color: #00ffd5;
   padding: 8px 15px;
@@ -328,11 +351,20 @@ a {
   font-size: 14px;
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
+  font-weight: bold;
 }
 
-.view-btn:hover {
+.view-btn:hover, .join-btn:hover { /* MODIFIED: Combined hover styles */
   background-color: #00ffd5;
   color: black;
+}
+
+/* MODIFIED: Styling for the 'Joined' message */
+.joined-message {
+    color: #4CAF50;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 8px 15px;
 }
 
 .report-status {
@@ -355,7 +387,6 @@ a {
     color: #4CAF50;
 }
 
-/* MODIFIED: Replaced input[type=checkbox] with a custom div style */
 .task-checkbox-button {
   width: 22px;
   height: 22px;
@@ -371,7 +402,7 @@ a {
 }
 
 .task-checkbox-button::after {
-    content: '\f00c'; /* Font Awesome check icon */
+    content: '\f00c';
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
     position: absolute;
@@ -404,7 +435,6 @@ a {
   color: #00c8aa;
 }
 
-/* NEW: Animation for removing a task */
 .task-item.removing {
     animation: fadeOutTask 0.5s forwards ease-in-out;
 }
@@ -413,7 +443,7 @@ a {
     from {
         opacity: 1;
         transform: scaleY(1);
-        height: 59px; /* Adjust to match the item's height */
+        height: 59px;
     }
     to {
         opacity: 0;

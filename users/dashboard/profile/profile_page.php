@@ -1,29 +1,23 @@
 <?php
 session_start();
-// IMPORTANT: Keep require_once here to ensure $conn is available for all POST handling
-require '../../connect.php'; // Ensure this path is correct relative to profile_page.php
+require '../../connect.php'; 
 
-// Check if user is logged in, otherwise redirect to login page
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../../login_page.php");
     exit();
 }
 
-// Get the user ID from the session
 $user_id = $_SESSION['user_id'];
-
-// Initialize message variables
 $success_message = '';
 $error_message = '';
 
 // --- Handle Profile Picture Upload ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_pic_upload'])) {
-    // Re-fetch $conn if it was closed by a previous operation (though it shouldn't be with this structure)
     if (!$conn || $conn->connect_error) {
         require '../../connect.php';
     }
 
-    $target_dir = "../../../user_files/profile_pics/"; // Directory to save uploaded pictures
+    $target_dir = "../../../user_files/profile_pics/";
     if (!is_dir($target_dir)) {
         mkdir($target_dir, 0777, true);
     }
@@ -42,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_pic_upload']
         $uploadOk = 0;
     }
 
-    if ($_FILES["profile_pic_upload"]["size"] > 5000000) { // 5MB
+    if ($_FILES["profile_pic_upload"]["size"] > 5000000) {
         $error_message = "Sorry, your file is too large (max 5MB).";
         $uploadOk = 0;
     }
@@ -56,19 +50,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_pic_upload']
         if (move_uploaded_file($_FILES["profile_pic_upload"]["tmp_name"], $target_file_unique)) {
             $update_query = "UPDATE users SET profile_pic = ? WHERE user_id = ?";
             $stmt_update = $conn->prepare($update_query);
-            if ($stmt_update === false) {
-                $error_message = "Prepare failed for profile pic update: " . $conn->error;
-                error_log("Profile Pic Update Prepare Error: " . $conn->error);
+            $stmt_update->bind_param("si", $db_file_path, $user_id);
+            if ($stmt_update->execute()) {
+                $success_message = "Profile picture updated successfully!";
             } else {
-                $stmt_update->bind_param("si", $db_file_path, $user_id);
-                if ($stmt_update->execute()) {
-                    $success_message = "Profile picture updated successfully!";
-                } else {
-                    $error_message = "Error updating database: " . $stmt_update->error;
-                    error_log("Profile Pic Update Execute Error: " . $stmt_update->error);
-                }
-                $stmt_update->close();
+                $error_message = "Error updating database: " . $stmt_update->error;
             }
+            $stmt_update->close();
         } else {
             $error_message = "Sorry, there was an error uploading your file.";
         }
@@ -77,7 +65,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_pic_upload']
 
 // --- Handle Personal Information Update ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_personal_info_submit'])) {
-    // Re-fetch $conn if it was closed by a previous operation
     if (!$conn || $conn->connect_error) {
         require '../../connect.php';
     }
@@ -93,42 +80,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_personal_info_
     } else {
         $check_duplicate_query = "SELECT user_id FROM users WHERE (email = ? OR phone_no = ?) AND user_id != ?";
         $stmt_check = $conn->prepare($check_duplicate_query);
-        if ($stmt_check === false) {
-            $error_message = "Prepare failed for duplicate check: " . $conn->error;
-            error_log("Duplicate Check Prepare Error: " . $conn->error);
-        } else {
-            $stmt_check->bind_param("ssi", $new_email, $new_phone_no, $user_id);
-            $stmt_check->execute();
-            $duplicate_result = $stmt_check->get_result();
+        $stmt_check->bind_param("ssi", $new_email, $new_phone_no, $user_id);
+        $stmt_check->execute();
+        $duplicate_result = $stmt_check->get_result();
 
-            if ($duplicate_result->num_rows > 0) {
-                $error_message = "Email or Phone number already in use by another account.";
+        if ($duplicate_result->num_rows > 0) {
+            $error_message = "Email or Phone number already in use by another account.";
+        } else {
+            $update_query = "UPDATE users SET name = ?, email = ?, phone_no = ? WHERE user_id = ?";
+            $stmt_update = $conn->prepare($update_query);
+            $stmt_update->bind_param("sssi", $new_name, $new_email, $new_phone_no, $user_id);
+            if ($stmt_update->execute()) {
+                $success_message = "Personal information updated successfully!";
+                $_SESSION['name'] = $new_name;
             } else {
-                $update_query = "UPDATE users SET name = ?, email = ?, phone_no = ? WHERE user_id = ?";
-                $stmt_update = $conn->prepare($update_query);
-                if ($stmt_update === false) {
-                    $error_message = "Prepare failed for personal info update: " . $conn->error;
-                    error_log("Personal Info Update Prepare Error: " . $conn->error);
-                } else {
-                    $stmt_update->bind_param("sssi", $new_name, $new_email, $new_phone_no, $user_id);
-                    if ($stmt_update->execute()) {
-                        $success_message = "Personal information updated successfully!";
-                        $_SESSION['name'] = $new_name;
-                    } else {
-                        $error_message = "Error updating personal information: " . $stmt_update->error;
-                        error_log("Personal Info Update Execute Error: " . $stmt_update->error);
-                    }
-                    $stmt_update->close();
-                }
+                $error_message = "Error updating personal information: " . $stmt_update->error;
             }
-            $stmt_check->close();
+            $stmt_update->close();
         }
+        $stmt_check->close();
     }
 }
 
 // --- Handle Password Change ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_password_submit'])) {
-    // Re-fetch $conn if it was closed by a previous operation
     if (!$conn || $conn->connect_error) {
         require '../../connect.php';
     }
@@ -137,73 +112,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_password_submi
     $new_password = $_POST['new_password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
 
-    // Fetch current password from the database
     $get_password_query = "SELECT password FROM users WHERE user_id = ?";
     $stmt_get_password = $conn->prepare($get_password_query);
-    if ($stmt_get_password === false) {
-        $error_message = "Prepare failed for get password: " . $conn->error;
-        error_log("Get Password Prepare Error: " . $conn->error);
+    $stmt_get_password->bind_param("i", $user_id);
+    $stmt_get_password->execute();
+    $password_result = $stmt_get_password->get_result();
+    $user_db_password = $password_result->fetch_assoc()['password'] ?? '';
+    $stmt_get_password->close();
+
+    if ($current_password !== $user_db_password) {
+        $error_message = "Current password is incorrect.";
+    } elseif (empty($new_password) || empty($confirm_password)) {
+        $error_message = "New password and confirm password fields cannot be empty.";
+    } elseif ($new_password !== $confirm_password) {
+        $error_message = "New password and confirm password do not match.";
+    } elseif (strlen($new_password) < 6) {
+        $error_message = "New password must be at least 6 characters long.";
     } else {
-        $stmt_get_password->bind_param("i", $user_id);
-        $stmt_get_password->execute();
-        $password_result = $stmt_get_password->get_result();
-        $user_db_password = $password_result->fetch_assoc()['password'] ?? '';
-        $stmt_get_password->close();
-
-        // Validate current password (plain text comparison as per your DB)
-        if ($current_password !== $user_db_password) {
-            $error_message = "Current password is incorrect.";
-        } elseif (empty($new_password) || empty($confirm_password)) {
-            $error_message = "New password and confirm password fields cannot be empty.";
-        } elseif ($new_password !== $confirm_password) {
-            $error_message = "New password and confirm password do not match.";
-        } elseif (strlen($new_password) < 6) {
-            $error_message = "New password must be at least 6 characters long.";
+        $hashed_new_password = $new_password;
+        $update_password_query = "UPDATE users SET password = ? WHERE user_id = ?";
+        $stmt_update_password = $conn->prepare($update_password_query);
+        $stmt_update_password->bind_param("si", $hashed_new_password, $user_id);
+        if ($stmt_update_password->execute()) {
+            $success_message = "Password updated successfully!";
         } else {
-            // Update password in database
-            // IMPORTANT: Still storing plain text. Hash passwords in a real app!
-            $hashed_new_password = $new_password;
-
-            $update_password_query = "UPDATE users SET password = ? WHERE user_id = ?";
-            $stmt_update_password = $conn->prepare($update_password_query);
-            if ($stmt_update_password === false) {
-                $error_message = "Prepare failed for password update: " . $conn->error;
-                error_log("Password Update Prepare Error: " . $conn->error);
-            } else {
-                $stmt_update_password->bind_param("si", $hashed_new_password, $user_id);
-                if ($stmt_update_password->execute()) {
-                    $success_message = "Password updated successfully!";
-                } else {
-                    $error_message = "Error updating password: " . $stmt_update_password->error;
-                    error_log("Password Update Execute Error: " . $stmt_update_password->error);
-                }
-                $stmt_update_password->close();
-            }
+            $error_message = "Error updating password: " . $stmt_update_password->error;
         }
+        $stmt_update_password->close();
     }
 }
 
 
-// --- Fetch user data from the Users table (after potential updates) ---
-// This query is run after all POST handling to get the latest data
-// Re-fetch $conn if it was closed by a previous operation (e.g., if a POST handler closed it)
 if (!$conn || $conn->connect_error) {
     require '../../connect.php';
 }
 $user_query = "SELECT user_name, name, email, phone_no, status, reputation_score, profile_pic, created_at FROM users WHERE user_id = ?";
 $stmt_user = $conn->prepare($user_query);
-if ($stmt_user === false) {
-    error_log("User Data Fetch Prepare Error: " . $conn->error);
-    // Handle error, maybe redirect or show a generic message
-} else {
-    $stmt_user->bind_param("i", $user_id);
-    $stmt_user->execute();
-    $user_result = $stmt_user->get_result();
-    $user_data = $user_result->fetch_assoc();
-    $stmt_user->close();
-}
+$stmt_user->bind_param("i", $user_id);
+$stmt_user->execute();
+$user_result = $stmt_user->get_result();
+$user_data = $user_result->fetch_assoc();
+$stmt_user->close();
 
-// Close the database connection at the very end of the script
 if ($conn && !$conn->connect_error) {
     $conn->close();
 }
@@ -215,16 +165,12 @@ if ($conn && !$conn->connect_error) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>User Profile - Athena</title>
-  <!-- Link to the main panelstyle.css for overall dashboard layout and sidebar -->
   <link rel="stylesheet" href="../panelstyle.css" />
-  <!-- Link to the profile_style.css for specific profile page styling -->
   <link rel="stylesheet" href="profile_style.css" />
-  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <div class="dashboard-wrapper">
-    <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-header">
         <div class="logo">ATHENA</div>
@@ -244,19 +190,15 @@ if ($conn && !$conn->connect_error) {
       </div>
     </aside>
 
-    <!-- Main Content -->
     <main class="main-content">
       <header class="main-header">
         <div class="welcome-section">
           <h2>Profile Settings</h2>
         </div>
-        <div class="header-actions">
-          <!-- The "Save Changes" button has been removed from here -->
-        </div>
       </header>
 
+      <!-- MODIFIED: All cards are now direct children of profile-grid -->
       <section class="profile-grid">
-        <!-- Display messages -->
         <?php if ($success_message): ?>
             <div class="message success-message"><?= htmlspecialchars($success_message) ?></div>
         <?php endif; ?>
@@ -264,20 +206,17 @@ if ($conn && !$conn->connect_error) {
             <div class="message error-message"><?= htmlspecialchars($error_message) ?></div>
         <?php endif; ?>
 
-        <!-- Personal Information -->
         <div class="card personal-info-card">
           <h3>Personal Information</h3>
           <div class="card-content">
             <div class="profile-avatar">
               <img src="../../../<?= htmlspecialchars($user_data['profile_pic'] ?? 'https://placehold.co/100x100/0f0f2c/00ffd5?text=DP') ?>" alt="Profile Picture" class="avatar-img">
-              <!-- Profile Picture Upload Form -->
               <form action="" method="POST" enctype="multipart/form-data" id="profile-pic-form" style="display: none;">
                 <input type="file" name="profile_pic_upload" id="profile_pic_input" accept="image/*">
                 <input type="submit" value="Upload" style="display: none;">
               </form>
               <button class="change-avatar-btn" id="trigger-pic-upload">Change Avatar</button>
             </div>
-            <!-- Personal Information Update Form -->
             <form action="" method="POST" id="personal-info-form">
               <div class="input-group">
                 <label for="name">Full Name</label>
@@ -296,7 +235,6 @@ if ($conn && !$conn->connect_error) {
           </div>
         </div>
 
-        <!-- Password Settings -->
         <div class="card password-settings-card">
           <h3>Password Settings</h3>
           <div class="card-content">
@@ -313,15 +251,18 @@ if ($conn && !$conn->connect_error) {
                 <label for="confirm-password">Confirm New Password</label>
                 <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm new password">
               </div>
-              <button type="submit" name="change_password_submit" class="save-changes-btn-local"><i class="fas fa-key"></i> Change Password</button>
+              <button type="submit" name="change_password_submit" class="save-changes-btn-local" style="margin-top: auto;"><i class="fas fa-key"></i> Change Password</button>
             </form>
           </div>
         </div>
 
-        <!-- Account Overview -->
-        <div class="card account-overview-card full-width">
+        <div class="card account-overview-card">
           <h3>Account Overview</h3>
           <div class="card-content">
+            <div class="reputation-score-container">
+                <div class="reputation-score-label">Reputation Score</div>
+                <div class="reputation-score-value"><?= htmlspecialchars($user_data['reputation_score'] ?? '0') ?></div>
+            </div>
             <div class="info-item">
               <span class="info-label">Status</span>
               <span class="info-value"><?= htmlspecialchars($user_data['status'] ?? 'N/A') ?></span>
@@ -330,17 +271,12 @@ if ($conn && !$conn->connect_error) {
               <span class="info-label">Created At</span>
               <span class="info-value"><?= htmlspecialchars(date('Y-m-d', strtotime($user_data['created_at'] ?? ''))) ?></span>
             </div>
-            <div class="info-item">
-              <span class="info-label">Reputation Score</span>
-              <span class="info-value"><?= htmlspecialchars($user_data['reputation_score'] ?? '0') ?></span>
-            </div>
           </div>
         </div>
       </section>
     </main>
   </div>
 
-  <!-- Link to the new dscript.js file -->
   <script src="../dscript.js"></script>
 </body>
 </html>
