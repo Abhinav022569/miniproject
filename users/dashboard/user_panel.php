@@ -61,8 +61,8 @@ $stmt_groups->execute();
 $groups_result = $stmt_groups->get_result();
 
 
-// Fetch Upcoming Tasks
-$tasks_query = "SELECT task, due_date FROM to_do WHERE user_id = ? AND status IN ('Open', 'in progress') ORDER BY due_date ASC LIMIT 3";
+// MODIFIED: Fetch Upcoming Tasks for the user, including the to_do_id
+$tasks_query = "SELECT to_do_id, task, due_date FROM to_do WHERE user_id = ? AND status IN ('Open', 'in progress') ORDER BY due_date ASC LIMIT 3";
 $stmt_tasks = $conn->prepare($tasks_query);
 $stmt_tasks->bind_param("i", $user_id);
 $stmt_tasks->execute();
@@ -83,7 +83,7 @@ $stmt_notes->bind_param("i", $user_id);
 $stmt_notes->execute();
 $notes_result = $stmt_notes->get_result();
 
-// NEW: Fetch reports submitted by the user
+// Fetch reports submitted by the user
 $reports_query = "
     SELECT 
         r.status, 
@@ -199,21 +199,21 @@ $conn->close();
           <div class="card-content">
             <?php if ($tasks_result && $tasks_result->num_rows > 0): ?>
               <?php while($row = $tasks_result->fetch_assoc()): ?>
-                <div class="task-item">
+                <!-- MODIFIED: Added data-task-id to the task item -->
+                <div class="task-item" data-task-id="<?= $row['to_do_id'] ?>">
                   <div class="task-details">
                     <h4><?= htmlspecialchars($row['task']) ?></h4>
                     <p>Due: <?= htmlspecialchars(date('M d, Y', strtotime($row['due_date']))) ?></p>
                   </div>
-                  <input type="checkbox" class="task-checkbox" />
+                  <div class="task-checkbox-button" role="button" aria-label="Mark task as complete"></div>
                 </div>
               <?php endwhile; ?>
             <?php else: ?>
-              <p class="no-data">No upcoming tasks. <a href="#">Add a new task!</a></p>
+              <p class="no-data">No upcoming tasks. <a href="./to-do/to-do.php">Add a new task!</a></p>
             <?php endif; ?>
           </div>
         </div>
 
-        <!-- MODIFIED: Wrapped notes and reports in a new grid container -->
         <div class="bottom-grid-container">
             <div class="card recent-notes-card">
               <h3>Recent Notes</h3>
@@ -231,12 +231,11 @@ $conn->close();
                     </div>
                   <?php endwhile; ?>
                 <?php else: ?>
-                  <p class="no-data">No notes downloaded recently. <a href="#">Browse notes!</a></p>
+                  <p class="no-data">No notes downloaded recently. <a href="./notes/notes.php">Browse notes!</a></p>
                 <?php endif; ?>
               </div>
             </div>
 
-            <!-- NEW: Your Reports Card -->
             <div class="card your-reports-card">
                 <h3>Your Reports</h3>
                 <div class="card-content">

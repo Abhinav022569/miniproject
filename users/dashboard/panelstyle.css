@@ -7,8 +7,8 @@
 }
 
 body {
-  background: linear-gradient(135deg, #0f0f2c, #1a1a40); /* Dark gradient background */
-  color: white; /* Light text color for contrast */
+  background: linear-gradient(135deg, #0f0f2c, #1a1a40);
+  color: white;
   min-height: 100vh;
   display: flex;
 }
@@ -28,28 +28,28 @@ a {
 /* Sidebar Styling */
 .sidebar {
   width: 250px;
-  background-color: rgba(0, 0, 0, 0.7); /* Darker glassmorphism background */
-  backdrop-filter: blur(10px); /* Glassmorphism blur */
-  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.4); /* Enhanced shadow */
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
   padding: 20px 0;
   position: sticky;
   top: 0;
   height: 100vh;
-  border-right: 1px solid rgba(255, 255, 255, 0.08); /* Subtle border */
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .sidebar-header {
   padding: 0 20px 30px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Lighter border */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   margin-bottom: 20px;
 }
 
 .sidebar-header .logo {
   font-size: 28px;
   font-weight: bold;
-  color: #00ffd5; /* Accent color for logo */
+  color: #00ffd5;
   text-align: center;
 }
 
@@ -66,7 +66,7 @@ a {
   display: flex;
   align-items: center;
   padding: 12px 20px;
-  color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
+  color: rgba(255, 255, 255, 0.8);
   font-size: 16px;
   transition: background-color 0.2s ease, color 0.2s ease;
   border-radius: 8px;
@@ -79,13 +79,13 @@ a {
 }
 
 .sidebar-nav li.active a {
-  background-color: rgba(0, 255, 213, 0.2); /* Light accent background for active */
-  color: #00ffd5; /* Accent color for active item */
+  background-color: rgba(0, 255, 213, 0.2);
+  color: #00ffd5;
   font-weight: bold;
 }
 
 .sidebar-nav li a:hover:not(.active) {
-  background-color: rgba(255, 255, 255, 0.08); /* Subtle hover for non-active */
+  background-color: rgba(255, 255, 255, 0.08);
   color: #00ffd5;
 }
 
@@ -98,7 +98,7 @@ a {
 
 .logout-btn {
   background-color: transparent;
-  border: 2px solid white; /* White border for logout */
+  border: 2px solid white;
   color: white;
   padding: 10px 15px;
   border-radius: 8px;
@@ -113,8 +113,8 @@ a {
 }
 
 .logout-btn:hover {
-  background-color: #00ffd5; /* Accent background on hover */
-  color: black; /* Black text on accent hover */
+  background-color: #00ffd5;
+  color: black;
   transform: translateY(-2px);
 }
 
@@ -122,11 +122,11 @@ a {
 .main-content {
   flex-grow: 1;
   padding: 30px;
-  background-color: rgba(10, 10, 30, 0.7); /* Dark glassmorphism for main content */
-  backdrop-filter: blur(20px); /* Stronger blur */
-  border-radius: 16px; /* Rounded corners for the main content area */
-  margin: 20px; /* Margin around the main content area */
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6); /* Prominent shadow */
+  background-color: rgba(10, 10, 30, 0.7);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  margin: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
 }
 
 .main-header {
@@ -140,7 +140,7 @@ a {
 
 .welcome-section h2 {
   font-size: 32px;
-  color: #00ffd5; /* Accent color for welcome text */
+  color: #00ffd5;
   margin: 0;
 }
 
@@ -151,7 +151,6 @@ a {
   flex-wrap: wrap;
 }
 
-/* --- SEARCH BAR STYLES --- */
 .search-bar {
   position: relative;
   display: flex;
@@ -162,7 +161,7 @@ a {
   background-color: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-right: none;
-  border-radius: 8px 0 0 8px; /* Rounded left corners */
+  border-radius: 8px 0 0 8px;
   font-size: 16px;
   width: 250px;
   color: white;
@@ -185,7 +184,7 @@ a {
   padding: 0 20px;
   height: 42px;
   border: none;
-  border-radius: 0 8px 8px 0; /* Rounded right corners */
+  border-radius: 0 8px 8px 0;
   font-size: 16px;
   cursor: pointer;
   font-weight: bold;
@@ -196,16 +195,14 @@ a {
   background-color: #00c8aa;
 }
 
-/* Dashboard Grid for Cards */
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 30px;
 }
 
-/* NEW: Grid container for the bottom row of cards */
 .bottom-grid-container {
-    grid-column: 1 / -1; /* Make this container span the full width of the parent grid */
+    grid-column: 1 / -1;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
@@ -240,7 +237,6 @@ a {
   flex-grow: 1;
 }
 
-/* Profile Card specific styles */
 .profile-overview-card {
   text-align: center;
   justify-content: center;
@@ -288,11 +284,10 @@ a {
   margin-top: auto;
 }
 
-/* Item Styles within Cards */
 .group-item,
 .task-item,
 .note-item,
-.report-item { /* Added report-item */
+.report-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -303,14 +298,14 @@ a {
 .group-item:last-child,
 .task-item:last-child,
 .note-item:last-child,
-.report-item:last-child { /* Added report-item */
+.report-item:last-child {
   border-bottom: none;
 }
 
 .group-details h4,
 .task-details h4,
 .note-details h4,
-.report-details h4 { /* Added report-details */
+.report-details h4 {
   font-size: 18px;
   color: white;
   margin-bottom: 5px;
@@ -319,7 +314,7 @@ a {
 .group-details p,
 .task-details p,
 .note-details p,
-.report-details p { /* Added report-details */
+.report-details p {
   font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
 }
@@ -340,7 +335,6 @@ a {
   color: black;
 }
 
-/* NEW: Styles for the report status */
 .report-status {
     padding: 5px 10px;
     border-radius: 6px;
@@ -361,15 +355,43 @@ a {
     color: #4CAF50;
 }
 
-
-.task-checkbox {
-  width: 20px;
-  height: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 4px;
+/* MODIFIED: Replaced input[type=checkbox] with a custom div style */
+.task-checkbox-button {
+  width: 22px;
+  height: 22px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
   cursor: pointer;
-  accent-color: #00ffd5;
+  transition: all 0.2s ease;
+  position: relative;
 }
+
+.task-checkbox-button:hover {
+  border-color: #00ffd5;
+}
+
+.task-checkbox-button::after {
+    content: '\f00c'; /* Font Awesome check icon */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    color: #00ffd5;
+    font-size: 12px;
+    transition: transform 0.2s ease;
+}
+
+.task-item.removing .task-checkbox-button {
+    border-color: #00ffd5;
+    background-color: #00ffd5;
+}
+
+.task-item.removing .task-checkbox-button::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
 
 .download-icon {
   font-size: 20px;
@@ -382,7 +404,28 @@ a {
   color: #00c8aa;
 }
 
-/* No Data Message */
+/* NEW: Animation for removing a task */
+.task-item.removing {
+    animation: fadeOutTask 0.5s forwards ease-in-out;
+}
+
+@keyframes fadeOutTask {
+    from {
+        opacity: 1;
+        transform: scaleY(1);
+        height: 59px; /* Adjust to match the item's height */
+    }
+    to {
+        opacity: 0;
+        transform: scaleY(0);
+        height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: none;
+    }
+}
+
 .no-data {
   text-align: center;
   font-style: italic;
@@ -399,7 +442,6 @@ a {
   text-decoration: underline;
 }
 
-/* NOTIFICATION STYLES */
 #notification-container {
     position: fixed;
     bottom: 20px;
@@ -438,26 +480,21 @@ a {
   .sidebar {
     width: 200px;
   }
-
   .main-content {
     padding: 20px;
     margin: 10px;
   }
-
   .main-header {
     flex-direction: column;
     align-items: flex-start;
   }
-
   .header-actions {
     width: 100%;
     justify-content: flex-start;
   }
-
   .search-bar {
     width: 100%;
   }
-
   .search-bar input {
     width: 100%;
   }
@@ -467,7 +504,6 @@ a {
   .dashboard-wrapper {
     flex-direction: column;
   }
-
   .sidebar {
     width: 100%;
     height: auto;
@@ -477,46 +513,37 @@ a {
     border-right: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
-
   .sidebar-header {
     padding-bottom: 10px;
     margin-bottom: 10px;
   }
-
   .sidebar-nav ul {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 5px;
   }
-
   .sidebar-nav li a {
     padding: 8px 12px;
     font-size: 14px;
     margin: 0 5px;
   }
-
   .sidebar-nav li a i {
     margin-right: 5px;
   }
-
   .sidebar-footer {
     padding: 10px;
   }
-
   .main-content {
     padding: 15px;
     margin: 10px;
   }
-
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
-
   .bottom-grid-container {
     grid-template-columns: 1fr;
   }
-
   .welcome-section h2 {
     font-size: 28px;
   }
@@ -526,7 +553,6 @@ a {
   .welcome-section h2 {
     font-size: 24px;
   }
-
   .search-bar input {
     font-size: 14px;
   }

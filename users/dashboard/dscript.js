@@ -84,6 +84,48 @@ document.addEventListener('DOMContentLoaded', function() {
                 handleGroupAction('leave_group.php', leaveButton, 'Successfully left the group!', 'leave');
                 return;
             }
+            
+            // --- NEW: Handle Task Completion Click ---
+            const taskCheckbox = event.target.closest('.task-checkbox-button');
+            if (taskCheckbox) {
+                const taskItem = taskCheckbox.closest('.task-item');
+                const taskId = taskItem.dataset.taskId;
+                if (taskId) {
+                    markTaskAsDone(taskId, taskItem);
+                }
+            }
+        });
+    }
+
+        // --- Function to Mark Task as Done ---
+    function markTaskAsDone(taskId, taskElement) {
+        const formData = new FormData();
+        formData.append('task_id', taskId);
+        formData.append('status', 'done');
+
+        // Call the existing update_task.php script
+        fetch('./to-do/update_task.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Add the 'removing' class to trigger the animation
+                taskElement.classList.add('removing');
+                showNotification('Task completed!', 'success');
+                
+                // Wait for the animation to finish, then remove the element
+                taskElement.addEventListener('animationend', () => {
+                    taskElement.remove();
+                });
+            } else {
+                showNotification('Error updating task.', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error updating task:', error);
+            showNotification('A network error occurred.', 'error');
         });
     }
 
