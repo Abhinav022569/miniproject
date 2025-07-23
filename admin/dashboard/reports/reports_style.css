@@ -34,14 +34,23 @@
     font-size: 15px;
     color: rgba(255, 255, 255, 0.7);
     line-height: 1.5;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+}
+.report-card .card-content {
     flex-grow: 1;
 }
 
-.report-card .view-btn {
-    background-color: #007bff; /* Blue for view button */
-    color: white;
-    padding: 10px 15px;
+/* NEW: Container for the action buttons */
+.report-card-actions {
+    display: flex;
+    gap: 10px;
+    align-self: flex-end; /* Aligns the group of buttons to the right */
+    margin-top: 15px;
+}
+
+/* Common style for all action buttons */
+.action-btn {
+    padding: 10px 20px;
     border: none;
     border-radius: 8px;
     font-size: 14px;
@@ -49,12 +58,29 @@
     cursor: pointer;
     text-align: center;
     transition: background-color 0.2s ease;
-    align-self: flex-end; /* Align button to the right */
+    color: white;
 }
 
-.report-card .view-btn:hover {
+.view-btn {
+    background-color: #007bff; /* Blue for view button */
+}
+
+.view-btn:hover {
     background-color: #0056b3;
 }
+
+/* NEW: Style for the resolve button */
+.resolve-btn {
+    background-color: #28a745; /* Green for resolve */
+}
+
+.resolve-btn:hover {
+    background-color: #218838;
+}
+
+/* Status text styling */
+.status-open { color: #f44336; }
+.status-review { color: #FFC107; }
 
 /* No reports message */
 .no-reports {

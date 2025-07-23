@@ -8,21 +8,38 @@ if (!isset($_SESSION['admin_id'])) {
     exit();
 }
 
-// Handle the action to set a report to 'review' status
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['view_report'])) {
+$message = '';
+$message_type = '';
+
+// Handle POST requests for report actions
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $report_id = $_POST['report_id'];
-    $group_id = $_POST['group_id'];
 
-    // Update the status in the database
-    $update_query = "UPDATE reports SET status = 'review' WHERE report_id = ?";
-    $stmt = $conn->prepare($update_query);
-    $stmt->bind_param("i", $report_id);
-    $stmt->execute();
-    $stmt->close();
+    if (isset($_POST['view_report'])) {
+        // --- Action to set a report to 'review' status ---
+        $group_id = $_POST['group_id'];
+        $update_query = "UPDATE reports SET status = 'review' WHERE report_id = ?";
+        $stmt = $conn->prepare($update_query);
+        $stmt->bind_param("i", $report_id);
+        $stmt->execute();
+        $stmt->close();
+        header("Location: review_chat.php?group_id=" . $group_id . "&report_id=" . $report_id);
+        exit();
 
-    // Redirect to the chat review page
-    header("Location: review_chat.php?group_id=" . $group_id . "&report_id=" . $report_id);
-    exit();
+    } elseif (isset($_POST['mark_resolved'])) {
+        // --- NEW: Action to set a report to 'resolved' status ---
+        $update_query = "UPDATE reports SET status = 'resolved' WHERE report_id = ?";
+        $stmt = $conn->prepare($update_query);
+        $stmt->bind_param("i", $report_id);
+        if ($stmt->execute()) {
+            $message = "Report marked as resolved.";
+            $message_type = 'success';
+        } else {
+            $message = "Error updating report status.";
+            $message_type = 'error';
+        }
+        $stmt->close();
+    }
 }
 
 // Fetch all reports that are 'open' or 'review'
@@ -31,6 +48,7 @@ $reports_query = "
         r.report_id,
         r.reason,
         r.group_id,
+        r.status,
         reporter.user_name AS reporter_name,
         reported.user_name AS reported_name,
         sg.group_name
@@ -83,21 +101,36 @@ $conn->close();
         </div>
       </header>
 
+      <?php if ($message): ?>
+        <div class="message <?php echo $message_type; ?>"><?php echo htmlspecialchars($message); ?></div>
+      <?php endif; ?>
+
       <section class="reports-grid">
         <?php if ($reports_result && $reports_result->num_rows > 0): ?>
           <?php while($report = $reports_result->fetch_assoc()): ?>
             <div class="report-card">
-              <h3>Report: <?= htmlspecialchars($report['reporter_name']) ?> reported <?= htmlspecialchars($report['reported_name']) ?></h3>
-              <p>Reason: <?= htmlspecialchars($report['reason']) ?> in study group "<?= htmlspecialchars($report['group_name']) ?>"</p>
-              <form method="POST" action="">
-                <input type="hidden" name="report_id" value="<?= $report['report_id'] ?>">
-                <input type="hidden" name="group_id" value="<?= $report['group_id'] ?>">
-                <button type="submit" name="view_report" class="view-btn">View</button>
-              </form>
+              <div class="card-content">
+                  <h3>Report: <?= htmlspecialchars($report['reporter_name']) ?> reported <?= htmlspecialchars($report['reported_name']) ?></h3>
+                  <p>Reason: <?= htmlspecialchars($report['reason']) ?> in study group "<?= htmlspecialchars($report['group_name']) ?>"</p>
+                  <p>Status: <span class="status-<?= htmlspecialchars($report['status']) ?>"><?= htmlspecialchars(ucfirst($report['status'])) ?></span></p>
+              </div>
+              <!-- MODIFIED: Added a container for the action buttons -->
+              <div class="report-card-actions">
+                  <form method="POST" action="">
+                    <input type="hidden" name="report_id" value="<?= $report['report_id'] ?>">
+                    <input type="hidden" name="group_id" value="<?= $report['group_id'] ?>">
+                    <button type="submit" name="view_report" class="action-btn view-btn">View</button>
+                  </form>
+                  <!-- NEW: Form for the "Mark Resolved" button -->
+                  <form method="POST" action="">
+                    <input type="hidden" name="report_id" value="<?= $report['report_id'] ?>">
+                    <button type="submit" name="mark_resolved" class="action-btn resolve-btn">Mark Resolved</button>
+                  </form>
+              </div>
             </div>
           <?php endwhile; ?>
         <?php else: ?>
-          <p class="no-reports">There are no open reports.</p>
+          <p class="no-reports">There are no open or pending reports.</p>
         <?php endif; ?>
       </section>
     </main>
