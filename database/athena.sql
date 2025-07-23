@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 22, 2025 at 07:37 PM
+-- Generation Time: Jul 23, 2025 at 07:49 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -90,7 +90,8 @@ INSERT INTO `downloaded_notes` (`download_id`, `note_id`, `user_id`, `title`, `d
 (5, 5, 12, '', '2025-07-22 09:20:00'),
 (8, 16, 1, 'Zodiac Quizzes on BuzzFeed.jpeg', '2025-07-22 21:50:07'),
 (9, 17, 1, 'Snapchat sticker.jpeg', '2025-07-22 21:59:29'),
-(10, 18, 1, 'receipt.pdf', '2025-07-22 22:17:35');
+(10, 18, 1, 'receipt.pdf', '2025-07-22 22:17:35'),
+(11, 19, 1, 'StudyGroups.jpeg', '2025-07-23 12:59:18');
 
 -- --------------------------------------------------------
 
@@ -127,7 +128,11 @@ INSERT INTO `group_members` (`members_id`, `group_id`, `user_id`, `role`) VALUES
 (15, 105, 12, 'member'),
 (16, 105, 13, 'member'),
 (17, 101, 8, 'member'),
-(53, 102, 1, 'member');
+(56, 101, 14, 'member'),
+(58, 119, 14, 'moderator'),
+(60, 103, 5, 'moderator'),
+(61, 102, 1, 'member'),
+(62, 103, 1, 'member');
 
 -- --------------------------------------------------------
 
@@ -156,7 +161,13 @@ INSERT INTO `group_messages` (`message_id`, `group_id`, `user_id`, `content`, `t
 (6, 104, 9, 'Sounds good. What time?', '2025-07-21 11:23:00'),
 (25, 101, 1, 'Shared a file: <a href=\'log_download.php?note_id=16\' target=\'_blank\'>Zodiac Quizzes on BuzzFeed.jpeg</a>', '2025-07-22 21:50:06'),
 (26, 101, 1, 'Shared a file: <a href=\'log_download.php?note_id=17\' target=\'_blank\'>Snapchat sticker.jpeg</a>', '2025-07-22 21:59:10'),
-(27, 102, 1, 'Shared a file: <a href=\'log_download.php?note_id=18\' target=\'_blank\'>receipt.pdf</a>', '2025-07-22 22:17:33');
+(27, 102, 1, 'Shared a file: <a href=\'log_download.php?note_id=18\' target=\'_blank\'>receipt.pdf</a>', '2025-07-22 22:17:33'),
+(28, 119, 14, 'hello hi', '2025-07-23 12:57:10'),
+(29, 119, 1, 'Shared a file: <a href=\'log_download.php?note_id=19\' target=\'_blank\'>StudyGroups.jpeg</a>', '2025-07-23 12:58:58'),
+(30, 119, 1, 'send me notes', '2025-07-23 13:01:40'),
+(31, 102, 1, 'Shared a file: <a href=\'log_download.php?note_id=20\' target=\'_blank\'>pub notice 22025.pdf</a>', '2025-07-23 22:51:56'),
+(32, 119, 14, 'Shared a file: <a href=\'log_download.php?note_id=21\' target=\'_blank\'>StudyGroups.jpeg</a>', '2025-07-23 22:52:41'),
+(33, 119, 14, 'Shared a file: <a href=\'log_download.php?note_id=22\' target=\'_blank\'>Zodiac Quizzes on BuzzFeed.jpeg</a>', '2025-07-23 22:52:46');
 
 -- --------------------------------------------------------
 
@@ -187,7 +198,11 @@ INSERT INTO `notes` (`note_id`, `group_id`, `user_id`, `title`, `file_path`, `up
 (15, 101, 1, 'Snapchat sticker.jpeg', 'user_files/notes/note_687fb99b2065d6.73452490.jpeg', '2025-07-22 21:47:31'),
 (16, 101, 1, 'Zodiac Quizzes on BuzzFeed.jpeg', 'user_files/notes/note_687fba3603bd13.55382616.jpeg', '2025-07-22 21:50:06'),
 (17, 101, 1, 'Snapchat sticker.jpeg', 'user_files/notes/note_687fbc56da8629.48106875.jpeg', '2025-07-22 21:59:10'),
-(18, 102, 1, 'receipt.pdf', 'user_files/notes/note_687fc0a563a5e7.56291142.pdf', '2025-07-22 22:17:33');
+(18, 102, 1, 'receipt.pdf', 'user_files/notes/note_687fc0a563a5e7.56291142.pdf', '2025-07-22 22:17:33'),
+(19, 119, 1, 'StudyGroups.jpeg', 'user_files/notes/note_68808f3a1c5726.88244645.jpeg', '2025-07-23 12:58:58'),
+(20, 102, 1, 'pub notice 22025.pdf', 'user_files/notes/note_68811a3428fb87.98058961.pdf', '2025-07-23 22:51:56'),
+(21, 119, 14, 'StudyGroups.jpeg', 'user_files/notes/note_68811a6199ad28.83661633.jpeg', '2025-07-23 22:52:41'),
+(22, 119, 14, 'Zodiac Quizzes on BuzzFeed.jpeg', 'user_files/notes/note_68811a66720d18.75639276.jpeg', '2025-07-23 22:52:46');
 
 -- --------------------------------------------------------
 
@@ -199,6 +214,7 @@ CREATE TABLE `reports` (
   `report_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `target_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
   `reason` text NOT NULL,
   `status` enum('open','resolved','review') DEFAULT 'open',
   `created_at` datetime DEFAULT current_timestamp()
@@ -208,10 +224,12 @@ CREATE TABLE `reports` (
 -- Dumping data for table `reports`
 --
 
-INSERT INTO `reports` (`report_id`, `user_id`, `target_id`, `reason`, `status`, `created_at`) VALUES
-(1, 2, 4, 'Inappropriate language in the Physics Phantoms group chat.', 'open', '2025-07-22 11:00:00'),
-(2, 6, 7, 'Suspected of sharing copyrighted material in the History Buffs group.', 'review', '2025-07-22 11:30:00'),
-(3, 1, 2, 'jusb because i can', 'open', '2025-07-22 20:59:19');
+INSERT INTO `reports` (`report_id`, `user_id`, `target_id`, `group_id`, `reason`, `status`, `created_at`) VALUES
+(6, 1, 2, 101, 'hthth', 'resolved', '2025-07-23 19:48:17'),
+(7, 1, 4, 102, 'vergsbtbrstb', 'resolved', '2025-07-23 19:48:24'),
+(8, 1, 14, 119, 'rg sehrs jsrjrsjrn', 'resolved', '2025-07-23 19:48:29'),
+(9, 1, 2, 101, 'brbrbdbtnrnyn', 'resolved', '2025-07-23 19:49:15'),
+(10, 1, 5, 102, 'strnrnryntyn', 'resolved', '2025-07-23 19:50:35');
 
 -- --------------------------------------------------------
 
@@ -235,9 +253,10 @@ CREATE TABLE `study_group` (
 INSERT INTO `study_group` (`group_id`, `group_name`, `description`, `user_id`, `approved`, `created_at`) VALUES
 (101, 'Calculus Crew', 'A group for students taking MATH-101.', 1, 1, '2025-07-21 11:05:00'),
 (102, 'Physics Phantoms', 'Collaborating on advanced physics problems.', 3, 1, '2025-07-21 11:10:00'),
-(103, 'History Buffs', 'Discussions and study sessions for HIST-202.', 5, 0, '2025-07-21 11:15:00'),
+(103, 'History Buffs', 'Discussions and study sessions for HIST-202.', 5, 1, '2025-07-21 11:15:00'),
 (104, 'Chem Champions', 'Working through organic chemistry.', 8, 1, '2025-07-21 11:20:00'),
-(105, 'Literature Lovers', 'For deep dives into classic literature.', 10, 1, '2025-07-21 11:25:00');
+(105, 'Literature Lovers', 'For deep dives into classic literature.', 10, 1, '2025-07-21 11:25:00'),
+(119, 'UPSC', 'bbuevoenviseuv', 14, 1, '2025-07-23 12:55:50');
 
 -- --------------------------------------------------------
 
@@ -288,7 +307,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_name`, `name`, `email`, `phone_no`, `password`, `status`, `reputation_score`, `profile_pic`, `created_at`) VALUES
-(1, 'testuser', 'Test User', 'john.doe@example.com', '1234567890', '123', 'active', 10, 'user_files/profile_pics/profile_687fb97a9a5e5.jpeg', '2025-07-21 10:00:00'),
+(1, 'testuser', 'Test User', 'john.doe@example.com', '1234567890', '123456', 'active', 11, 'user_files/profile_pics/profile_687fb97a9a5e5.jpeg', '2025-07-21 10:00:00'),
 (2, 'jane_smith', 'Jane Smith', 'jane.smith@example.com', '0987654321', 'hashed_password_2', 'active', 5, 'https://placehold.co/100x100/e74c3c/ffffff?text=JS', '2025-07-21 10:05:00'),
 (3, 'alice_jones', 'Alice Jones', 'alice.jones@example.com', '1122334455', 'hashed_password_3', 'active', 20, 'https://placehold.co/100x100/2ecc71/ffffff?text=AJ', '2025-07-21 10:10:00'),
 (4, 'bob_brown', 'Bob Brown', 'bob.brown@example.com', '5566778899', 'hashed_password_4', 'banned', 0, 'https://placehold.co/100x100/f1c40f/ffffff?text=BB', '2025-07-21 10:15:00'),
@@ -300,7 +319,8 @@ INSERT INTO `users` (`user_id`, `user_name`, `name`, `email`, `phone_no`, `passw
 (10, 'hannah_anderson', 'Hannah Anderson', 'hannah.anderson@example.com', '2583691470', 'hashed_password_10', 'active', 25, 'https://placehold.co/100x100/d35400/ffffff?text=HA', '2025-07-21 10:45:00'),
 (11, 'ian_thomas', 'Ian Thomas', 'ian.thomas@example.com', '1593572468', 'hashed_password_11', 'active', 18, 'https://placehold.co/100x100/c0392b/ffffff?text=IT', '2025-07-21 10:50:00'),
 (12, 'jenna_jackson', 'Jenna Jackson', 'jenna.jackson@example.com', '3571592468', 'hashed_password_12', 'active', 22, 'https://placehold.co/100x100/8e44ad/ffffff?text=JJ', '2025-07-21 10:55:00'),
-(13, 'kevin_white', 'Kevin White', 'kevin.white@example.com', '9517538246', 'hashed_password_13', 'active', 3, 'https://placehold.co/100x100/2c3e50/ffffff?text=KW', '2025-07-21 11:00:00');
+(13, 'kevin_white', 'Kevin White', 'kevin.white@example.com', '9517538246', 'hashed_password_13', 'active', 3, 'https://placehold.co/100x100/2c3e50/ffffff?text=KW', '2025-07-21 11:00:00'),
+(14, 'abhinav', 'Abhinav R Nair', 'abhinavrnair8413888957@gmail.com', '9586235148', '123456', 'active', 2, 'user_files/profile_pics/profile_68808e08e2f95.jpeg', '2025-07-23 12:53:21');
 
 --
 -- Indexes for dumped tables
@@ -360,7 +380,8 @@ ALTER TABLE `notes`
 ALTER TABLE `reports`
   ADD PRIMARY KEY (`report_id`),
   ADD KEY `user_by` (`user_id`),
-  ADD KEY `target_id` (`target_id`);
+  ADD KEY `target_id` (`target_id`),
+  ADD KEY `reports_ibfk_3` (`group_id`);
 
 --
 -- Indexes for table `study_group`
@@ -405,49 +426,49 @@ ALTER TABLE `announcements`
 -- AUTO_INCREMENT for table `downloaded_notes`
 --
 ALTER TABLE `downloaded_notes`
-  MODIFY `download_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `download_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `group_members`
 --
 ALTER TABLE `group_members`
-  MODIFY `members_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `members_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `group_messages`
 --
 ALTER TABLE `group_messages`
-  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `notes`
 --
 ALTER TABLE `notes`
-  MODIFY `note_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `note_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `reports`
 --
 ALTER TABLE `reports`
-  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `study_group`
 --
 ALTER TABLE `study_group`
-  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
+  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
 
 --
 -- AUTO_INCREMENT for table `to_do`
 --
 ALTER TABLE `to_do`
-  MODIFY `to_do_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `to_do_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
@@ -493,7 +514,8 @@ ALTER TABLE `notes`
 --
 ALTER TABLE `reports`
   ADD CONSTRAINT `reports_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
-  ADD CONSTRAINT `reports_ibfk_2` FOREIGN KEY (`target_id`) REFERENCES `users` (`user_id`);
+  ADD CONSTRAINT `reports_ibfk_2` FOREIGN KEY (`target_id`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `reports_ibfk_3` FOREIGN KEY (`group_id`) REFERENCES `study_group` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `study_group`
