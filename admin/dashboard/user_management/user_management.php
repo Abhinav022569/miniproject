@@ -38,8 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_id'])) {
 }
 
 
-// Fetch all users from the database
-$users_query = "SELECT user_id, user_name, name, email, status FROM users ORDER BY user_name ASC";
+// MODIFIED: Fetch all users from the database including reputation_score
+$users_query = "SELECT user_id, user_name, name, email, status, reputation_score FROM users ORDER BY user_name ASC";
 $users_result = $conn->query($users_query);
 
 $conn->close();
@@ -97,6 +97,8 @@ $conn->close();
               <th>User Name</th>
               <th>Name</th>
               <th>Email</th>
+              <!-- NEW: Added Reputation Score Header -->
+              <th>Reputation</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
@@ -108,6 +110,8 @@ $conn->close();
                   <td><?= htmlspecialchars($user['user_name']) ?></td>
                   <td><?= htmlspecialchars($user['name']) ?></td>
                   <td><?= htmlspecialchars($user['email']) ?></td>
+                  <!-- NEW: Display Reputation Score -->
+                  <td><?= htmlspecialchars($user['reputation_score']) ?></td>
                   <td>
                     <?php if ($user['status'] === 'active'): ?>
                       <span class="status-tag status-active">Active</span>
@@ -129,7 +133,7 @@ $conn->close();
               <?php endwhile; ?>
             <?php else: ?>
               <tr>
-                <td colspan="5" style="text-align: center;">No users found.</td>
+                <td colspan="6" style="text-align: center;">No users found.</td>
               </tr>
             <?php endif; ?>
           </tbody>

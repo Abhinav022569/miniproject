@@ -42,27 +42,24 @@ if (!is_dir($upload_dir)) {
 
 $original_filename = basename($_FILES['note_file']['name']);
 $file_extension = pathinfo($original_filename, PATHINFO_EXTENSION);
-// Create a unique filename to prevent overwrites
 $unique_filename = uniqid('note_', true) . '.' . $file_extension;
 $target_path = $upload_dir . $unique_filename;
-$db_path = 'user_files/notes/' . $unique_filename; // Path to store in DB
+$db_path = 'user_files/notes/' . $unique_filename;
 
-// Move the uploaded file to the target directory
 if (move_uploaded_file($_FILES['note_file']['tmp_name'], $target_path)) {
     
     $conn->begin_transaction();
     try {
         // 1. Insert the file record into the `notes` table
-        $note_title = $original_filename; // Use the original filename as the title
+        $note_title = $original_filename;
         $sql_insert_note = "INSERT INTO notes (group_id, user_id, title, file_path) VALUES (?, ?, ?, ?)";
         $stmt_note = $conn->prepare($sql_insert_note);
         $stmt_note->bind_param("iiss", $group_id, $user_id, $note_title, $db_path);
         $stmt_note->execute();
-        // Get the ID of the note we just inserted
         $new_note_id = $stmt_note->insert_id;
         $stmt_note->close();
 
-        // 2. MODIFIED: Post a message in the chat linking to the new log_download.php script
+        // 2. Post a message in the chat
         $chat_message_content = "Shared a file: <a href='log_download.php?note_id={$new_note_id}' target='_blank'>{$note_title}</a>";
         $sql_insert_message = "INSERT INTO group_messages (group_id, user_id, content) VALUES (?, ?, ?)";
         $stmt_message = $conn->prepare($sql_insert_message);
@@ -70,12 +67,18 @@ if (move_uploaded_file($_FILES['note_file']['tmp_name'], $target_path)) {
         $stmt_message->execute();
         $stmt_message->close();
         
+        // 3. NEW: Increment the user's reputation score
+        $sql_update_reputation = "UPDATE users SET reputation_score = reputation_score + 1 WHERE user_id = ?";
+        $stmt_rep = $conn->prepare($sql_update_reputation);
+        $stmt_rep->bind_param("i", $user_id);
+        $stmt_rep->execute();
+        $stmt_rep->close();
+
         $conn->commit();
         echo json_encode(['success' => true]);
 
     } catch (mysqli_sql_exception $exception) {
         $conn->rollback();
-        // Delete the uploaded file if the database transaction fails
         if (file_exists($target_path)) {
             unlink($target_path);
         }
