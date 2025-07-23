@@ -154,7 +154,7 @@ $conn->close();
           <li><a href="../admin_panel.php"><i class="fas fa-th-large"></i> Dashboard</a></li>
           <li class="active"><a href="approve_group.php"><i class="fas fa-check-circle"></i> Approve Groups</a></li>
           <li><a href="../reports/reports.php"><i class="fas fa-flag"></i> Reports</a></li>
-          <li><a href="#"><i class="fas fa-user-friends"></i> User Management</a></li>
+          <li><a href="../user_management/user_management.php"><i class="fas fa-user-friends"></i> User Management</a></li>
           <li><a href="#"><i class="fas fa-bullhorn"></i> Announcements</a></li>
         </ul>
       </nav>

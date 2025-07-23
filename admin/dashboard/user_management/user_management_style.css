@@ -1,0 +1,116 @@
+/* Styles for the User Management Page */
+
+/* Search bar styling */
+.search-container {
+    margin-bottom: 25px;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.search-container input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.search-container input:focus {
+    border-color: #00ffd5;
+}
+
+/* Table container styling */
+.table-container {
+    background-color: #1a1a2e; /* Dark background for the table area */
+    border-radius: 12px;
+    overflow: hidden; /* Ensures the border-radius is respected by the table */
+}
+
+/* Table styling */
+.user-table {
+    width: 100%;
+    border-collapse: collapse; /* Removes space between cells */
+}
+
+.user-table th, .user-table td {
+    padding: 15px 20px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-table thead {
+    background-color: rgba(0, 255, 213, 0.1); /* Light accent color for the header */
+}
+
+.user-table th {
+    color: #00ffd5;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.user-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.user-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.user-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Status tag styling */
+.status-tag {
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.status-active {
+    background-color: #28a745; /* Green */
+    color: white;
+}
+
+.status-banned {
+    background-color: #dc3545; /* Red */
+    color: white;
+}
+
+/* Action button styling */
+.action-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.2s ease;
+}
+
+.ban-btn {
+    background-color: #dc3545; /* Red */
+}
+
+.ban-btn:hover {
+    background-color: #c82333;
+}
+
+.activate-btn {
+    background-color: #007bff; /* Blue */
+}
+
+.activate-btn:hover {
+    background-color: #0056b3;
+}
