@@ -177,7 +177,6 @@ $conn->close();
       <div class="content-container">
         <section class="management-section">
           <h2>Creation Requests</h2>
-          <!-- MODIFIED: Conditional container class -->
           <div class="<?php echo ($num_pending === 1) ? 'single-item-container' : 'card-grid'; ?>">
             <?php if ($num_pending > 0): ?>
               <?php foreach ($pending_groups as $group): ?>
@@ -206,11 +205,20 @@ $conn->close();
         </section>
 
         <section class="management-section">
-            <h2>Approved Groups</h2>
-            <div class="card-grid">
+            <!-- ADDED: Header with search bar -->
+            <div class="section-header">
+                <h2>Approved Groups</h2>
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="approved-group-search" placeholder="Search approved groups...">
+                </div>
+            </div>
+            <!-- MODIFIED: Added an ID to the grid container -->
+            <div id="approved-groups-grid" class="card-grid">
                 <?php if ($approved_groups_result && $approved_groups_result->num_rows > 0): ?>
                     <?php while($group = $approved_groups_result->fetch_assoc()): ?>
-                        <div class="request-card">
+                        <!-- MODIFIED: Added a specific class for JS targeting -->
+                        <div class="request-card approved-group-card">
                             <div class="card-content">
                                 <h3><?php echo htmlspecialchars($group['group_name']); ?></h3>
                                 <p><?php echo htmlspecialchars($group['description'] ?: 'No description provided.'); ?></p>
@@ -235,5 +243,6 @@ $conn->close();
       </div>
     </main>
   </div>
+  <script src="approve_group.js"></script>
 </body>
 </html>

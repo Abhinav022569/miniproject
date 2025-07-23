@@ -12,13 +12,55 @@
     width: 100%;
 }
 
+/* MODIFIED: Renamed to section-header */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
 .management-section h2 {
     font-size: 28px;
     color: #e0e0e0;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 0; /* Remove margin as it's on the container now */
 }
+
+/* ADDED: Styles for the search container and input */
+.search-container {
+    position: relative;
+}
+
+.search-container i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.6);
+}
+
+#approved-group-search {
+    padding: 12px 15px 12px 40px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    outline: none;
+    width: 350px;
+    transition: border-color 0.3s ease;
+}
+
+#approved-group-search::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+#approved-group-search:focus {
+    border-color: #00ffd5;
+}
+
 
 /* Grid for holding multiple cards */
 .card-grid {
@@ -27,18 +69,16 @@
     gap: 25px;
 }
 
-/* MODIFIED: New container for when there is only one pending request */
 .single-item-container .request-card {
-    max-width: 450px; /* Constrains the width of the single card */
+    max-width: 450px; 
 }
-
 
 /* Individual card styling */
 .request-card {
-    background-color: #1a1a2e; /* Darker background to match screenshot */
+    background-color: #1a1a2e;
     border-radius: 12px;
     padding: 25px;
-    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+    border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -52,13 +92,13 @@
 
 .card-content h3 {
     font-size: 20px;
-    color: #00ffd5; /* Accent color for title */
+    color: #00ffd5;
     margin-bottom: 8px;
 }
 
 .card-content p {
     font-size: 15px;
-    color: rgba(255, 255, 255, 0.7); /* Lighter text color */
+    color: rgba(255, 255, 255, 0.7);
     line-height: 1.5;
     margin-bottom: 20px;
     flex-grow: 1;
@@ -67,9 +107,9 @@
 /* Action buttons styling */
 .card-actions {
     display: flex;
-    justify-content: space-between; /* This pushes the buttons to opposite ends */
-    align-items: center; /* This aligns them vertically */
-    margin-top: auto; /* Pushes actions to the bottom */
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
 }
 
 .action-btn {
@@ -84,20 +124,20 @@
 }
 
 .approve-btn {
-    background-color: #28a745; /* Solid green for approve */
+    background-color: #28a745;
 }
 
 .approve-btn:hover {
-    background-color: #218838; /* Darker green on hover */
+    background-color: #218838;
     box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
 }
 
 .reject-btn {
-    background-color: #dc3545; /* Solid red for reject */
+    background-color: #dc3545;
 }
 
 .reject-btn:hover {
-    background-color: #c82333; /* Darker red on hover */
+    background-color: #c82333;
     box-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
 }
 
