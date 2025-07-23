@@ -24,15 +24,18 @@ if (empty($group_id) || empty($reported_user_id) || empty($reason)) {
 }
 
 // Prepare to insert the report into the database
-// The 'target_id' in your schema corresponds to the user being reported
-$sql = "INSERT INTO reports (user_id, target_id, reason, status) VALUES (?, ?, ?, 'open')";
+// MODIFIED: Added the 'group_id' column to the INSERT statement
+$sql = "INSERT INTO reports (user_id, target_id, group_id, reason, status) VALUES (?, ?, ?, ?, 'open')";
 $stmt = $conn->prepare($sql);
-// 'user_id' is the person making the report, 'target_id' is the person being reported
-$stmt->bind_param("iis", $reporter_user_id, $reported_user_id, $reason);
+
+// MODIFIED: Updated the bind_param to include the integer group_id
+// 'user_id' is the reporter, 'target_id' is the reported user, 'group_id' is the context
+$stmt->bind_param("iiis", $reporter_user_id, $reported_user_id, $group_id, $reason);
 
 if ($stmt->execute()) {
     // On success, set a success message and redirect to the group chat page
     $_SESSION['report_success'] = "Your report has been submitted successfully. An admin will review it shortly.";
+    // Redirecting to the main group chat page after a successful report
     header("Location: ../group_chat.php"); 
     exit();
 } else {
