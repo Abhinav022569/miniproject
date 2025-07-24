@@ -1,0 +1,175 @@
+/* General styling for the announcements page */
+.announcements-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.announcements-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.announcements-header h2 {
+    font-size: 28px;
+    color: white;
+}
+
+.create-announcement-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.create-announcement-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Styling for the creation form card */
+.create-announcement-card {
+    background-color: #1a1a2e;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.create-announcement-card h3 {
+    font-size: 22px;
+    color: #00ffd5;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-group select option {
+    background-color: #1a1a2e;
+}
+
+.submit-announcement-btn {
+    background-color: #00ffd5;
+    color: black;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-announcement-btn:hover {
+    background-color: #00c8aa;
+}
+
+/* Styling for the announcements list */
+.announcements-list {
+    background-color: #1a1a2e;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.announcement-header-row {
+    display: flex;
+    background-color: rgba(0, 255, 213, 0.1);
+    padding: 15px 20px;
+    font-weight: bold;
+    color: #00ffd5;
+}
+
+.announcement-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.announcement-item:last-child {
+    border-bottom: none;
+}
+
+.announcement-title-row {
+    display: flex;
+    align-items: center; /* Vertically align items */
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.announcement-title-row:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.announcement-col {
+    padding: 0 10px;
+    flex-shrink: 0; /* Prevent columns from shrinking */
+}
+
+.announcement-col.title {
+    flex-grow: 1; /* Allow title to take up remaining space */
+    flex-basis: 50%;
+}
+
+.announcement-col.date,
+.announcement-col.target {
+    flex-basis: 20%;
+}
+
+.announcement-col.actions {
+    flex-basis: 10%;
+    text-align: right;
+}
+
+.announcement-content {
+    padding: 0 30px 20px 30px;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    display: none; /* Hidden by default */
+}
+
+.delete-btn {
+    background-color: rgba(244, 67, 54, 0.8);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.delete-btn:hover {
+    background-color: #f44336;
+}
