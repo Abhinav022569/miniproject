@@ -32,6 +32,27 @@
     background-color: #0056b3;
 }
 
+/* --- Message Styles --- */
+.message {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid transparent;
+}
+.success-message {
+    background-color: rgba(76, 175, 80, 0.2);
+    color: #4CAF50;
+    border-color: #4CAF50;
+}
+.error-message {
+    background-color: rgba(244, 67, 54, 0.2);
+    color: #f44336;
+    border-color: #f44336;
+}
+
+
 /* Styling for the creation form card */
 .create-announcement-card {
     background-color: #1a1a2e;

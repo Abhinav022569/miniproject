@@ -9,8 +9,11 @@ if (!isset($_SESSION['admin_id'])) {
 }
 
 $admin_id = $_SESSION['admin_id'];
-$success_message = '';
-$error_message = '';
+// Use separate variables for create and delete actions
+$create_success_message = '';
+$create_error_message = '';
+$delete_success_message = '';
+$delete_error_message = '';
 
 // --- Handle Form Submission for Creating a New Announcement ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_announcement'])) {
@@ -19,16 +22,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_announcement']
     $target_user_id = $_POST['target_user'] === 'all' ? NULL : $_POST['target_user'];
 
     if (empty($title) || empty($content)) {
-        $error_message = "Title and Content fields cannot be empty.";
+        $create_error_message = "Title and Content fields cannot be empty.";
     } else {
         $sql = "INSERT INTO announcements (admin_id, title, content, user_id) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("issi", $admin_id, $title, $content, $target_user_id);
 
         if ($stmt->execute()) {
-            $success_message = "Announcement created successfully!";
+            $create_success_message = "Announcement created successfully!";
         } else {
-            $error_message = "Error creating announcement: " . $stmt->error;
+            $create_error_message = "Error creating announcement: " . $stmt->error;
         }
         $stmt->close();
     }
@@ -43,9 +46,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_announcement']
     $stmt_delete->bind_param("i", $announcement_id_to_delete);
 
     if ($stmt_delete->execute()) {
-        $success_message = "Announcement deleted successfully!";
+        $delete_success_message = "Announcement deleted successfully!";
     } else {
-        $error_message = "Error deleting announcement: " . $stmt_delete->error;
+        $delete_error_message = "Error deleting announcement: " . $stmt_delete->error;
     }
     $stmt_delete->close();
 }
@@ -100,10 +103,15 @@ $conn->close();
                 <button id="create-announcement-btn" class="create-announcement-btn">Create New Announcement</button>
             </header>
 
+            <!-- Display messages for DELETE action here -->
+            <?php if ($delete_success_message): ?><p class="message success-message"><?= htmlspecialchars($delete_success_message) ?></p><?php endif; ?>
+            <?php if ($delete_error_message): ?><p class="message error-message"><?= htmlspecialchars($delete_error_message) ?></p><?php endif; ?>
+
             <div id="create-announcement-card" class="create-announcement-card">
                 <h3>New Announcement</h3>
-                <?php if ($success_message): ?><p class="message success-message"><?= htmlspecialchars($success_message) ?></p><?php endif; ?>
-                <?php if ($error_message): ?><p class="message error-message"><?= htmlspecialchars($error_message) ?></p><?php endif; ?>
+                <!-- Display messages for CREATE action inside the card -->
+                <?php if ($create_success_message): ?><p class="message success-message"><?= htmlspecialchars($create_success_message) ?></p><?php endif; ?>
+                <?php if ($create_error_message): ?><p class="message error-message"><?= htmlspecialchars($create_error_message) ?></p><?php endif; ?>
                 
                 <form action="announcements.php" method="POST">
                     <div class="form-group">
