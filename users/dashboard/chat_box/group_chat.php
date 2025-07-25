@@ -49,6 +49,7 @@ $conn->close();
           <li><a href="../notes/notes.php"><i class="fas fa-book"></i> Notes</a></li>
           <li class="active"><a href="group_chat.php"><i class="fas fa-comments"></i> Group Chat</a></li>
           <li><a href="../to-do/to-do.php"><i class="fas fa-clipboard-list"></i> To-Do List</a></li>
+          <li><a href="../announcements/u_announcements.php"><i class="fas fa-bullhorn"></i> Announcements</a></li>
           <li><a href="../profile/profile_page.php"><i class="fas fa-user-circle"></i> Profile</a></li>
         </ul>
       </nav>

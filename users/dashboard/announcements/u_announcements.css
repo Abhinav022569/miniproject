@@ -1,0 +1,40 @@
+/* Styling for the user-facing announcements page */
+.announcements-container {
+    max-width: 900px; /* A good width for readability */
+    margin: 0 auto;
+}
+
+.page-header {
+    font-size: 28px;
+    color: white;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.announcement-card {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.announcement-card h3 {
+    font-size: 22px;
+    color: #00ffd5; /* Accent color for the title */
+    margin: 0 0 10px 0;
+}
+
+.announcement-card .content {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    margin: 0 0 15px 0;
+}
+
+.announcement-card .post-date {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+}
