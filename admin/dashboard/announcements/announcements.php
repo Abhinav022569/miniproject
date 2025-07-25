@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../../connect.php'; // Connect to the database
+require '../../connect.php';
 
 // Check if admin is logged in
 if (!isset($_SESSION['admin_id'])) {
