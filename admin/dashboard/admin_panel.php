@@ -109,7 +109,7 @@ $admin_name = $_SESSION['admin_name'] ?? 'Admin';
           <div class="card-content">
             <div class="metric-value"><?php echo $announcements_count; ?></div>
             <p class="metric-description">Published announcements</p>
-            <button class="manage-btn">Create New</button>
+            <button class="manage-btn" onclick="location.href='./announcements/announcements.php'">Create New</button>
           </div>
         </div>
 
@@ -118,7 +118,7 @@ $admin_name = $_SESSION['admin_name'] ?? 'Admin';
           <div class="card-content">
             <div class="metric-value"><?php echo $user_accounts_count; ?></div>
             <p class="metric-description">Total registered users</p>
-            <button class="manage-btn">Manage Users</button>
+            <button class="manage-btn" onclick="location.href='./user_management/user_management.php'">Manage Users</button>
           </div>
         </div>
       </section>
