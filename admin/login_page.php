@@ -9,7 +9,7 @@
 <body>
   <!-- Header section, similar to user login page -->
   <header class="navbar">
-    <div class="logo">ATHENA</div>
+    <div class="logo"><a href="../index.php">ATHENA</a></div>
     <nav>
       <ul class="nav-links">
         <li><a href="../index.php">Home</a></li>

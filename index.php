@@ -11,7 +11,7 @@
 <div id="vanta-bg"></div>
 
 <header>
-  <div class="logo">ATHENA</div>
+  <div class="logo"><a href="index.php">ATHENA</a></div>
   <nav>
     <a href="#home">Home</a>
     <a href="#about">About</a>

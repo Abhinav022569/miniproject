@@ -12,6 +12,11 @@ body {
   min-height: 100vh;
 }
 
+.logo a {
+  text-decoration: none;
+  color: inherit;
+}
+
 /* Header */
 .navbar {
   display: flex;

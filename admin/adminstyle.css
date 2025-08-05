@@ -18,6 +18,11 @@ body {
   align-items: center;
 }
 
+.logo a {
+  text-decoration: none;
+  color: inherit;
+}
+
 /* Header (Navbar) - Copied from userstyle.css */
 .navbar {
   display: flex;
