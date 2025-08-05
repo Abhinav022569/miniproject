@@ -175,6 +175,40 @@ section p {
   width: 100%;
 }
 
+/* Styling for the new stat cards */
+.stat-card {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    text-align: center;
+    padding-top: 30px; /* More space for the icon */
+    padding-bottom: 30px;
+}
+
+.stat-icon {
+    font-size: 36px;
+    color: #00ffd5;
+    margin-bottom: 15px;
+    display: block; /* Ensures margin works correctly */
+}
+
+.stat-item .stat-number {
+  font-size: 48px;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.stat-item p {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 5px;
+}
+
+/* Enhanced hover effect for all feature cards */
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-color: rgba(0, 255, 213, 0.5);
+}
+
 .feature-card {
   background: rgba(255, 255, 255, 0.08);
   padding: 20px;
