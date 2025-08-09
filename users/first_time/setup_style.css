@@ -1,0 +1,202 @@
+/* General body styling to create the dark, gradient background. */
+body {
+    background: linear-gradient(135deg, #0f0f2c, #1a1a40);
+    color: #e0e0e0;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+/* The main container for the setup form. */
+.setup-container {
+    width: 100%;
+    max-width: 700px;
+}
+
+/* The white-ish box that holds all the content. */
+.setup-box {
+    background-color: rgba(26, 26, 46, 0.8);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+/* Header section with "Welcome to Athena!". */
+.setup-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.setup-header h1 {
+    color: #00ffd5;
+    margin-bottom: 10px;
+}
+
+.setup-header p {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Styling for each section of the form (profile pic, name, groups). */
+.form-section {
+    margin-bottom: 25px;
+}
+
+.form-section label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+/* Profile picture selection styles. */
+.profile-pic-selector {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.profile-pic-option {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.profile-pic-option:hover {
+    transform: scale(1.1);
+}
+
+/* Style for the selected profile picture. */
+.profile-pic-option.selected {
+    border-color: #00ffd5;
+    box-shadow: 0 0 15px rgba(0, 255, 213, 0.5);
+}
+
+/* General input field styling. */
+input[type="text"] {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+input[type="text"]:focus {
+    border-color: #00ffd5;
+}
+
+/* Styling for the list of study groups. */
+.study-groups-list {
+    max-height: 250px;
+    overflow-y: auto;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/* Custom scrollbar for the groups list. */
+.study-groups-list::-webkit-scrollbar {
+    width: 8px;
+}
+.study-groups-list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+.study-groups-list::-webkit-scrollbar-thumb {
+    background: #00ffd5;
+    border-radius: 4px;
+}
+.study-groups-list::-webkit-scrollbar-thumb:hover {
+    background: #00c8aa;
+}
+
+/* Styling for each individual group item in the list. */
+.group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.group-item:last-child {
+    border-bottom: none;
+}
+
+.group-info h4 {
+    margin: 0 0 5px 0;
+    color: #fff;
+}
+
+.group-info p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Styling for the "Join" button. */
+.join-btn {
+    background-color: rgba(0, 255, 213, 0.2);
+    color: #00ffd5;
+    border: 1px solid #00ffd5;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.join-btn:hover {
+    background-color: #00ffd5;
+    color: black;
+}
+
+/* Styling for the button when a group has been joined. */
+.join-btn.joined {
+    background-color: #28a745;
+    color: white;
+    border-color: #28a745;
+    cursor: not-allowed;
+}
+
+/* The main "Launch into Athena" button. */
+.launch-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #00ffd5;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.launch-btn:hover {
+    background-color: #00c8aa;
+    transform: translateY(-2px);
+}
