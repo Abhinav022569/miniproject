@@ -219,3 +219,40 @@ document.addEventListener('DOMContentLoaded', function() {
         // The main event listener on .main-content already handles clicks in search results
     }
 });
+
+// Add this new code to the top of your existing dscript.js file
+
+document.addEventListener('DOMContentLoaded', function() {
+    // --- NEW: Logic for Delete Account Confirmation Modal ---
+    const deleteTriggerBtn = document.getElementById('delete-account-trigger-btn');
+    const deleteModal = document.getElementById('delete-confirm-modal');
+    const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+
+    if (deleteTriggerBtn && deleteModal && cancelDeleteBtn) {
+        // Show the modal when the delete button in the header is clicked
+        deleteTriggerBtn.addEventListener('click', () => {
+            deleteModal.style.display = 'flex';
+        });
+
+        // Hide the modal when the "Cancel" button is clicked
+        cancelDeleteBtn.addEventListener('click', () => {
+            deleteModal.style.display = 'none';
+        });
+
+        // Hide the modal if the user clicks on the overlay background
+        deleteModal.addEventListener('click', (event) => {
+            if (event.target === deleteModal) {
+                deleteModal.style.display = 'none';
+            }
+        });
+    }
+
+    // --- Existing JavaScript code continues below ---
+
+    // --- Logic for Create Group Form on study_group.php ---
+    const toggleButton = document.getElementById('toggle-create-group-form');
+    // ... (rest of your existing dscript.js code) ...
+});
+
+// The rest of your existing dscript.js code should follow here.
+// Make sure to place the new modal logic inside the DOMContentLoaded event listener.

@@ -196,9 +196,12 @@ if ($conn && !$conn->connect_error) {
         <div class="welcome-section">
           <h2>Profile Settings</h2>
         </div>
+        <!-- NEW: Header actions container for the delete button -->
+        <div class="header-actions">
+            <button id="delete-account-trigger-btn" class="delete-account-btn-header"><i class="fas fa-trash-alt"></i> Delete Account</button>
+        </div>
       </header>
 
-      <!-- MODIFIED: All cards are now direct children of profile-grid -->
       <section class="profile-grid">
         <?php if ($success_message): ?>
             <div class="message success-message"><?= htmlspecialchars($success_message) ?></div>
@@ -276,6 +279,20 @@ if ($conn && !$conn->connect_error) {
         </div>
       </section>
     </main>
+  </div>
+  
+  <!-- NEW: Confirmation Modal for Account Deletion -->
+  <div id="delete-confirm-modal" class="modal-overlay" style="display: none;">
+      <div class="modal-content">
+          <h3>Confirm Account Deletion</h3>
+          <p>Are you sure you want to permanently delete your account? This action cannot be undone.</p>
+          <div class="modal-actions">
+              <button id="cancel-delete-btn" class="modal-btn cancel-btn">Cancel</button>
+              <form action="delete_account.php" method="POST" style="display: inline;">
+                  <button type="submit" id="confirm-delete-btn" class="modal-btn confirm-btn">Delete Account</button>
+              </form>
+          </div>
+      </div>
   </div>
 
   <script src="../dscript.js"></script>

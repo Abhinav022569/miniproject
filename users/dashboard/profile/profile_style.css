@@ -216,3 +216,101 @@
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   }
 }
+/* Style for the delete account button in the header */
+.delete-account-btn-header {
+    background-color: #dc3545;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.delete-account-btn-header:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+/* --- Confirmation Modal Styles --- */
+
+/* The dark overlay that covers the entire page */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+/* The content box of the modal */
+.modal-content {
+    background-color: #1a1a2e;
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+}
+
+.modal-content h3 {
+    color: #f44336; /* Red color for warning */
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 22px;
+}
+
+.modal-content p {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+/* Container for the modal action buttons */
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* General styling for modal buttons */
+.modal-btn {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+/* Specific styling for the cancel button */
+.cancel-btn {
+    background-color: #4a4c68;
+    color: white;
+}
+.cancel-btn:hover {
+    background-color: #5c5e81;
+}
+
+/* Specific styling for the confirm delete button */
+.confirm-btn {
+    background-color: #dc3545;
+    color: white;
+}
+.confirm-btn:hover {
+    background-color: #c82333;
+}
