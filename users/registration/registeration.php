@@ -23,7 +23,6 @@
 
   <div class="login-container">
     <div class="login-box">
-      <!-- The login-right content (form) is now first, appearing on the left -->
       <div class="login-right">
         <h2>Create Account</h2>
         <form action="user_register.php" method="POST">
@@ -45,7 +44,6 @@
           </div>
         </form>
       </div>
-      <!-- The login-left content (image) is now second, appearing on the right -->
       <div class="login-left">
         <img src="../../jpeg_files/bgimage.jpeg" alt="Register Illustration">
       </div>
