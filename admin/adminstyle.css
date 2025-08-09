@@ -220,3 +220,14 @@ body {
     font-size: 14px; /* Smaller button text */
   }
 }
+
+.nav-btn .login-btn {
+  background: transparent;
+  border: 2px solid white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  transition: background 0.3s, color 0.3s;
+  text-decoration: none; /* Add this line */
+}
