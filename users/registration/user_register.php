@@ -18,7 +18,7 @@ $result = $conn->query($check_query);
 
 if ($result->num_rows > 0) {
     echo "<script>alert('⚠️ An account with the same username, email or phone number already exists. Please login.'); 
-    window.location='../login_page.php';</script>";
+    window.location='registeration.php';</script>";
 }
 else{
     $sql = "INSERT INTO Users (user_name, email, phone_no, password)
