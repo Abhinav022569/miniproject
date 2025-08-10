@@ -19,7 +19,7 @@
     <a href="#contact">Contact</a>
   </nav>
   <div class="login-dropdown">
-    <button class="login-btn">Login ▼</button>
+    <button class="login-btn">Login/Signup ▼</button>
     <div class="dropdown-content">
       <a href="./admin/login_page.php">Admin</a>
       <a href="./users/login_page.php">User</a>
