@@ -12,7 +12,7 @@
       <ul class="nav-links">
         <li><a href="../../index.php">Home</a></li>
         <li><a href="../../index.php#about">About</a></li>
-        <li><a href="../../index.php#services">Features</a></li>
+        <li><a href="../../index.php#services">Services</a></li>
         <li><a href="../../index.php#contact">Contact</a></li>
       </ul>
     </nav>
@@ -31,9 +31,6 @@
           </div>
           <div class="input-group">
             <input type="email" name="email" placeholder="Email" required>
-          </div>
-          <div class="input-group">
-            <input type="tel" name="phone_no" placeholder="Phone Number" required>
           </div>
           <div class="input-group">
             <input type="password" name="password" placeholder="Password" required>

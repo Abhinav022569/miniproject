@@ -4,7 +4,6 @@ require '../connect.php';
 // --- Data Retrieval and Sanitization ---
 $user_name = trim($_POST['user_name']);
 $email     = trim($_POST['email']);
-$phone_no  = trim($_POST['phone_no']);
 $password  = trim($_POST['password']);
 
 // --- Server-Side Validation ---
@@ -15,13 +14,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit();
 }
 
-// 2. Validate Phone Number (must be exactly 10 digits)
-if (!preg_match('/^[0-9]{10}$/', $phone_no)) {
-    echo "<script>alert('❌ Invalid phone number. It must be exactly 10 digits.'); window.location='./registeration.php';</script>";
-    exit();
-}
-
-// 3. Validate Password Length (must be at least 8 characters)
+// 2. Validate Password Length (must be at least 8 characters)
 if (strlen($password) < 8) {
     echo "<script>alert('❌ Password is too short. It must be at least 8 characters long.'); window.location='./registeration.php';</script>";
     exit();
@@ -32,25 +25,24 @@ if (strlen($password) < 8) {
 // Escape strings to prevent SQL injection
 $user_name = $conn->real_escape_string($user_name);
 $email     = $conn->real_escape_string($email);
-$phone_no  = $conn->real_escape_string($phone_no);
 $password  = $conn->real_escape_string($password);
 
 // Using plain text password as per the existing project structure.
 $hashed_password = $password; 
 
-// Check if the username, email, or phone number already exists in the database.
-$check_query = "SELECT * FROM Users WHERE user_name='$user_name' OR email='$email' OR phone_no='$phone_no'";
+// Check if the username or email already exists in the database.
+$check_query = "SELECT * FROM Users WHERE user_name='$user_name' OR email='$email'";
 $result = $conn->query($check_query);
 
 if ($result->num_rows > 0) {
     // If a duplicate is found, alert the user and redirect to the login page.
-    echo "<script>alert('⚠️ An account with the same username, email or phone number already exists. Please login.'); 
+    echo "<script>alert('⚠️ An account with the same username or email already exists. Please login.'); 
     window.location='../login_page.php';</script>";
 } else {
     // If no duplicates, insert the new user into the database.
-    // MODIFIED: Using the username as a placeholder for the 'name' field.
+    // MODIFIED: The 'phone_no' is now inserted with a placeholder value.
     $sql = "INSERT INTO Users (name, user_name, email, phone_no, password)
-            VALUES ('$user_name', '$user_name', '$email', '$phone_no', '$hashed_password')";
+            VALUES ('$user_name', '$user_name', '$email', '0000000000', '$hashed_password')";
 
     if ($conn->query($sql) === TRUE) {
         // On successful registration, redirect to the login page.

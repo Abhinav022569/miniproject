@@ -14,13 +14,13 @@ body {
 /* The main container for the setup form. */
 .setup-container {
     width: 100%;
-    max-width: 700px;
+    max-width: 900px; /* Slightly increased max-width for better spacing */
 }
 
 /* The white-ish box that holds all the content. */
 .setup-box {
     background-color: rgba(26, 26, 46, 0.8);
-    padding: 40px;
+    padding: 40px 50px; /* Increased horizontal padding */
     border-radius: 16px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -30,17 +30,31 @@ body {
 /* Header section with "Welcome to Athena!". */
 .setup-header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 40px; /* Increased margin */
 }
 
 .setup-header h1 {
     color: #00ffd5;
     margin-bottom: 10px;
+    font-size: 2.2rem; /* Slightly larger heading */
 }
 
 .setup-header p {
     font-size: 1rem;
     color: rgba(255, 255, 255, 0.7);
+}
+
+/* --- Two-Column Layout Styles --- */
+.setup-main-content {
+    display: flex;
+    gap: 70px; /* MODIFIED: Increased space between the two columns */
+    margin-bottom: 30px;
+    align-items: flex-start;
+}
+
+.setup-column-left,
+.setup-column-right {
+    flex: 1;
 }
 
 /* Styling for each section of the form (profile pic, name, groups). */
@@ -59,7 +73,7 @@ body {
 .profile-pic-selector {
     display: flex;
     gap: 15px;
-    justify-content: center;
+    justify-content: flex-start;
     margin-bottom: 15px;
 }
 
@@ -77,14 +91,13 @@ body {
     transform: scale(1.1);
 }
 
-/* Style for the selected profile picture. */
 .profile-pic-option.selected {
     border-color: #00ffd5;
     box-shadow: 0 0 15px rgba(0, 255, 213, 0.5);
 }
 
 /* General input field styling. */
-input[type="text"] {
+input[type="text"], input[type="tel"] {
     width: 100%;
     padding: 12px 15px;
     background-color: rgba(255, 255, 255, 0.1);
@@ -94,23 +107,33 @@ input[type="text"] {
     font-size: 1rem;
     outline: none;
     transition: border-color 0.3s ease;
+    box-sizing: border-box; /* Ensures padding is included in the width */
 }
 
-input[type="text"]::placeholder {
+input[type="text"]::placeholder, input[type="tel"]::placeholder {
     color: rgba(255, 255, 255, 0.6);
 }
 
-input[type="text"]:focus {
+input[type="text"]:focus, input[type="tel"]:focus {
     border-color: #00ffd5;
+}
+
+/* MODIFIED: Specific styling for the group search input */
+#group-search {
+    margin-bottom: 10px;
+    /* The calculation below subtracts the typical width of a scrollbar (17px) 
+       to prevent the input from overflowing its container. */
+    width: calc(100% - 17px);
 }
 
 /* Styling for the list of study groups. */
 .study-groups-list {
-    max-height: 250px;
+    height: 225px; 
     overflow-y: auto;
     background-color: rgba(0, 0, 0, 0.2);
     border-radius: 8px;
-    padding: 10px;
+    padding: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Custom scrollbar for the groups list. */
@@ -134,11 +157,15 @@ input[type="text"]:focus {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px;
+    padding: 12px 10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 .group-item:last-child {
     border-bottom: none;
+}
+
+.group-info {
+    padding-right: 10px;
 }
 
 .group-info h4 {
@@ -162,6 +189,7 @@ input[type="text"]:focus {
     cursor: pointer;
     font-weight: bold;
     transition: all 0.3s ease;
+    flex-shrink: 0;
 }
 
 .join-btn:hover {
@@ -199,4 +227,18 @@ input[type="text"]:focus {
 .launch-btn:hover {
     background-color: #00c8aa;
     transform: translateY(-2px);
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .setup-main-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .setup-box {
+        padding: 25px;
+    }
+    #group-search {
+        width: 100%; /* On smaller screens, the scrollbar might not be persistent, so we can go back to full width */
+    }
 }
