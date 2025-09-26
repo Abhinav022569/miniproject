@@ -48,10 +48,6 @@
           </div>
           <!-- Submit button -->
           <button type="submit" class="login-btn">LOGIN</button>
-          <!-- Extras section (e.g., Forgot Password) -->
-          <div class="extras">
-            <a href="#">Forgot Password?</a>
-          </div>
           <!-- No registration link for admin login -->
         </form>
       </div>

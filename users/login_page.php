@@ -37,9 +37,6 @@
             <input type="password" name="password" placeholder="Password" required />
           </div>
           <button type="submit" class="login-btn">LOGIN</button>
-          <div class="extras">
-            <a href="#">Forgot Password?</a>
-          </div>
           <div class="register-link">
             <p>Don't have an account? <a href="./registration/registeration.php">Create your Account →</a></p>
           </div>
